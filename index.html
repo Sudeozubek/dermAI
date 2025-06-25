@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Dermaİ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="layer.css">
+<!-- Sayfaya özel style.css veya başka css dosyası -->
+<link rel="stylesheet" href="style.css">
+
+ 
+</head>
+<body>
+  <div class="splash" id="splash">
+    <div class="dermai-title">
+      DERMA<span class="i-dot">İ</span>
+    </div>
+    <div class="slogan">Cildin için Akıllı Asistan</div>
+  </div>
+  <nav class="navbar">
+    <div class="nav-logo">
+      <span class="nav-glow">DERMAİ</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Anasayfa</a></li>
+      <li><a href="skintypes.html">Cilt Tipleri</a></li>
+      <li><a href="about.html">Hakkında</a></li>
+      <li><a href="login.html">Giriş Yap</a></li>
+    </ul>
+  </nav>
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-panel">
+      <div class="hero-content">
+        <h2>Dermaİ Neler Yapar?</h2>
+        <p>
+          Cildinizde bir sorun mu var? <br>
+          Hemen fotoğrafınızı yükleyin, cilt sağlığında uzmanlaşmış yapay zekamız saniyeler içinde analiz etsin! <br>
+          Size özel öneriler ve ön bilgilendirme ile cildinizin sağlığını koruyun. <br>
+          <b>Dermaİ ile cildiniz güvende, içiniz rahat!</b>
+        </p>
+        <button class="scroll-btn" onclick="scrollToChat()">Aşağı Kaydır <span style="font-size:1.5em;">&#8595;</span></button>
+      </div>
+    </div>
+  </section>
+  <section id="chat-section" class="chat-section">
+    <div class="chatbot-container">
+    
+      <div id="chat-history" class="chat-history">
+        <!-- Mesajlar buraya eklenecek -->
+      </div>
+      <form id="chatbot-form" class="chatbot-form" autocomplete="off">
+        <label class="chat-file-label" title="Fotoğraf ekle">
+          <input type="file" id="chat-image-input" accept="image/*" hidden>
+          <span id="chat-file-icon">📎</span>
+        </label>
+        <input type="text" id="chat-user-message" placeholder="Mesajınızı yazın..." maxlength="200" autocomplete="off">
+        <button type="submit" class="chat-send-btn" title="Gönder">
+          <span style="font-size:1.3em;">&#10148;</span>
+        </button>
+      </form>
+      <div id="chatbot-error" class="chatbot-error"></div>
+    </div>
+  </section>
+  <div class="main-content" id="mainContent">
+
+  </div>
+  
+  <script>
+    // Sadece ilk girişte splash göster
+    if (!sessionStorage.getItem('splashShown')) {
+      document.getElementById('splash').style.display = 'flex';
+      setTimeout(function() {
+        document.getElementById('splash').classList.add('hide');
+        document.getElementById('mainContent').classList.add('show');
+        sessionStorage.setItem('splashShown', 'true');
+      }, 2500);
+    } else {
+      // Splash hiç gösterilmesin
+      document.getElementById('splash').style.display = 'none';
+      document.getElementById('mainContent').classList.add('show');
+    }
+
+    function scrollToChat() {
+      document.getElementById('chat-section').scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+  <script>
+    const chatForm = document.getElementById('chatbot-form');
+    const chatInput = document.getElementById('chat-user-message');
+    const chatHistory = document.getElementById('chat-history');
+    const chatError = document.getElementById('chatbot-error');
+    const chatImageInput = document.getElementById('chat-image-input');
+    let imageDataUrl = null;
+    
+    // Fotoğraf seçilince önizleme için base64'e çevir
+    chatImageInput.addEventListener('change', function() {
+      if (chatImageInput.files.length > 0) {
+        const file = chatImageInput.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          imageDataUrl = e.target.result;
+          // İsteğe bağlı: seçilen fotoğrafı inputun yanında gösterebilirsin
+        };
+        reader.readAsDataURL(file);
+      } else {
+        imageDataUrl = null;
+      }
+    });
+    
+    // Mesaj gönderme
+    chatForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      chatError.textContent = "";
+    
+      const message = chatInput.value.trim();
+      if (!message && !imageDataUrl) {
+        chatError.textContent = "Lütfen bir mesaj yazın veya fotoğraf ekleyin.";
+        return;
+      }
+    
+      // Kullanıcı mesajını ekle
+      addMessageBubble('user', message, imageDataUrl);
+    
+      // Formu temizle
+      chatInput.value = "";
+      chatImageInput.value = "";
+      imageDataUrl = null;
+    
+      // AI'dan cevap simülasyonu (2 sn sonra)
+      setTimeout(() => {
+        addMessageBubble('ai', "Demo: Cilt analizi sonucu ve öneriler burada görünecek!");
+        // Gerçek API entegrasyonunda burada fetch ile backend'e istek atılır.
+      }, 2000);
+    });
+    
+    // Mesaj balonu ekleme fonksiyonu
+    function addMessageBubble(sender, text, imgUrl = null) {
+      const bubble = document.createElement('div');
+      bubble.className = 'chat-bubble ' + (sender === 'user' ? 'bubble-user' : 'bubble-ai');
+    
+      const content = document.createElement('div');
+      content.className = 'bubble-content';
+    
+      if (imgUrl) {
+        const img = document.createElement('img');
+        img.src = imgUrl;
+        img.className = 'bubble-img';
+        img.alt = "Yüklenen fotoğraf";
+        content.appendChild(img);
+      }
+      if (text) {
+        const span = document.createElement('span');
+        span.textContent = text;
+        content.appendChild(span);
+      }
+    
+      bubble.appendChild(content);
+      chatHistory.appendChild(bubble);
+      chatHistory.scrollTop = chatHistory.scrollHeight;
+    }
+    </script>
+    
+
+    <footer class="site-footer">
+        <div class="footer-logo">DERMAİ</div>
+        <div>© 2024 Dermaİ. Yapay zeka ile cilt sağlığında yeni bir çağ.</div>
+        <div class="footer-desc">
+          Bu platform yalnızca eğitim amaçlıdır ve profesyonel tıbbi tavsiye yerine geçmez.
+        </div>
+      </footer>
+    
+</body>
+</html>
