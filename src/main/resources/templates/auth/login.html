@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>DermAI | Giriş Yap</title>
+    <link rel="stylesheet" th:href="@{/css/layer.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        .login-section {
+          min-height: 90vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #F5F7FB;
+        }
+        .login-container {
+          background: #fff;
+          border-radius: 1.5rem;
+          box-shadow: 0 4px 32px #4F3CC91A;
+          padding: 2.5rem 2rem 2rem 2rem;
+          max-width: 370px;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .login-title {
+          font-family: 'Poppins', Arial, sans-serif;
+          font-size: 2rem;
+          font-weight: 600;
+          color: #4F3CC9;
+          margin-bottom: 1.2rem;
+          letter-spacing: 1px;
+        }
+        .login-form {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          gap: 1.1rem;
+        }
+        .login-form input {
+          width: 100%;
+          padding: 0.9em 1em;
+          border: 1.5px solid #4F8CFF;
+          border-radius: 1em;
+          font-size: 1.05rem;
+          font-family: 'Poppins', Arial, sans-serif;
+          outline: none;
+          transition: border 0.2s;
+        }
+        .login-form input:focus {
+          border: 1.5px solid #4F3CC9;
+        }
+        .login-btn {
+          background: #4F8CFF;
+          color: #fff;
+          border: none;
+          border-radius: 1em;
+          padding: 0.8em 1em;
+          font-size: 1.1rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: background 0.2s, transform 0.2s;
+          margin-top: 0.5em;
+        }
+        .login-btn:hover {
+          background: #4F3CC9;
+          transform: scale(1.04);
+        }
+        .login-links {
+          margin-top: 1.2em;
+          font-size: 0.98rem;
+          text-align: center;
+        }
+        .login-links a {
+          color: #4F8CFF;
+          text-decoration: none;
+          margin: 0 0.3em;
+          font-weight: 500;
+          transition: color 0.2s;
+        }
+        .login-links a:hover {
+          color: #4F3CC9;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar">
+    <div class="nav-logo">DermAI</div>
+    <ul class="nav-links">
+        <li><a th:href="@{/}">Anasayfa</a></li>
+        <li><a th:href="@{/blog/blog}">Blog</a></li>
+        <li><a th:href="@{/user/skintypes}">Cilt Tipleri</a></li>
+        <li><a th:href="@{/user/about}">Hakkında</a></li>
+        <li><a th:href="@{/auth/login}" class="active">Giriş Yap</a></li>
+        <li><a th:href="@{/user/profil}">Profil</a></li>
+    </ul>
+</nav>
+<section class="login-section">
+    <div class="login-container">
+        <div class="login-title">Giriş Yap</div>
+        <form class="login-form" method="post" th:action="@{/login}">
+            <input type="email" name="username" placeholder="E-posta adresiniz" required>
+            <input type="password" name="password" placeholder="Şifre" required>
+            <button type="submit" class="login-btn">Giriş Yap</button>
+        </form>
+        <div class="login-links">
+            Hesabınız yok mu?
+            <a th:href="@{/auth/register}">Kayıt Ol</a>
+            <br>
+        </div>
+    </div>
+</section>
+<footer class="site-footer">
+    <div class="footer-logo">DermAI</div>
+    <div>© 2025 DermAI. Yapay zeka ile cilt sağlığında yeni bir çağ.</div>
+    <div class="footer-desc">
+        Bu platform yalnızca eğitim amaçlıdır ve profesyonel tıbbi tavsiye yerine geçmez.
+    </div>
+</footer>
+</body>
+</html>
