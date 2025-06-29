@@ -1,96 +1,87 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Blog - Cilt Sorunları ve Öneriler</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../static/css/layer.css">
-    <link rel="stylesheet" href="../../static/css/style.css">
+    <link rel="stylesheet" th:href="@{/css/layer.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-logo">
-            <span class="nav-glow">DERMAİ</span>
-        </div>
-        <ul class="nav-links">
-            <li><a href="../index.html">Anasayfa</a></li>
-            <li><a href="blog.html">Blog</a></li>
-            <li><a href="../skintypes.html">Cilt Tipleri</a></li>
-            <li><a href="../about.html">Hakkında</a></li>
-            <li><a href="../auth/login.html">Giriş Yap</a></li>
-            <li><a href="../user/profil.html">Profil</a></li>
-        </ul>
-    </nav>
-        <div class="main-content show">
-            <div class="blog-container">
-                <h1>Blog</h1>
-                <section class="blog-share">
-                    <h2>Ne paylaşmak istersin?</h2>
-                    <form id="blogForm">
-                        <div class="profile-input-row">
-                            <img id="currentUserIcon" src="../../static/image/icon1.png" alt="Profil" class="profile-icon">
-                            <span id="currentUserName">Kullanıcı</span>
-                        </div>
-                        <input type="text" id="postTitle" placeholder="Başlık" required><br>
-                        <textarea id="postContent" placeholder="Cilt sorununu veya önerini yaz..." required></textarea><br>
-                        <button type="submit">Paylaş</button>
-                    </form>
-                </section>
-                <hr>
-                <section class="blog-posts">
-                    <h2>Paylaşımlar</h2>
-                    <div id="postsList">
-                        <!-- Örnek bir post -->
-                        <div class="blog-post">
-                            <div class="post-header">
-                                <img src="../../static/image/icon1.png" alt="Profil" class="profile-icon">
-                                <div class="post-user-info">
-                                    <span class="post-author">Ayşe</span>
-                                    <span class="post-date">10 Mayıs 2024</span>
-                                </div>
-                            </div>
-                            <div class="post-content">
-                                <h3>Yanakta Kızarıklık</h3>
-                                <p>Son zamanlarda yanaklarımda sürekli bir kızarıklık oluyor. Benzer sorun yaşayan var mı? Ne önerirsiniz?</p>
-                            </div>
-                            <div class="post-actions">
-                                <button class="like-btn">❤️ 3</button>
-                                <button class="reply-btn">Yanıtla</button>
-                            </div>
-                            <div class="post-comments">
-                                <div class="comment">
-                                    <img src="../../static/image/icon3.png" alt="Profil" class="profile-icon comment-icon">
-                                    <div class="comment-body">
-                                        <span class="comment-author">Mehmet</span>
-                                        <span class="comment-date">10 Mayıs 2024</span>
-                                        <p>Ben de benzer bir sorun yaşadım, nemlendirici kullanmak iyi geliyor. Özellikle hassas ciltler için olanları deneyebilirsin.</p>
-                                        <button class="like-btn small">❤️ 1</button>
-                                        <button class="reply-btn small">Yanıtla</button>
-                                    </div>
-                                </div>
-                                <!-- Yorum ekleme alanı -->
-                                <form class="comment-form">
-                                    <img id="currentUserIconComment" src="../../static/image/icon1.png" alt="Profil" class="profile-icon comment-icon">
-                                    <input type="text" placeholder="Yanıtını yaz..." required>
-                                    <button type="submit">Gönder</button>
-                                </form>
-                            </div>
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="main-content show">
+    <div class="blog-container">
+        <h1>Blog</h1>
+        <section class="blog-share">
+            <h2>Ne paylaşmak istersin?</h2>
+            <form id="blogForm">
+                <div class="profile-input-row">
+                    <img alt="Profil" class="profile-icon" id="currentUserIcon" src="../../static/image/icon1.png">
+                    <span id="currentUserName">Kullanıcı</span>
+                </div>
+                <input id="postTitle" placeholder="Başlık" required type="text"><br>
+                <textarea id="postContent" placeholder="Cilt sorununu veya önerini yaz..." required></textarea><br>
+                <button type="submit">Paylaş</button>
+            </form>
+        </section>
+        <hr>
+        <section class="blog-posts">
+            <h2>Paylaşımlar</h2>
+            <div id="postsList">
+                <!-- Örnek bir post -->
+                <div class="blog-post">
+                    <div class="post-header">
+                        <img alt="Profil" class="profile-icon" src="../../static/image/icon1.png">
+                        <div class="post-user-info">
+                            <span class="post-author">Ayşe</span>
+                            <span class="post-date">10 Mayıs 2024</span>
                         </div>
                     </div>
-                </section>  
+                    <div class="post-content">
+                        <h3>Yanakta Kızarıklık</h3>
+                        <p>Son zamanlarda yanaklarımda sürekli bir kızarıklık oluyor. Benzer sorun yaşayan var mı? Ne
+                            önerirsiniz?</p>
+                    </div>
+                    <div class="post-actions">
+                        <button class="like-btn">❤️ 3</button>
+                        <button class="reply-btn">Yanıtla</button>
+                    </div>
+                    <div class="post-comments">
+                        <div class="comment">
+                            <img alt="Profil" class="profile-icon comment-icon" src="../../static/image/icon3.png">
+                            <div class="comment-body">
+                                <span class="comment-author">Mehmet</span>
+                                <span class="comment-date">10 Mayıs 2024</span>
+                                <p>Ben de benzer bir sorun yaşadım, nemlendirici kullanmak iyi geliyor. Özellikle hassas
+                                    ciltler için olanları deneyebilirsin.</p>
+                                <button class="like-btn small">❤️ 1</button>
+                                <button class="reply-btn small">Yanıtla</button>
+                            </div>
+                        </div>
+                        <!-- Yorum ekleme alanı -->
+                        <form class="comment-form">
+                            <img alt="Profil" class="profile-icon comment-icon" id="currentUserIconComment"
+                                 src="../../static/image/icon1.png">
+                            <input placeholder="Yanıtını yaz..." required type="text">
+                            <button type="submit">Gönder</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-        </div>
-    <footer class="site-footer">
-        <div class="footer-logo">DERMAİ</div>
-        <div>© 2024 DermAI. Yapay zeka ile cilt sağlığında yeni bir çağ.</div>
-        <div class="footer-desc">
-            Bu platform yalnızca eğitim amaçlıdır ve profesyonel tıbbi tavsiye yerine geçmez.
-        </div>
-    </footer>
-    <script src="../../static/js/app.js"></script>
-    <script>
+        </section>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+<script th:src="@{/js/app.js}"></script>
+
+<script>
     // Giriş yapan kullanıcının adı ve iconunu otomatik doldur
     window.onload = function() {
         var user = localStorage.getItem('username') || 'Kullanıcı';
@@ -100,6 +91,6 @@
         var commentIcon = document.getElementById('currentUserIconComment');
         if(commentIcon) commentIcon.src = icon;
     }
-    </script>
+</script>
 </body>
 </html> 

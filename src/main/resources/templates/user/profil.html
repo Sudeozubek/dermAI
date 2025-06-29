@@ -1,58 +1,54 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Profil - DermAI</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../static/css/layer.css">
-    <link rel="stylesheet" href="../../static/css/style.css">
+    <link rel="stylesheet" th:href="@{/css/layer.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-logo">
-            <span class="nav-glow">DERMAİ</span>
-        </div>
-        <ul class="nav-links">
-            <li><a href="../index.html">Anasayfa</a></li>
-            <li><a href="../blog/blog.html">Blog</a></li>
-            <li><a href="../skintypes.html">Cilt Tipleri</a></li>
-            <li><a href="../about.html">Hakkında</a></li>
-            <li><a href="profil.html" class="active">Profil</a></li>
-        </ul>
-    </nav>
-    <div class="main-content show">
-        <div class="profile-container">
-            <div class="profile-header">
-                <div class="profile-pic-wrapper" id="profilePicWrapper" style="position:relative;">
-                    <img id="profilePic" src="../../static/image/icon1.png" alt="Profil" class="profile-pic" onclick="toggleIconOptions()">
-                    <span class="profile-badge" id="profileBadge">85</span>
-                    <div class="icon-options-popup" id="iconOptionsPopup" style="display:none;">
-                        <img src="../../static/image/icon1.png" class="icon-option" onclick="selectProfileIcon('icon1.png')">
-                        <img src="../../static/image/icon2.png" class="icon-option" onclick="selectProfileIcon('icon2.png')">
-                        <img src="../../static/image/icon4.png" class="icon-option" onclick="selectProfileIcon('icon4.png')">
-                        <img src="../../static/image/icon3.png" class="icon-option" onclick="selectProfileIcon('icon3.png')">
-                        <img src="../../static/image/icon5.png" class="icon-option" onclick="selectProfileIcon('icon5.png')">
-                        <img src="../../static/image/icon6.png" class="icon-option" onclick="selectProfileIcon('icon6.png')">
-                      </div>
-                </div>
-                <div class="profile-info">
-                    <div class="profile-username" id="profileUsername">Ayşe</div>
-                    <div class="profile-skin-type">Cilt Tipi: <span class="skin-type-value" id="skinType">Hassas</span></div>
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="main-content show">
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="profile-pic-wrapper" id="profilePicWrapper" style="position:relative;">
+                <img alt="Profil" class="profile-pic" id="profilePic" onclick="toggleIconOptions()"
+                     src="../../static/image/icon1.png">
+                <span class="profile-badge" id="profileBadge">85</span>
+                <div class="icon-options-popup" id="iconOptionsPopup" style="display:none;">
+                    <img class="icon-option" onclick="selectProfileIcon('icon1.png')"
+                         src="../../static/image/icon1.png">
+                    <img class="icon-option" onclick="selectProfileIcon('icon2.png')"
+                         src="../../static/image/icon2.png">
+                    <img class="icon-option" onclick="selectProfileIcon('icon4.png')"
+                         src="../../static/image/icon4.png">
+                    <img class="icon-option" onclick="selectProfileIcon('icon3.png')"
+                         src="../../static/image/icon3.png">
+                    <img class="icon-option" onclick="selectProfileIcon('icon5.png')"
+                         src="../../static/image/icon5.png">
+                    <img class="icon-option" onclick="selectProfileIcon('icon6.png')"
+                         src="../../static/image/icon6.png">
                 </div>
             </div>
-            <button class="logout-btn" onclick="logoutUser()">Çıkış Yap</button>
+            <div class="profile-info">
+                <div class="profile-username" id="profileUsername">Ayşe</div>
+                <div class="profile-skin-type">Cilt Tipi: <span class="skin-type-value" id="skinType">Hassas</span>
+                </div>
+            </div>
         </div>
+        <button class="logout-btn" onclick="logoutUser()">Çıkış Yap</button>
     </div>
-    <footer class="site-footer">
-        <div class="footer-logo">DERMAİ</div>
-        <div>© 2024 DermAI. Yapay zeka ile cilt sağlığında yeni bir çağ.</div>
-        <div class="footer-desc">
-            Bu platform yalnızca eğitim amaçlıdır ve profesyonel tıbbi tavsiye yerine geçmez.
-        </div>
-    </footer>
-    <script>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+<script>
     function logoutUser() {
         localStorage.removeItem('isLoggedIn');
         localStorage.removeItem('username');
@@ -85,6 +81,7 @@
             popup.style.display = 'none';
         }
     });
-    </script>
+</script>
+
 </body>
 </html>            

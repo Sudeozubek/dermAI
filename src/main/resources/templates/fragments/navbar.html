@@ -1,0 +1,25 @@
+<div th:fragment="navbar">
+    <nav class="navbar">
+        <div class="nav-logo">
+            <span class="nav-glow">DERMAI</span>
+        </div>
+        <ul class="nav-links">
+            <li><a th:href="@{/}">Anasayfa</a></li>
+            <li><a th:href="@{/blog/blog}">Blog</a></li>
+            <li><a th:href="@{/user/skintypes}">Cilt Tipleri</a></li>
+            <li><a th:href="@{/user/about}">Hakkında</a></li>
+
+            <!-- Kullanıcı GİRİŞ yapmamışsa -->
+            <li sec:authorize="isAnonymous()"><a th:href="@{/auth/login}">Giriş Yap</a></li>
+            <li sec:authorize="isAnonymous()"><a th:href="@{/auth/kayit}">Kayıt Ol</a></li>
+
+            <!-- Kullanıcı GİRİŞ yapmışsa -->
+            <li sec:authorize="isAuthenticated()"><a th:href="@{/user/profil}">Profil</a></li>
+            <li sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" method="post" style="display:inline;">
+                    <button type="submit" class="logout-link">Çıkış Yap</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</div>
