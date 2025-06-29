@@ -26,7 +26,10 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/deneme", true) // Başarılı login sonrası yönlendirme
                         .permitAll()
                 )
-                .logout(logout -> logout.permitAll());
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/auth/login?logout")
+                        .permitAll()
+                );
 
         return http.build();
     }

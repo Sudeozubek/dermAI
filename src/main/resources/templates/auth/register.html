@@ -3,31 +3,31 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>DermAI | Giriş Yap</title>
+    <title>DermAI | Kayıt Ol</title>
     <link rel="stylesheet" th:href="@{/css/layer.css}">
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        .login-section {
+        .register-section {
           min-height: 90vh;
           display: flex;
           align-items: center;
           justify-content: center;
           background: #F5F7FB;
         }
-        .login-container {
+        .register-container {
           background: #fff;
           border-radius: 1.5rem;
           box-shadow: 0 4px 32px #4F3CC91A;
           padding: 2.5rem 2rem 2rem 2rem;
-          max-width: 370px;
+          max-width: 400px;
           width: 100%;
           display: flex;
           flex-direction: column;
           align-items: center;
         }
-        .login-title {
+        .register-title {
           font-family: 'Poppins', Arial, sans-serif;
           font-size: 2rem;
           font-weight: 600;
@@ -35,13 +35,13 @@
           margin-bottom: 1.2rem;
           letter-spacing: 1px;
         }
-        .login-form {
+        .register-form {
           width: 100%;
           display: flex;
           flex-direction: column;
           gap: 1.1rem;
         }
-        .login-form input {
+        .register-form input {
           width: 100%;
           padding: 0.9em 1em;
           border: 1.5px solid #4F8CFF;
@@ -51,10 +51,10 @@
           outline: none;
           transition: border 0.2s;
         }
-        .login-form input:focus {
+        .register-form input:focus {
           border: 1.5px solid #4F3CC9;
         }
-        .login-btn {
+        .register-btn {
           background: #4F8CFF;
           color: #fff;
           border: none;
@@ -66,23 +66,23 @@
           transition: background 0.2s, transform 0.2s;
           margin-top: 0.5em;
         }
-        .login-btn:hover {
+        .register-btn:hover {
           background: #4F3CC9;
           transform: scale(1.04);
         }
-        .login-links {
+        .register-links {
           margin-top: 1.2em;
           font-size: 0.98rem;
           text-align: center;
         }
-        .login-links a {
+        .register-links a {
           color: #4F8CFF;
           text-decoration: none;
           margin: 0 0.3em;
           font-weight: 500;
           transition: color 0.2s;
         }
-        .login-links a:hover {
+        .register-links a:hover {
           color: #4F3CC9;
         }
     </style>
@@ -91,23 +91,23 @@
 
 <div th:replace="fragments/navbar :: navbar"></div>
 
-<section class="login-section">
-    <div class="login-container">
-        <div class="login-title">Giriş Yap</div>
-        <form class="login-form" method="post" th:action="@{/login}">
-            <input name="username" placeholder="E-posta adresiniz" required type="email">
-            <input name="password" placeholder="Şifre" required type="password">
-            <button class="login-btn" type="submit">Giriş Yap</button>
+<section class="register-section">
+    <div class="register-container">
+        <div class="register-title">Kayıt Ol</div>
+        <form class="register-form">
+            <input placeholder="Ad Soyad" required type="text">
+            <input placeholder="E-posta adresiniz" required type="email">
+            <input placeholder="Şifre" required type="password">
+            <input placeholder="Şifre (Tekrar)" required type="password">
+            <button class="register-btn" type="submit">Kayıt Ol</button>
         </form>
-        <div class="login-links">
-            Hesabınız yok mu?
-            <a th:href="@{/auth/register}">Kayıt Ol</a>
-            <br>
+        <div class="register-links">
+            Zaten hesabınız var mı?
+            <a th:href="@{/login}">Giriş Yap</a>
         </div>
     </div>
 </section>
 
-<div th:replace="fragments/footer :: footer"></div>
-
 </body>
+
 </html>
