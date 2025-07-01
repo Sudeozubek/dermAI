@@ -1,5 +1,6 @@
 package com.example.dermAI.controller;
 
+import com.example.dermAI.geminiservice.GeminiPromptRequest;
 import com.example.dermAI.geminiservice.GeminiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -8,11 +9,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/gemini")
 public class GeminiController {
 
+    private final GeminiService geminiService;
+
     @Autowired
-    private GeminiService geminiService;
+    public GeminiController(GeminiService geminiService) {
+        this.geminiService = geminiService;
+    }
 
     @PostMapping("/ask")
-    public String askGemini(@RequestBody String prompt) {
-        return "Gemini received your prompt: " + prompt;//geçici
+    public String askGemini(@RequestBody GeminiPromptRequest request) {
+        return geminiService.askGemini(request.getPrompt());
     }
 }
