@@ -67,10 +67,10 @@
         <form autocomplete="off" class="chatbot-form" id="chatbot-form">
             <label class="chat-file-label" title="Fotoğraf ekle">
                 <input accept="image/*" hidden id="chat-image-input" type="file">
-                <span id="chat-file-icon">📎</span>
+                <span id="chat-file-icon" style="font-size:1.5em; cursor:pointer;">📎</span>
             </label>
-            <input autocomplete="off" id="chat-user-message" maxlength="200" placeholder="Mesajınızı yazın..."
-                   type="text">
+            <img id="chat-image-preview" style="max-width: 60px; max-height: 60px; display: none; border-radius: 8px; margin-left: 10px;">
+            <input autocomplete="off" id="chat-user-message" maxlength="200" placeholder="Mesajınızı yazın..." type="text">
             <button class="chat-send-btn" title="Gönder" type="submit">
                 <span style="font-size:1.3em;">&#10148;</span>
             </button>
@@ -109,20 +109,26 @@
     const chatHistory = document.getElementById('chat-history');
     const chatError = document.getElementById('chatbot-error');
     const chatImageInput = document.getElementById('chat-image-input');
+    const chatImagePreview = document.getElementById('chat-image-preview');
     let imageDataUrl = null;
     
-    // Fotoğraf seçilince önizleme için base64'e çevir
     chatImageInput.addEventListener('change', function() {
       if (chatImageInput.files.length > 0) {
         const file = chatImageInput.files[0];
         const reader = new FileReader();
         reader.onload = function(e) {
           imageDataUrl = e.target.result;
-          // İsteğe bağlı: seçilen fotoğrafı inputun yanında gösterebilirsin
+          // Önizleme için resmi göster
+          chatImagePreview.src = imageDataUrl;
+          chatImagePreview.style.display = 'inline-block';
+          // Konsola base64'ün ilk 100 karakterini yaz
+          console.log("imageDataUrl:", imageDataUrl.substring(0, 100));
         };
         reader.readAsDataURL(file);
       } else {
         imageDataUrl = null;
+        chatImagePreview.src = "";
+        chatImagePreview.style.display = 'none';
       }
     });
     
@@ -140,16 +146,48 @@
       // Kullanıcı mesajını ekle
       addMessageBubble('user', message, imageDataUrl);
     
-      // Formu temizle
-      chatInput.value = "";
-      chatImageInput.value = "";
-      imageDataUrl = null;
-    
-      // AI'dan cevap simülasyonu (2 sn sonra)
-      setTimeout(() => {
-        addMessageBubble('ai', "Demo: Cilt analizi sonucu ve öneriler burada görünecek!");
-        // Gerçek API entegrasyonunda burada fetch ile backend'e istek atılır.
-      }, 2000);
+      // Loading mesajı göster
+      const loadingBubble = addMessageBubble('ai', 'Analiz ediliyor...');
+      
+      // Gemini API'ye istek gönder
+      console.log("Gönderilen imageDataUrl:", imageDataUrl);
+      fetch('/api/gemini/ask', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          prompt: message,
+          image: imageDataUrl
+        })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('API yanıt vermedi');
+        }
+        return response.text();
+      })
+      .then(data => {
+        loadingBubble.remove();
+        addMessageBubble('ai', data);
+        // Formu temizle (başarıdan sonra)
+        chatInput.value = "";
+        chatImageInput.value = "";
+        chatImagePreview.src = "";
+        chatImagePreview.style.display = 'none';
+        imageDataUrl = null;
+      })
+      .catch(error => {
+        console.error('Hata:', error);
+        loadingBubble.remove();
+        addMessageBubble('ai', 'Üzgünüm, şu anda yanıt veremiyorum. Lütfen daha sonra tekrar deneyin.');
+        // Hata olsa da formu temizle
+        chatInput.value = "";
+        chatImageInput.value = "";
+        chatImagePreview.src = "";
+        chatImagePreview.style.display = 'none';
+        imageDataUrl = null;
+      });
     });
     
     // Mesaj balonu ekleme fonksiyonu
@@ -176,6 +214,9 @@
       bubble.appendChild(content);
       chatHistory.appendChild(bubble);
       chatHistory.scrollTop = chatHistory.scrollHeight;
+      
+      // Bubble'ı döndür ki kaldırılabilsin
+      return bubble;
     }
 </script>
 

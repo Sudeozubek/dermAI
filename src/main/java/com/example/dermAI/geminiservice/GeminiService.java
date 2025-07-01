@@ -61,4 +61,17 @@ public class GeminiService {
 
 
     }
+
+    public String askGeminiWithImage(String prompt, String imageBase64) {
+        // Burada gerçek API çağrısı yok, sadece örnek bir cevap dönüyoruz.
+        String cevap = "Görsel ve mesaj alındı!\n";
+        cevap += "Kullanıcı mesajı: " + prompt + "\n";
+        if (imageBase64 != null && !imageBase64.isEmpty()) {
+            cevap += "Bir fotoğraf da gönderildi (base64 uzunluğu: " + imageBase64.length() + ").\n";
+            cevap += "Demo: Fotoğraf analizi sonucu - Cildinizde hafif kuruluk tespit edildi. Bol su için ve nemlendirici kullanın!";
+        } else {
+            cevap += "Fotoğraf gönderilmedi.";
+        }
+        return cevap;
+    }
 }

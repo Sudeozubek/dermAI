@@ -17,10 +17,23 @@ public class GeminiController {
 
     @PostMapping("/ask")
     public String askGemini(@RequestBody GeminiPromptRequest request) {
-        System.out.println("Controller received prompt: " + request.getPrompt());  // BURAYA EKLE
-        String response = geminiService.askGemini(request.getPrompt());
-        System.out.println("Controller sending response: " + response);  // BURAYA EKLE
-        return response;
+        String prompt = request.getPrompt();
+        String imageBase64 = request.getImage();
+
+        // Log ekle
+        System.out.println("Gelen prompt: " + prompt);
+        if (imageBase64 != null && !imageBase64.isEmpty()) {
+            System.out.println("Gelen image base64 uzunluğu: " + imageBase64.length());
+            System.out.println("Base64 başlangıcı: " + imageBase64.substring(0, Math.min(100, imageBase64.length())));
+        } else {
+            System.out.println("Görsel gelmedi.");
+        }
+
+        if (imageBase64 == null || imageBase64.isEmpty()) {
+            return geminiService.askGemini(prompt);
+        }
+
+        return geminiService.askGeminiWithImage(prompt, imageBase64);
     }
 
 }
