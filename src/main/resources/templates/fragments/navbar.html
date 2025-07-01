@@ -5,21 +5,26 @@
         </div>
         <ul class="nav-links">
             <li><a th:href="@{/}">Anasayfa</a></li>
-            <li><a th:href="@{/blog/blog}">Blog</a></li>
-            <li><a th:href="@{/user/skintypes}">Cilt Tipleri</a></li>
-            <li><a th:href="@{/user/about}">Hakkında</a></li>
+            <li><a th:href="@{/blog}">Blog</a></li>
+            <li><a th:href="@{/skintypes}">Cilt Tipleri</a></li>
+            <li><a th:href="@{/about}">Hakkında</a></li>
 
             <!-- Kullanıcı GİRİŞ yapmamışsa -->
             <li sec:authorize="isAnonymous()"><a th:href="@{/auth/login}">Giriş Yap</a></li>
-            <li sec:authorize="isAnonymous()"><a th:href="@{/auth/kayit}">Kayıt Ol</a></li>
+            <li sec:authorize="isAnonymous()"><a th:href="@{/auth/register}">Kayıt Ol</a></li>
 
             <!-- Kullanıcı GİRİŞ yapmışsa -->
             <li sec:authorize="isAuthenticated()"><a th:href="@{/user/profil}">Profil</a></li>
             <li sec:authorize="isAuthenticated()">
-                <form th:action="@{/logout}" method="post" style="display:inline;">
-                    <button type="submit" class="logout-link">Çıkış Yap</button>
-                </form>
+                <a href="#" onclick="logout()" class="logout-link">Çıkış Yap</a>
+                <form id="logoutForm" th:action="@{/logout}" method="post" style="display:none;"></form>
             </li>
         </ul>
     </nav>
+    
+    <script>
+        function logout() {
+            document.getElementById('logoutForm').submit();
+        }
+    </script>
 </div>

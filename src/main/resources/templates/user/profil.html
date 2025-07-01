@@ -19,21 +19,21 @@
         <div class="profile-header">
             <div class="profile-pic-wrapper" id="profilePicWrapper" style="position:relative;">
                 <img alt="Profil" class="profile-pic" id="profilePic" onclick="toggleIconOptions()"
-                     src="../../static/image/icon1.png">
+                     th:src="@{/image/icon1.png}">
                 <span class="profile-badge" id="profileBadge">85</span>
                 <div class="icon-options-popup" id="iconOptionsPopup" style="display:none;">
-                    <img class="icon-option" onclick="selectProfileIcon('icon1.png')"
-                         src="../../static/image/icon1.png">
-                    <img class="icon-option" onclick="selectProfileIcon('icon2.png')"
-                         src="../../static/image/icon2.png">
-                    <img class="icon-option" onclick="selectProfileIcon('icon4.png')"
-                         src="../../static/image/icon4.png">
-                    <img class="icon-option" onclick="selectProfileIcon('icon3.png')"
-                         src="../../static/image/icon3.png">
-                    <img class="icon-option" onclick="selectProfileIcon('icon5.png')"
-                         src="../../static/image/icon5.png">
-                    <img class="icon-option" onclick="selectProfileIcon('icon6.png')"
-                         src="../../static/image/icon6.png">
+                    <img class="icon-option" onclick="selectProfileIcon('/image/icon1.png')"
+                         th:src="@{/image/icon1.png}">
+                    <img class="icon-option" onclick="selectProfileIcon('/image/icon2.png')"
+                         th:src="@{/image/icon2.png}">
+                    <img class="icon-option" onclick="selectProfileIcon('/image/icon4.png')"
+                         th:src="@{/image/icon4.png}">
+                    <img class="icon-option" onclick="selectProfileIcon('/image/icon3.png')"
+                         th:src="@{/image/icon3.png}">
+                    <img class="icon-option" onclick="selectProfileIcon('/image/icon5.png')"
+                         th:src="@{/image/icon5.png}">
+                    <img class="icon-option" onclick="selectProfileIcon('/image/icon6.png')"
+                         th:src="@{/image/icon6.png}">
                 </div>
             </div>
             <div class="profile-info">
@@ -43,6 +43,61 @@
             </div>
         </div>
         <button class="logout-btn" onclick="logoutUser()">Çıkış Yap</button>
+    </div>
+    <!-- Kendi Paylaşımlarım Bölümü -->
+    <div class="my-posts-section">
+        <h2>Paylaşımlarım</h2>
+        <div id="myPostsList">
+            <!-- Örnek bir post -->
+            <div class="blog-post">
+                <div class="post-header">
+                    <img alt="Profil" class="profile-icon" th:src="@{/image/icon1.png}">
+                    <div class="post-user-info">
+                        <span class="post-author">Ayşe</span>
+                        <span class="post-date">1 Temmuz 2024</span>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <h3>Yanakta Kızarıklık</h3>
+                    <p>Son zamanlarda yanaklarımda sürekli bir kızarıklık oluyor. Benzer sorun yaşayan var mı? Ne önerirsiniz?</p>
+                </div>
+                <div class="post-actions">
+                    <button class="like-btn">❤️ 3</button>
+                    <button class="reply-btn">Yanıtla</button>
+                </div>
+                <div class="post-comments">
+                    <div class="comment">
+                        <img alt="Profil" class="profile-icon comment-icon" th:src="@{/image/icon3.png}">
+                        <div class="comment-body">
+                            <span class="comment-author">Mehmet</span>
+                            <span class="comment-date">1 Temmuz 2024</span>
+                            <p>Ben de benzer bir sorun yaşadım, nemlendirici kullanmak iyi geliyor. Özellikle hassas ciltler için olanları deneyebilirsin.</p>
+                            <button class="like-btn small">❤️ 1</button>
+                            <button class="reply-btn small">Yanıtla</button>
+                            <!-- Yanıtlar -->
+                            <div class="comment-replies">
+                                <div class="reply">
+                                    <img alt="Profil" class="profile-icon reply-icon" th:src="@{/image/icon2.png}">
+                                    <div class="reply-body">
+                                        <span class="reply-author">Zeynep</span>
+                                        <span class="reply-date">1 Temmuz 2024</span>
+                                        <p>Ben de aynı şekilde hassas ciltler için olan bir krem kullandım, çok faydasını gördüm.</p>
+                                        <button class="like-btn small">❤️ 0</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Yorum ekleme alanı (sadece görsel) -->
+                    <form class="comment-form">
+                        <img alt="Profil" class="profile-icon comment-icon" th:src="@{/image/icon1.png}">
+                        <input placeholder="Yanıtını yaz..." required type="text">
+                        <button type="submit">Gönder</button>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
     </div>
 </div>
 

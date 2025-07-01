@@ -21,7 +21,7 @@
             <h2>Ne paylaşmak istersin?</h2>
             <form id="blogForm">
                 <div class="profile-input-row">
-                    <img alt="Profil" class="profile-icon" id="currentUserIcon" src="../../static/image/icon1.png">
+                    <img alt="Profil" class="profile-icon" id="currentUserIcon" th:src="@{/image/icon1.png}">
                     <span id="currentUserName">Kullanıcı</span>
                 </div>
                 <input id="postTitle" placeholder="Başlık" required type="text"><br>
@@ -36,7 +36,7 @@
                 <!-- Örnek bir post -->
                 <div class="blog-post">
                     <div class="post-header">
-                        <img alt="Profil" class="profile-icon" src="../../static/image/icon1.png">
+                        <img alt="Profil" class="profile-icon" th:src="@{/image/icon1.png}">
                         <div class="post-user-info">
                             <span class="post-author">Ayşe</span>
                             <span class="post-date">10 Mayıs 2024</span>
@@ -53,7 +53,7 @@
                     </div>
                     <div class="post-comments">
                         <div class="comment">
-                            <img alt="Profil" class="profile-icon comment-icon" src="../../static/image/icon3.png">
+                            <img alt="Profil" class="profile-icon comment-icon" th:src="@{/image/icon3.png}">
                             <div class="comment-body">
                                 <span class="comment-author">Mehmet</span>
                                 <span class="comment-date">10 Mayıs 2024</span>
@@ -66,7 +66,7 @@
                         <!-- Yorum ekleme alanı -->
                         <form class="comment-form">
                             <img alt="Profil" class="profile-icon comment-icon" id="currentUserIconComment"
-                                 src="../../static/image/icon1.png">
+                                 th:src="@{/image/icon1.png}">
                             <input placeholder="Yanıtını yaz..." required type="text">
                             <button type="submit">Gönder</button>
                         </form>

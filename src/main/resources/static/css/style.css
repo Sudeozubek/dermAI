@@ -696,3 +696,271 @@ body {
   font-size: 0.97em;
   margin-bottom: 0;
 }
+
+/* Profil sayfasındaki blog postları bölümü */
+.my-posts-section {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+.my-posts-section h2 {
+  color: #4F3CC9;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-family: 'Poppins', Arial, sans-serif;
+}
+
+.my-posts-section .blog-post {
+  background: #fff;
+  border-radius: 1.2rem;
+  box-shadow: 0 2px 16px #4F3CC91A;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-family: 'Poppins', Arial, sans-serif;
+}
+
+.my-posts-section .post-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.my-posts-section .profile-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.my-posts-section .post-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.my-posts-section .post-author {
+  font-weight: 600;
+  color: #4F3CC9;
+  font-size: 1rem;
+}
+
+.my-posts-section .post-date {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.my-posts-section .post-content h3 {
+  color: #4F3CC9;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.my-posts-section .post-content p {
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.my-posts-section .post-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.my-posts-section .like-btn {
+  background: none;
+  border: none;
+  color: #4F8CFF;
+  cursor: pointer;
+  font-size: 0.95rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 1rem;
+  transition: background 0.2s;
+}
+
+.my-posts-section .like-btn:hover {
+  background: #f0f6ff;
+}
+
+.my-posts-section .reply-btn {
+  background: none;
+  border: none;
+  color: #4F3CC9;
+  cursor: pointer;
+  font-size: 0.95rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 1rem;
+  transition: background 0.2s;
+}
+
+.my-posts-section .reply-btn:hover {
+  background: #f0f6ff;
+}
+
+.my-posts-section .post-comments {
+  border-top: 1px solid #eee;
+  padding-top: 1rem;
+}
+
+.my-posts-section .comment {
+  display: flex;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  background: #f8f9ff;
+  border-radius: 0.8rem;
+}
+
+.my-posts-section .comment-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.my-posts-section .comment-body {
+  flex: 1;
+}
+
+.my-posts-section .comment-author {
+  font-weight: 600;
+  color: #4F3CC9;
+  font-size: 0.9rem;
+  margin-right: 0.5rem;
+}
+
+.my-posts-section .comment-date {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.my-posts-section .comment-body p {
+  margin: 0.3rem 0 0.5rem 0;
+  color: #333;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.my-posts-section .comment-replies {
+  margin-left: 2rem;
+  margin-top: 0.5rem;
+}
+
+.my-posts-section .reply {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  background: #f0f6ff;
+  border-radius: 0.6rem;
+}
+
+.my-posts-section .reply-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.my-posts-section .reply-body {
+  flex: 1;
+}
+
+.my-posts-section .reply-author {
+  font-weight: 600;
+  color: #4F3CC9;
+  font-size: 0.85rem;
+  margin-right: 0.5rem;
+}
+
+.my-posts-section .reply-date {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.my-posts-section .reply-body p {
+  margin: 0.2rem 0 0.3rem 0;
+  color: #333;
+  font-size: 0.85rem;
+  line-height: 1.3;
+}
+
+.my-posts-section .comment-form {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  margin-top: 1rem;
+  padding: 0.8rem;
+  background: #f8f9ff;
+  border-radius: 0.8rem;
+}
+
+.my-posts-section .comment-form input {
+  flex: 1;
+  border: 1px solid #ddd;
+  border-radius: 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.my-posts-section .comment-form input:focus {
+  border-color: #4F8CFF;
+}
+
+.my-posts-section .comment-form button {
+  background: #4F8CFF;
+  color: #fff;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.my-posts-section .comment-form button:hover {
+  background: #4F3CC9;
+}
+
+/* Mobil responsive */
+@media (max-width: 768px) {
+  .my-posts-section {
+    padding: 0 1rem;
+  }
+  
+  .my-posts-section .blog-post {
+    padding: 1rem;
+  }
+  
+  .my-posts-section .comment-replies {
+    margin-left: 1rem;
+  }
+}
+
+.medical-warning {
+  margin: 40px auto 0 auto;
+  max-width: 600px;
+  background: #fff8e1;
+  color: #7a5c00;
+  border: 1.5px solid #ffe082;
+  border-radius: 12px;
+  padding: 18px 24px;
+  font-size: 1.08rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  text-align: center;
+  font-family: inherit;
+  letter-spacing: 0.01em;
+}
+@media (max-width: 700px) {
+  .medical-warning {
+    max-width: 95vw;
+    padding: 14px 8px;
+    font-size: 0.98rem;
+  }
+}
