@@ -8,6 +8,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Map;
 import java.util.List;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 @Service
 public class GeminiService {
@@ -63,15 +67,42 @@ public class GeminiService {
     }
 
     public String askGeminiWithImage(String prompt, String imageBase64) {
-        // Burada gerçek API çağrısı yok, sadece örnek bir cevap dönüyoruz.
-        String cevap = "Görsel ve mesaj alındı!\n";
-        cevap += "Kullanıcı mesajı: " + prompt + "\n";
-        if (imageBase64 != null && !imageBase64.isEmpty()) {
-            cevap += "Bir fotoğraf da gönderildi (base64 uzunluğu: " + imageBase64.length() + ").\n";
-            cevap += "Demo: Fotoğraf analizi sonucu - Cildinizde hafif kuruluk tespit edildi. Bol su için ve nemlendirici kullanın!";
-        } else {
-            cevap += "Fotoğraf gönderilmedi.";
+        try {
+            // Sadece base64 kısmını al (başındaki data:image/png;base64, kısmını at)
+            String base64Data = imageBase64;
+            if (base64Data.contains(",")) {
+                base64Data = base64Data.substring(base64Data.indexOf(",") + 1);
+            }
+
+           
+            String endpoint = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=" + apiKey;
+
+            String json = "{\n" +
+                    "  \"contents\": [\n" +
+                    "    {\n" +
+                    "      \"parts\": [\n" +
+                    "        { \"text\": \"" + prompt + "\" },\n" +
+                    "        { \"inline_data\": { \"mime_type\": \"image/png\", \"data\": \"" + base64Data + "\" } }\n" +
+                    "      ]\n" +
+                    "    }\n" +
+                    "  ]\n" +
+                    "}";
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(endpoint))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(json))
+                    .build();
+
+            HttpClient client = HttpClient.newHttpClient();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            // Dönen cevabı direkt frontend'e ilet
+            return response.body();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Görsel analizi sırasında hata oluştu: " + e.getMessage();
         }
-        return cevap;
     }
 }
