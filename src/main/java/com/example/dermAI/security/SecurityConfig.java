@@ -18,6 +18,7 @@ public class SecurityConfig {
                         .requestMatchers("/css/**", "/js/**", "/image/**").permitAll()
                         .requestMatchers("/auth/login", "/auth/register").permitAll()
                         .requestMatchers("/", "/about", "/blog", "/skintypes").permitAll()
+                        .requestMatchers("/api/gemini/ask").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
