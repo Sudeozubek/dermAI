@@ -94,6 +94,17 @@
 <section class="register-section">
     <div class="register-container">
         <div class="register-title">Kayıt Ol</div>
+        
+        <!-- Hata mesajı -->
+        <div th:if="${error}" class="alert alert-danger" style="background: #ffebee; color: #c62828; padding: 10px; border-radius: 8px; margin-bottom: 15px; text-align: center;">
+            <span th:text="${error}"></span>
+        </div>
+        
+        <!-- Başarı mesajı -->
+        <div th:if="${success}" class="alert alert-success" style="background: #e8f5e8; color: #2e7d32; padding: 10px; border-radius: 8px; margin-bottom: 15px; text-align: center;">
+            <span th:text="${success}"></span>
+        </div>
+        
         <form class="register-form" method="post" th:action="@{/auth/register}">
             <input name="fullName" placeholder="Ad Soyad" required type="text">
             <input name="username" placeholder="E-posta adresiniz" required type="email">
