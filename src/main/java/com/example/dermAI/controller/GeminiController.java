@@ -1,8 +1,7 @@
 package com.example.dermAI.controller;
 
-import com.example.dermAI.geminiservice.GeminiPromptRequest;
 import com.example.dermAI.geminiservice.GeminiService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.dermAI.geminiservice.GeminiPromptRequest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -11,13 +10,17 @@ public class GeminiController {
 
     private final GeminiService geminiService;
 
-    @Autowired
+    // Constructor Injection
     public GeminiController(GeminiService geminiService) {
         this.geminiService = geminiService;
     }
 
     @PostMapping("/ask")
     public String askGemini(@RequestBody GeminiPromptRequest request) {
-        return geminiService.askGemini(request.getPrompt());
+        System.out.println("Controller received prompt: " + request.getPrompt());  // BURAYA EKLE
+        String response = geminiService.askGemini(request.getPrompt());
+        System.out.println("Controller sending response: " + response);  // BURAYA EKLE
+        return response;
     }
+
 }
