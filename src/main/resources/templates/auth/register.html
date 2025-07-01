@@ -94,16 +94,16 @@
 <section class="register-section">
     <div class="register-container">
         <div class="register-title">Kayıt Ol</div>
-        <form class="register-form">
-            <input placeholder="Ad Soyad" required type="text">
-            <input placeholder="E-posta adresiniz" required type="email">
-            <input placeholder="Şifre" required type="password">
-            <input placeholder="Şifre (Tekrar)" required type="password">
+        <form class="register-form" method="post" th:action="@{/auth/register}">
+            <input name="fullName" placeholder="Ad Soyad" required type="text">
+            <input name="username" placeholder="E-posta adresiniz" required type="email">
+            <input name="password" placeholder="Şifre" required type="password">
+            <input name="confirmPassword" placeholder="Şifre (Tekrar)" required type="password">
             <button class="register-btn" type="submit">Kayıt Ol</button>
         </form>
         <div class="register-links">
             Zaten hesabınız var mı?
-            <a th:href="@{/login}">Giriş Yap</a>
+            <a th:href="@{/auth/login}">Giriş Yap</a>
         </div>
     </div>
 </section>

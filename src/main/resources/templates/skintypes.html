@@ -146,6 +146,36 @@
         .condition-card.eczema { border-left-color: #C5CAE9; }
         .condition-card.psoriasis { border-left-color: #B2DFDB; }
         .condition-card.melanoma { border-left-color: #FFCDD2; }
+        .condition-card.ai-specialty.acne-detection { border-left-color: #FFB74D; }
+        .condition-card.ai-specialty.skin-cancer { border-left-color: #F44336; }
+        .condition-card.ai-specialty.eczema-psoriasis { border-left-color: #4CAF50; }
+        .condition-card.ai-specialty.rosacea { border-left-color: #E91E63; }
+        .condition-card.ai-specialty.skin-lesions { border-left-color: #9C27B0; }
+        .condition-card.ai-specialty.skin-infections { border-left-color: #2196F3; }
+        .condition-card.ai-specialty.melanocytic-nevi { 
+          border-left-color: #8BC34A; 
+          background: linear-gradient(135deg, #E8F5E8 0%, #F1F8E9 100%);
+        }
+        .condition-card.ai-specialty.melanoma { 
+          border-left-color: #F44336; 
+          background: linear-gradient(135deg, #FFEBEE 0%, #FFCDD2 100%);
+        }
+        .condition-card.ai-specialty.benign-keratosis { 
+          border-left-color: #FF9800; 
+          background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+        }
+        .condition-card.ai-specialty.basal-cell { 
+          border-left-color: #E91E63; 
+          background: linear-gradient(135deg, #FCE4EC 0%, #F8BBD0 100%);
+        }
+        .condition-card.ai-specialty.actinic-keratosis { 
+          border-left-color: #9C27B0; 
+          background: linear-gradient(135deg, #F3E5F5 0%, #E1BEE7 100%);
+        }
+        .condition-card.ai-specialty.vascular-lesions { 
+          border-left-color: #2196F3; 
+          background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+        }
         .condition-card .title {
           font-size: 1rem;
           font-weight: 700;
@@ -167,6 +197,18 @@
         .condition-card.eczema .badge { background: #7986CB; color: #fff; }
         .condition-card.psoriasis .badge { background: #4DB6AC; color: #fff; }
         .condition-card.melanoma .badge { background: #E57373; color: #fff; }
+        .condition-card.ai-specialty.acne-detection .badge { background: #FFB74D; color: #fff; }
+        .condition-card.ai-specialty.skin-cancer .badge { background: #F44336; color: #fff; }
+        .condition-card.ai-specialty.eczema-psoriasis .badge { background: #4CAF50; color: #fff; }
+        .condition-card.ai-specialty.rosacea .badge { background: #E91E63; color: #fff; }
+        .condition-card.ai-specialty.skin-lesions .badge { background: #9C27B0; color: #fff; }
+        .condition-card.ai-specialty.skin-infections .badge { background: #2196F3; color: #fff; }
+        .condition-card.ai-specialty.melanocytic-nevi .badge { background: #8BC34A; color: #fff; }
+        .condition-card.ai-specialty.melanoma .badge { background: #F44336; color: #fff; }
+        .condition-card.ai-specialty.benign-keratosis .badge { background: #FF9800; color: #fff; }
+        .condition-card.ai-specialty.basal-cell .badge { background: #E91E63; color: #fff; }
+        .condition-card.ai-specialty.actinic-keratosis .badge { background: #9C27B0; color: #fff; }
+        .condition-card.ai-specialty.vascular-lesions .badge { background: #2196F3; color: #fff; }
         .condition-card .desc {
           font-size: 0.93rem;
           color: #555;
@@ -267,6 +309,33 @@
         <div class="condition-card melanoma">
             <div class="title">Melanom <span class="badge">Kritik</span></div>
             <div class="desc">Acil müdahale gerektiren ciddi bir cilt kanseri türü</div>
+        </div>
+    </div>
+    <div class="section-title">DermAI'ın Uzmanlaştığı Alanlar</div>
+    <div class="condition-grid">
+        <div class="condition-card ai-specialty melanocytic-nevi">
+            <div class="title">Melanocytic Nevi <span class="badge">%94 Doğruluk</span></div>
+            <div class="desc">Melanositik nevüs - Yaygın ben türü, genellikle iyi huyludur</div>
+        </div>
+        <div class="condition-card ai-specialty melanoma">
+            <div class="title">Melanoma <span class="badge">%96 Doğruluk</span></div>
+            <div class="desc">Cilt kanseri türü; erken teşhis hayati önemdedir</div>
+        </div>
+        <div class="condition-card ai-specialty benign-keratosis">
+            <div class="title">Benign Keratosis <span class="badge">%91 Doğruluk</span></div>
+            <div class="desc">İyi huylu keratozlar: solar lentigo, seborrheik keratoz vb.</div>
+        </div>
+        <div class="condition-card ai-specialty basal-cell">
+            <div class="title">Basal Cell Carcinoma <span class="badge">%93 Doğruluk</span></div>
+            <div class="desc">Bazal hücreli cilt kanseri, yavaş ilerler</div>
+        </div>
+        <div class="condition-card ai-specialty actinic-keratosis">
+            <div class="title">Actinic Keratoses <span class="badge">%89 Doğruluk</span></div>
+            <div class="desc">Güneşe maruz kalan bölgelerde oluşan, kanser öncülü lezyonlardır</div>
+        </div>
+        <div class="condition-card ai-specialty vascular-lesions">
+            <div class="title">Vascular Lesions <span class="badge">%92 Doğruluk</span></div>
+            <div class="desc">Damar yapılı lezyonlar: angioma, hemangioma, dermatofibroma</div>
         </div>
     </div>
     <div class="disclaimer">
