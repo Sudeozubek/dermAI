@@ -21,7 +21,7 @@ public class GeminiService {
                 .build();
     }
 
-    public String sendPrompt(String prompt) {
+    public String askGemini(String prompt) {
         Map<String, Object> body = Map.of(
                 "contents", List.of(
                         Map.of("parts", List.of(
