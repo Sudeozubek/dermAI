@@ -180,27 +180,41 @@
       e.preventDefault();
       chatError.textContent = "";
     
-      const message = chatInput.value.trim();
-      if (!message && !imageDataUrl) {
+      const userMessage = chatInput.value.trim();
+      if (!userMessage && !imageDataUrl) {
         chatError.textContent = "Lütfen bir mesaj yazın veya fotoğraf ekleyin.";
         return;
       }
-    
+
       // Kullanıcı mesajını ekle
-      addMessageBubble('user', message, imageDataUrl);
-    
+      addMessageBubble('user', userMessage, imageDataUrl);
+
       // Loading mesajı göster
       const loadingBubble = addMessageBubble('ai', 'Analiz ediliyor...');
-      
+
+      // --- PROMPT ŞABLONU ---
+      let prompt = `Aşağıda bir kullanıcının cilt fotoğrafı ve/veya mesajı var.
+Sen bir dermatoloji uzmanı gibi davran ve detaylı bir cilt analizi yap.
+Cevabına “Senin cilt tipin: [Cilt Tipi]” başlığıyla başla.
+Devamında, ciltte tespit ettiğin özellikleri, sorunları ve genel durumu detaylı ve açıklayıcı paragraflar halinde anlat.
+Sonrasında, cilt sağlığı açısından yorumla veya olası bir sağlık sorunu olup olmadığıyla ilgili kısa bir değerlendirme paragrafı ekle doktora görünmeli mi yorumla.
+En sonda, günlük bakım ve dikkat edilmesi gerekenler için kısa bir paragraf öneri ekle.
+Cevabını sadece Türkçe ve doğal, açıklayıcı bir dille yaz. Gereksiz tekrar ve madde işareti kullanma.`;
+      if (userMessage) {
+        prompt += `\n\nKullanıcı mesajı: ${userMessage}`;
+      }
+      if (imageDataUrl) {
+        prompt += `\n\nFotoğrafı analiz et.`;
+      }
+
       // Gemini API'ye istek gönder
-      console.log("Gönderilen imageDataUrl:", imageDataUrl);
       fetch('/api/gemini/ask', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          prompt: message,
+          prompt: prompt,
           image: imageDataUrl
         })
       })
@@ -212,7 +226,9 @@
       })
       .then(data => {
         loadingBubble.remove();
-        addMessageBubble('ai', data);
+        // AI cevabını formatla ve ekle
+        const formatted = formatAiResponse(data);
+        addMessageBubble('ai', '', null, formatted);
         // Formu temizle (başarıdan sonra)
         chatInput.value = "";
         chatImageInput.value = "";
@@ -234,7 +250,7 @@
     });
     
     // Mesaj balonu ekleme fonksiyonu
-    function addMessageBubble(sender, text, imgUrl = null) {
+    function addMessageBubble(sender, text, imgUrl = null, htmlContent = null) {
       const bubble = document.createElement('div');
       bubble.className = 'chat-bubble ' + (sender === 'user' ? 'bubble-user' : 'bubble-ai');
     
@@ -248,7 +264,9 @@
         img.alt = "Yüklenen fotoğraf";
         content.appendChild(img);
       }
-      if (text) {
+      if (htmlContent) {
+        content.innerHTML += htmlContent;
+      } else if (text) {
         const span = document.createElement('span');
         span.textContent = text;
         content.appendChild(span);
@@ -261,6 +279,35 @@
       // Bubble'ı döndür ki kaldırılabilsin
       return bubble;
     }
+</script>
+
+<script>
+function formatAiResponse(rawText) {
+  // Örnek: "Your skin type is Oily! ... - Clean your face twice a day. - Use oil-free moisturizer."
+  const lines = rawText.split('\n').filter(l => l.trim() !== '');
+  let result = '';
+  if (lines.length > 0) {
+    result += `<h3>${lines[0]}</h3>`;
+    if (lines.length > 1) {
+      result += '<ul>';
+      for (let i = 1; i < lines.length; i++) {
+        result += `<li>${lines[i]}</li>`;
+      }
+      result += '</ul>';
+    }
+  }
+  return result;
+}
+
+// Kullanım:
+const aiRaw = `Senin cilt tipin: Yağlı!
+Gözeneklerin geniş ve parlak görünüyor.
+Siyah nokta ve sivilceye yatkınlık var.
+Cildini günde 2 kez nazikçe temizlemelisin.
+Hafif, yağsız nemlendirici kullanmalısın.
+Güneş koruyucu ihmal edilmemeli.`;
+
+document.getElementById('ai-result').innerHTML = formatAiResponse(aiRaw);
 </script>
 
 <script src="/js/app.js"></script>
