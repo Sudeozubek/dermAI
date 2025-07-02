@@ -58,24 +58,67 @@
     </div>
 </section>
 
-<section class="chat-section" id="chat-section">
+<section class="chat-section" id="chat-section" style="display: flex; gap: 0;">
+    <!-- Konuşma listesi paneli -->
+    <aside class="chat-history-panel">
+      <div class="chat-history-header">
+        <button class="new-chat-btn"><span class="emoji">＋</span> Yeni Konuşma</button>
+      </div>
+      <ul class="chat-history-list">
+        <li class="chat-history-item active"><span class="emoji">💬</span> Cilt Analizi</li>
+        <li class="chat-history-item"><span class="emoji">💬</span> Sivilce Sorusu</li>
+        <li class="chat-history-item"><span class="emoji">💬</span> Leke Tavsiyesi</li>
+        <li class="chat-history-item"><span class="emoji">💬</span> Genel Bilgi</li>
+      </ul>
+    </aside>
+    <!-- Chat ekranı -->
     <div class="chatbot-container">
 
         <div class="chat-history" id="chat-history">
             <!-- Mesajlar buraya eklenecek -->
         </div>
         <form autocomplete="off" class="chatbot-form" id="chatbot-form">
-            <label class="chat-file-label" title="Fotoğraf ekle">
-                <input accept="image/*" hidden id="chat-image-input" type="file">
-                <span id="chat-file-icon" style="font-size:1.5em; cursor:pointer;">📎</span>
-            </label>
+            <button type="button" id="add-photo-btn" class="chat-add-photo-btn" title="Fotoğraf ekle"><span class="emoji">📷</span> </button>
             <img id="chat-image-preview" style="max-width: 60px; max-height: 60px; display: none; border-radius: 8px; margin-left: 10px;">
             <input autocomplete="off" id="chat-user-message" maxlength="200" placeholder="Mesajınızı yazın..." type="text">
             <button class="chat-send-btn" title="Gönder" type="submit">
                 <span style="font-size:1.3em;">&#10148;</span>
             </button>
+            <input accept="image/*" hidden id="chat-image-input" type="file">
         </form>
         <div class="chatbot-error" id="chatbot-error"></div>
+        
+        <!-- Fotoğraf ekleme seçenek modalı -->
+        <div id="photo-choice-modal" class="photo-modal" style="display:none;">
+          <div class="photo-modal-content">
+            <h3><span class="emoji">📷</span> Fotoğraf Ekle</h3>
+            <button id="choose-photo-btn"><span class="emoji">🖼️</span> Fotoğraf Seç</button>
+            <button id="take-photo-btn"><span class="emoji">🤳</span> Fotoğraf Çek</button>
+            <button id="photo-choice-cancel"><span class="emoji">❌</span> Vazgeç</button>
+          </div>
+        </div>
+        <!-- Fotoğraf uyarı modalı -->
+        <div id="photo-warning-modal" class="photo-modal" style="display:none;">
+          <div class="photo-modal-content">
+            <h3><span class="emoji">💡</span> Fotoğraf Çekmeden/Seçmeden Önce</h3>
+            <ul>
+              <li>Işıklı bir ortamda olun.</li>
+              <li>Yüzünüz kameraya düz bakmalı.</li>
+              <li>Arka plan sade olmalı.</li>
+            </ul>
+            <button id="photo-warning-continue"><span class="emoji">👍</span> Tamam</button>
+            <button id="photo-warning-cancel"><span class="emoji">❌</span> Vazgeç</button>
+          </div>
+        </div>
+        <!-- Kamera modalı -->
+        <div id="photo-camera-modal" class="photo-modal" style="display:none;">
+          <div class="photo-modal-content">
+            <h3><span class="emoji">🤳</span> Kameradan Fotoğraf Çek</h3>
+            <video id="camera-stream" autoplay playsinline width="320" height="240"></video>
+            <button id="capture-photo"><span class="emoji">📸</span> Fotoğrafı Çek</button>
+            <button id="photo-camera-close"><span class="emoji">❌</span> Kapat</button>
+          </div>
+        </div>
     </div>
 </section>
 
@@ -219,6 +262,8 @@
       return bubble;
     }
 </script>
+
+<script src="/js/app.js"></script>
 
 <div th:replace="fragments/footer :: footer"></div>
 

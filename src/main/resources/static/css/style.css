@@ -943,3 +943,188 @@ body {
     font-size: 0.98rem;
   }
 }
+
+/* Fotoğraf çekme modalı için stil */
+.photo-modal {
+  position: fixed;
+  z-index: 9999;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background: rgba(79, 60, 201, 0.18); /* klasik mor, hafif opak */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.18s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.photo-modal-content {
+  background: #fff;
+  padding: 32px 24px 24px 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 32px #4F3CC930;
+  min-width: 320px;
+  max-width: 90vw;
+  text-align: center;
+  border: 2.5px solid #4F3CC9;
+  position: relative;
+}
+.photo-modal-content h3 {
+  color: #4F3CC9;
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 1.1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+}
+.photo-modal-content ul {
+  text-align: left;
+  margin: 18px 0 20px 0;
+  padding-left: 0;
+  list-style: none;
+}
+.photo-modal-content ul li {
+  margin-bottom: 10px;
+  font-size: 1.08em;
+  color: #4F3CC9;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.photo-modal-content ul li::before {
+  content: '💡';
+  margin-right: 0.5em;
+  font-size: 1.1em;
+}
+.photo-modal-content button {
+  margin: 10px 8px 0 8px;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 8px;
+  background: #4F3CC9;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.08rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #4F3CC91A;
+  transition: background 0.18s, transform 0.18s;
+  letter-spacing: 0.01em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.photo-modal-content button:hover {
+  background: #301B7B;
+  color: #fff;
+  transform: translateY(-2px) scale(1.04);
+}
+#camera-stream {
+  border-radius: 10px;
+  margin-bottom: 16px;
+  background: #222;
+  box-shadow: 0 2px 12px #4F3CC930;
+}
+.chat-add-photo-btn {
+  background: #4F3CC9;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 22px;
+  font-size: 1.08rem;
+  font-weight: 600;
+  margin-right: 12px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #4F3CC91A;
+  transition: background 0.18s, color 0.18s, transform 0.18s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.chat-add-photo-btn:hover {
+  background: #301B7B;
+  color: #fff;
+  transform: translateY(-2px) scale(1.04);
+}
+.photo-modal-content .emoji {
+  font-size: 1.3em;
+  margin-right: 0.2em;
+}
+
+/* Chat geçmişi paneli (ChatGPT tarzı) */
+.chat-history-panel {
+  width: 240px;
+  background: #f5f7fb;
+  border-right: 2px solid #eae6fa;
+  box-shadow: 2px 0 16px #4F3CC91A;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-height: 100%;
+}
+.chat-history-header {
+  padding: 1.2em 1em 0.7em 1em;
+  border-bottom: 1.5px solid #eae6fa;
+  background: #fff;
+  text-align: left;
+}
+.new-chat-btn {
+  width: 100%;
+  background: #4F3CC9;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 0;
+  font-size: 1.08rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #4F3CC91A;
+  transition: background 0.18s, transform 0.18s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+}
+.new-chat-btn:hover {
+  background: #301B7B;
+  transform: translateY(-2px) scale(1.04);
+}
+.chat-history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0.5em 0 0 0;
+  flex: 1;
+}
+.chat-history-item {
+  padding: 0.85em 1.2em;
+  color: #4F3CC9;
+  font-size: 1.05rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-left: 4px solid transparent;
+  background: none;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.chat-history-item:hover {
+  background: #eae6fa;
+  color: #301B7B;
+}
+.chat-history-item.active {
+  background: #4F3CC9;
+  color: #fff;
+  border-left: 4px solid #4F8CFF;
+}
+@media (max-width: 900px) {
+  .chat-history-panel {
+    display: none;
+  }
+  .chat-section {
+    flex-direction: column !important;
+  }
+}

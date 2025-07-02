@@ -696,3 +696,45 @@ body {
   font-size: 0.97em;
   margin-bottom: 0;
 }
+/* Fotoğraf çekme modalı için stil */
+.photo-modal {
+  position: fixed;
+  z-index: 9999;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.photo-modal-content {
+  background: #fff;
+  padding: 24px 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+  min-width: 320px;
+  max-width: 90vw;
+  text-align: center;
+}
+#photo-step-warning ul {
+  text-align: left;
+  margin: 16px 0;
+}
+#photo-step-warning button, #photo-step-camera button {
+  margin: 8px 6px;
+  padding: 8px 18px;
+  border: none;
+  border-radius: 6px;
+  background: #4e8cff;
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+#photo-step-warning button:hover, #photo-step-camera button:hover {
+  background: #2563c9;
+}
+#camera-stream {
+  border-radius: 8px;
+  margin-bottom: 12px;
+  background: #222;
+}
