@@ -59,12 +59,34 @@
           <input type="file" id="chat-image-input" accept="image/*" hidden>
           <span id="chat-file-icon">📎</span>
         </label>
+        <button type="button" id="take-photo-btn" class="chat-take-photo-btn" title="Fotoğraf çek">📷</button>
         <input type="text" id="chat-user-message" placeholder="Mesajınızı yazın..." maxlength="200" autocomplete="off">
         <button type="submit" class="chat-send-btn" title="Gönder">
           <span style="font-size:1.3em;">&#10148;</span>
         </button>
       </form>
       <div id="chatbot-error" class="chatbot-error"></div>
+      
+      <!-- Fotoğraf çekme uyarı ve kamera modalı -->
+      <div id="photo-modal" class="photo-modal" style="display:none;">
+        <div class="photo-modal-content">
+          <div id="photo-step-warning">
+            <h3>Fotoğraf Çekmeden Önce</h3>
+            <ul>
+              <li>Işıklı bir ortamda olun.</li>
+              <li>Yüzünüz kameraya düz bakmalı.</li>
+              <li>Arka plan sade olmalı.</li>
+            </ul>
+            <button id="photo-modal-continue">Devam</button>
+            <button id="photo-modal-cancel">İptal</button>
+          </div>
+          <div id="photo-step-camera" style="display:none;">
+            <video id="camera-stream" autoplay playsinline width="320" height="240"></video>
+            <button id="capture-photo">Fotoğrafı Çek</button>
+            <button id="photo-modal-close">Kapat</button>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
   <div class="main-content" id="mainContent">
@@ -165,7 +187,67 @@
       chatHistory.scrollTop = chatHistory.scrollHeight;
     }
     </script>
-    
+    <script>
+    // Fotoğraf çekme modalı ve kamera işlemleri
+    const takePhotoBtn = document.getElementById('take-photo-btn');
+    const photoModal = document.getElementById('photo-modal');
+    const photoStepWarning = document.getElementById('photo-step-warning');
+    const photoStepCamera = document.getElementById('photo-step-camera');
+    const photoModalContinue = document.getElementById('photo-modal-continue');
+    const photoModalCancel = document.getElementById('photo-modal-cancel');
+    const photoModalClose = document.getElementById('photo-modal-close');
+    const cameraStream = document.getElementById('camera-stream');
+    const capturePhotoBtn = document.getElementById('capture-photo');
+    let cameraStreamTrack = null;
+
+    takePhotoBtn.addEventListener('click', function() {
+      photoModal.style.display = 'flex';
+      photoStepWarning.style.display = 'block';
+      photoStepCamera.style.display = 'none';
+    });
+
+    function closePhotoModal() {
+      photoModal.style.display = 'none';
+      photoStepWarning.style.display = 'block';
+      photoStepCamera.style.display = 'none';
+      if (cameraStreamTrack) {
+        cameraStreamTrack.getTracks().forEach(track => track.stop());
+        cameraStreamTrack = null;
+      }
+    }
+
+    photoModalCancel.addEventListener('click', closePhotoModal);
+    photoModalClose.addEventListener('click', closePhotoModal);
+
+    photoModalContinue.addEventListener('click', async function() {
+      // Kamera aç
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        cameraStream.srcObject = stream;
+        cameraStreamTrack = stream;
+        photoStepWarning.style.display = 'none';
+        photoStepCamera.style.display = 'block';
+      } catch (err) {
+        alert('Kamera açılamadı: ' + err.message);
+        closePhotoModal();
+      }
+    });
+
+    capturePhotoBtn.addEventListener('click', function() {
+      // Fotoğrafı canvas ile yakala
+      const canvas = document.createElement('canvas');
+      canvas.width = cameraStream.videoWidth || 320;
+      canvas.height = cameraStream.videoHeight || 240;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(cameraStream, 0, 0, canvas.width, canvas.height);
+      const dataUrl = canvas.toDataURL('image/png');
+      // Fotoğrafı chat'e ekle
+      imageDataUrl = dataUrl;
+      closePhotoModal();
+      // Kullanıcıya önizleme göstermek için (isteğe bağlı):
+      addMessageBubble('user', '', imageDataUrl);
+    });
+    </script>
 
     <footer class="site-footer">
         <div class="footer-logo">DERMAİ</div>

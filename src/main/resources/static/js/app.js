@@ -178,3 +178,89 @@ if(document.getElementById('postsList')) {
 if(document.getElementById('postsList')) {
     loadPosts();
 }
+
+// --- FOTOĞRAF EKLEME AKIŞI ---
+window.addEventListener('DOMContentLoaded', function() {
+  const addPhotoBtn = document.getElementById('add-photo-btn');
+  const photoChoiceModal = document.getElementById('photo-choice-modal');
+  const choosePhotoBtn = document.getElementById('choose-photo-btn');
+  const takePhotoBtn = document.getElementById('take-photo-btn');
+  const photoChoiceCancel = document.getElementById('photo-choice-cancel');
+  const photoWarningModal = document.getElementById('photo-warning-modal');
+  const photoWarningContinue = document.getElementById('photo-warning-continue');
+  const photoWarningCancel = document.getElementById('photo-warning-cancel');
+  const photoCameraModal = document.getElementById('photo-camera-modal');
+  const photoCameraClose = document.getElementById('photo-camera-close');
+  const chatImageInput = document.getElementById('chat-image-input');
+  const chatImagePreview = document.getElementById('chat-image-preview');
+  const cameraStream = document.getElementById('camera-stream');
+  const capturePhotoBtn = document.getElementById('capture-photo');
+  let cameraStreamTrack = null;
+  let photoAction = null; // 'choose' veya 'take'
+
+  if (addPhotoBtn) {
+    addPhotoBtn.addEventListener('click', function() {
+      photoChoiceModal.style.display = 'flex';
+    });
+  }
+  if (photoChoiceCancel) photoChoiceCancel.addEventListener('click', function() {
+    photoChoiceModal.style.display = 'none';
+  });
+  if (choosePhotoBtn) choosePhotoBtn.addEventListener('click', function() {
+    photoChoiceModal.style.display = 'none';
+    photoAction = 'choose';
+    photoWarningModal.style.display = 'flex';
+  });
+  if (takePhotoBtn) takePhotoBtn.addEventListener('click', function() {
+    photoChoiceModal.style.display = 'none';
+    photoAction = 'take';
+    photoWarningModal.style.display = 'flex';
+  });
+  if (photoWarningCancel) photoWarningCancel.addEventListener('click', function() {
+    photoWarningModal.style.display = 'none';
+    photoAction = null;
+  });
+  if (photoWarningContinue) photoWarningContinue.addEventListener('click', function() {
+    photoWarningModal.style.display = 'none';
+    if (photoAction === 'choose') {
+      chatImageInput.click();
+    } else if (photoAction === 'take') {
+      openCameraModal();
+    }
+    photoAction = null;
+  });
+  function openCameraModal() {
+    photoCameraModal.style.display = 'flex';
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        cameraStream.srcObject = stream;
+        cameraStreamTrack = stream;
+      })
+      .catch(err => {
+        alert('Kamera açılamadı: ' + err.message);
+        closeCameraModal();
+      });
+  }
+  function closeCameraModal() {
+    photoCameraModal.style.display = 'none';
+    if (cameraStreamTrack) {
+      cameraStreamTrack.getTracks().forEach(track => track.stop());
+      cameraStreamTrack = null;
+    }
+  }
+  if (photoCameraClose) photoCameraClose.addEventListener('click', closeCameraModal);
+  if (capturePhotoBtn) capturePhotoBtn.addEventListener('click', function() {
+    const canvas = document.createElement('canvas');
+    canvas.width = cameraStream.videoWidth || 320;
+    canvas.height = cameraStream.videoHeight || 240;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(cameraStream, 0, 0, canvas.width, canvas.height);
+    const dataUrl = canvas.toDataURL('image/png');
+    imageDataUrl = dataUrl;
+    if (chatImagePreview) {
+      chatImagePreview.src = imageDataUrl;
+      chatImagePreview.style.display = 'inline-block';
+    }
+    closeCameraModal();
+  });
+});
