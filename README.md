@@ -26,7 +26,7 @@
 
 ## **Proje Açıklaması**
 
-**SkinSentinel**, kullanıcıların cilt görsellerini yükleyerek potansiyel cilt rahatsızlıklarına dair **erken uyarı** niteliğinde yapay zeka destekli ön bilgilendirme sunan bir platformdur. Tanı koymak yerine, farkındalık oluşturarak kullanıcının sağlık kuruluşuna başvuru motivasyonunu artırmayı hedefler.
+**DermAI**, kullanıcıların cilt görsellerini yükleyerek potansiyel cilt rahatsızlıklarına dair **erken uyarı** niteliğinde yapay zeka destekli ön bilgilendirme sunan bir platformdur. Tanı koymak yerine, farkındalık oluşturarak kullanıcının sağlık kuruluşuna başvuru motivasyonunu artırmayı hedefler.
 
 ---
 
