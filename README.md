@@ -57,7 +57,7 @@
 
 # **Sprint 1**
 
-- **Sprint Notları**: User Story’ler Trello kartlarında detaylı biçimde yazılmıştır. Kartlara tıklandığında görev kapsamları görülebilir.
+- **Sprint Notları**: User Story’ler Trello kartlarında detaylı biçimde yazılmıştır. Kartlara tıklandığında görev kapsamları görülebilir. Yeterince açıklayıcı görev adı olan kartlarda görev kapsamları eklenmemiştir.
 
 - **Sprint içinde tamamlanması tahmin edilen puan**: 100 Puan
 
