@@ -1,4 +1,5 @@
-<div th:fragment="navbar">
+<div th:fragment="navbar" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+     xmlns:th="http://www.thymeleaf.org">
     <nav class="navbar">
         <div class="nav-logo">
             <span class="nav-glow">DERMAI</span>
@@ -9,22 +10,21 @@
             <li><a th:href="@{/skintypes}">Cilt Tipleri</a></li>
             <li><a th:href="@{/about}">Hakkında</a></li>
 
-            <!-- Kullanıcı GİRİŞ yapmamışsa -->
+            <!-- Anonymous kullanıcılar -->
             <li sec:authorize="isAnonymous()"><a th:href="@{/auth/login}">Giriş Yap</a></li>
             <li sec:authorize="isAnonymous()"><a th:href="@{/auth/register}">Kayıt Ol</a></li>
 
-            <!-- Kullanıcı GİRİŞ yapmışsa -->
+            <!-- Authenticated kullanıcılar -->
             <li sec:authorize="isAuthenticated()"><a th:href="@{/user/profil}">Profil</a></li>
             <li sec:authorize="isAuthenticated()">
-                <a href="#" onclick="logout()" class="logout-link">Çıkış Yap</a>
-                <form id="logoutForm" th:action="@{/logout}" method="post" style="display:none;"></form>
+                <form id="logoutForm" method="post" sec:csrf="input" style="display: inline;"
+                      th:action="@{/auth/logout}">
+                    <button class="logout-link"
+                            type="submit">
+                        Çıkış Yap
+                    </button>
+                </form>
             </li>
         </ul>
     </nav>
-    
-    <script>
-        function logout() {
-            document.getElementById('logoutForm').submit();
-        }
-    </script>
 </div>
