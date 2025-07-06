@@ -14,6 +14,7 @@ public class User {
     private UUID id;
     private String username;
     private String password;
+    private String fullName;
     private String role;
 
     public UUID getId() {
@@ -46,5 +47,13 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 }
