@@ -1,7 +1,10 @@
 package com.example.dermAI.controller.User.contract;
 
 import com.example.dermAI.dao.UserRepository;
+import com.example.dermAI.dto.User.request.RegisterRequest;
 import com.example.dermAI.entity.User;
+import com.example.dermAI.mapper.User.UserMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,24 +15,26 @@ public class UserContractImpl implements UserContract {
 
     private final PasswordEncoder passwordEncoder;
 
-    public UserContractImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    private final UserMapper userMapper;
+
+    public UserContractImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.userMapper = userMapper;
     }
 
     @Override
-    public void registerUser(String fullName, String username, String password, String confirmPassword) {
-        if (!password.equals(confirmPassword)) {
+    @Transactional
+    public void registerUser(RegisterRequest registerRequest) {
+        if (!registerRequest.getPassword().equals(registerRequest.getConfirmPassword())) {
             throw new IllegalArgumentException("Şifreler eşleşmiyor!");
         }
-        if (userRepository.findByUsername(username).isPresent()) {
+        if (userRepository.findByUsername(registerRequest.getUsername()).isPresent()) {
             throw new IllegalArgumentException("Bu e-posta adresi zaten kullanılıyor!");
         }
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setRole("USER");
-        user.setFullName(fullName);
+
+        User user = userMapper.toEntity(registerRequest);
+        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         userRepository.save(user);
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+<html lang="tr"
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -8,84 +8,7 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        .register-section {
-          min-height: 90vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: #F5F7FB;
-        }
-        .register-container {
-          background: #fff;
-          border-radius: 1.5rem;
-          box-shadow: 0 4px 32px #4F3CC91A;
-          padding: 2.5rem 2rem 2rem 2rem;
-          max-width: 400px;
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-        .register-title {
-          font-family: 'Poppins', Arial, sans-serif;
-          font-size: 2rem;
-          font-weight: 600;
-          color: #4F3CC9;
-          margin-bottom: 1.2rem;
-          letter-spacing: 1px;
-        }
-        .register-form {
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          gap: 1.1rem;
-        }
-        .register-form input {
-          width: 100%;
-          padding: 0.9em 1em;
-          border: 1.5px solid #4F8CFF;
-          border-radius: 1em;
-          font-size: 1.05rem;
-          font-family: 'Poppins', Arial, sans-serif;
-          outline: none;
-          transition: border 0.2s;
-        }
-        .register-form input:focus {
-          border: 1.5px solid #4F3CC9;
-        }
-        .register-btn {
-          background: #4F8CFF;
-          color: #fff;
-          border: none;
-          border-radius: 1em;
-          padding: 0.8em 1em;
-          font-size: 1.1rem;
-          font-weight: 600;
-          cursor: pointer;
-          transition: background 0.2s, transform 0.2s;
-          margin-top: 0.5em;
-        }
-        .register-btn:hover {
-          background: #4F3CC9;
-          transform: scale(1.04);
-        }
-        .register-links {
-          margin-top: 1.2em;
-          font-size: 0.98rem;
-          text-align: center;
-        }
-        .register-links a {
-          color: #4F8CFF;
-          text-decoration: none;
-          margin: 0 0.3em;
-          font-weight: 500;
-          transition: color 0.2s;
-        }
-        .register-links a:hover {
-          color: #4F3CC9;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/register.css}">
 </head>
 <body>
 
@@ -94,22 +17,45 @@
 <section class="register-section">
     <div class="register-container">
         <div class="register-title">Kayıt Ol</div>
-        
-        <!-- Hata mesajı -->
-        <div th:if="${error}" class="alert alert-danger" style="background: #ffebee; color: #c62828; padding: 10px; border-radius: 8px; margin-bottom: 15px; text-align: center;">
+
+        <!-- Flash mesajlar -->
+        <div class="alert error" th:if="${error}">
             <span th:text="${error}"></span>
         </div>
-        
-        <!-- Başarı mesajı -->
-        <div th:if="${success}" class="alert alert-success" style="background: #e8f5e8; color: #2e7d32; padding: 10px; border-radius: 8px; margin-bottom: 15px; text-align: center;">
+        <div class="alert success" th:if="${success}">
             <span th:text="${success}"></span>
         </div>
-        
-        <form class="register-form" method="post" th:action="@{/auth/register}">
-            <input name="fullName" placeholder="Ad Soyad" required type="text">
-            <input name="username" placeholder="E-posta adresiniz" required type="email">
-            <input name="password" placeholder="Şifre" required type="password">
-            <input name="confirmPassword" placeholder="Şifre (Tekrar)" required type="password">
+
+        <form class="register-form" method="post" th:action="@{/auth/register}" th:object="${registerRequest}">
+            <div>
+                <label for="fullName">Ad Soyad</label>
+                <input id="fullName" maxlength="100" minlength="3" placeholder="En az 3 karakter" required
+                       th:field="*{fullName}"
+                       type="text"/>
+                <div class="error-message" th:errors="*{fullName}" th:if="${#fields.hasErrors('fullName')}"></div>
+            </div>
+
+            <div>
+                <label for="username">E-posta Adresiniz</label>
+                <input id="username" placeholder="ornek@ornek.com" required th:field="*{username}" type="email"/>
+                <div class="error-message" th:errors="*{username}" th:if="${#fields.hasErrors('username')}"></div>
+            </div>
+
+            <div>
+                <label for="password">Şifre</label>
+                <input id="password" minlength="6" placeholder="En az 6 karakter" required th:field="*{password}"
+                       type="password"/>
+                <div class="error-message" th:errors="*{password}" th:if="${#fields.hasErrors('password')}"></div>
+            </div>
+
+            <div>
+                <label for="confirmPassword">Şifre (Tekrar)</label>
+                <input id="confirmPassword" placeholder="Şifrenizi tekrar girin" required th:field="*{confirmPassword}"
+                       type="password"/>
+                <div class="error-message" th:errors="*{confirmPassword}"
+                     th:if="${#fields.hasErrors('confirmPassword')}"></div>
+            </div>
+
             <button class="register-btn" type="submit">Kayıt Ol</button>
         </form>
         <div class="register-links">

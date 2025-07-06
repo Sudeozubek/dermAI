@@ -1,6 +1,8 @@
 package com.example.dermAI.controller.User.contract;
 
+import com.example.dermAI.dto.User.request.RegisterRequest;
+
 public interface UserContract {
 
-    void registerUser(String fullName, String username, String password, String confirmPassword);
+    void registerUser(RegisterRequest registerRequest);
 }

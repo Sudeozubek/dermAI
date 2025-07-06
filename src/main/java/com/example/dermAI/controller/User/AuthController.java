@@ -1,11 +1,14 @@
 package com.example.dermAI.controller.User;
 
 import com.example.dermAI.controller.User.contract.UserContract;
+import com.example.dermAI.dto.User.request.RegisterRequest;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -16,6 +19,11 @@ public class AuthController {
 
     public AuthController(UserContract userContract) {
         this.userContract = userContract;
+    }
+
+    @ModelAttribute("registerRequest")
+    public RegisterRequest registerRequest() {
+        return new RegisterRequest();
     }
 
     @GetMapping("/login")
@@ -29,13 +37,19 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@RequestParam String fullName, @RequestParam String username, @RequestParam String password, @RequestParam String confirmPassword, RedirectAttributes redirectAttributes) {
+    public String registerUser(@Valid @ModelAttribute("registerRequest") RegisterRequest registerRequest, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            // validasyon hatalarını Thymeleaf template’ine iletir
+            return "auth/register";
+        }
+
         try {
-            userContract.registerUser(fullName, username, password, confirmPassword);
+            userContract.registerUser(registerRequest);
             redirectAttributes.addFlashAttribute("success", "Kayıt başarılı! Giriş yapabilirsiniz.");
             return "redirect:/auth/login";
-        } catch (IllegalArgumentException e) {
-            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        } catch (IllegalArgumentException ex) {
+            redirectAttributes.addFlashAttribute("error", ex.getMessage());
             return "redirect:/auth/register";
         }
     }
