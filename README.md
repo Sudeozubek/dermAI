@@ -10,10 +10,10 @@
 | <div align="center">Name</div> | <div align="center">Title</div> | <div align="center">Socials</div> |
 | :------------: | :------------: | :------------: |
 | <img src="images/Sude.jpeg" alt="Sude Özübek" width="120"/> | **Sude Özübek** <br> Product Owner | [<img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" width="30"/>](https://www.linkedin.com/in/sudeozubek) |
-| <img src="images/Furkan.jpeg" alt="Furkan Aras" width="120"/> | **Furkan Aras** <br> Scrum Master | [<img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" width="30"/>](https://www.linkedin.com/in/furkanaras) |
+| <img src="images/Furkan.jpeg" alt="Furkan Aras" width="120"/> | **Furkan Aras** <br> Scrum Master | [<img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" width="30"/>](https://www.linkedin.com/in/furkanarass/) |
 | <img src="images/Batuhan.jpeg" alt="Batuhan Umay" width="120"/> | **Batuhan Umay** <br> Backend Developer | [<img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" width="30"/>](https://www.linkedin.com/in/batuhanumay) |
-| <img src="images/Ayşe.jpeg" alt="Ayşe Verda Gülcemal" width="120"/> | **Ayşe Verda Gülcemal** <br> Frontend Developer | [<img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" width="30"/>](https://www.linkedin.com/in/ayseverdagulcemal) |
-| <img src="images/Rabia.jpeg" alt="Rabia Yılmaz" width="120"/> | **Rabia Yılmaz** <br> Data Engineer | [<img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" width="30"/>](https://www.linkedin.com/in/rabiayilmaz) |
+| <img src="images/Ayşe.jpeg" alt="Ayşe Verda Gülcemal" width="120"/> | **Ayşe Verda Gülcemal** <br> Frontend Developer | [<img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" width="30"/>](https://www.linkedin.com/in/ayse-verda-gulcemal-5ba448249?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app ) |
+| <img src="images/Rabia.jpeg" alt="Rabia Yılmaz" width="120"/> | **Rabia Yılmaz** <br> Data Engineer | [<img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" width="30"/>](https://www.linkedin.com/in/rabia-y%C4%B1lmaz-1b1424273/) |
 
 ---
 
