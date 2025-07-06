@@ -11,5 +11,4 @@ public class DermAiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DermAiApplication.class, args);
 	}
-
 }
