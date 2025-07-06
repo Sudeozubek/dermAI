@@ -1,9 +1,6 @@
 package com.example.dermAI.controller.User;
 
-import com.example.dermAI.dao.UserRepository;
-import com.example.dermAI.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import com.example.dermAI.controller.User.contract.UserContract;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,11 +12,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserContract userContract;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public AuthController(UserContract userContract) {
+        this.userContract = userContract;
+    }
 
     @GetMapping("/login")
     public String login() {
@@ -32,33 +29,14 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@RequestParam String fullName,
-                              @RequestParam String username,
-                              @RequestParam String password,
-                              @RequestParam String confirmPassword,
-                              RedirectAttributes redirectAttributes) {
-        
-        // Şifre kontrolü
-        if (!password.equals(confirmPassword)) {
-            redirectAttributes.addFlashAttribute("error", "Şifreler eşleşmiyor!");
+    public String registerUser(@RequestParam String fullName, @RequestParam String username, @RequestParam String password, @RequestParam String confirmPassword, RedirectAttributes redirectAttributes) {
+        try {
+            userContract.registerUser(fullName, username, password, confirmPassword);
+            redirectAttributes.addFlashAttribute("success", "Kayıt başarılı! Giriş yapabilirsiniz.");
+            return "redirect:/auth/login";
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
             return "redirect:/auth/register";
         }
-
-        // Kullanıcı adı kontrolü
-        if (userRepository.findByUsername(username).isPresent()) {
-            redirectAttributes.addFlashAttribute("error", "Bu e-posta adresi zaten kullanılıyor!");
-            return "redirect:/auth/register";
-        }
-
-        // Yeni kullanıcı oluştur
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setRole("USER");
-        
-        userRepository.save(user);
-        
-        redirectAttributes.addFlashAttribute("success", "Kayıt başarılı! Giriş yapabilirsiniz.");
-        return "redirect:/auth/login";
     }
 }

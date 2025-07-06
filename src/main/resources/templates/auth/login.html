@@ -94,6 +94,17 @@
 <section class="login-section">
     <div class="login-container">
         <div class="login-title">Giriş Yap</div>
+
+        <!-- Hata mesajı -->
+        <div th:if="${error}" class="alert alert-danger" style="background: #ffebee; color: #c62828; padding: 10px; border-radius: 8px; margin-bottom: 15px; text-align: center;">
+            <span th:text="${error}"></span>
+        </div>
+
+        <!-- Başarı mesajı -->
+        <div th:if="${success}" class="alert alert-success" style="background: #e8f5e8; color: #2e7d32; padding: 10px; border-radius: 8px; margin-bottom: 15px; text-align: center;">
+            <span th:text="${success}"></span>
+        </div>
+
         <form class="login-form" method="post" th:action="@{/login}">
             <input name="username" placeholder="E-posta adresiniz" required type="email">
             <input name="password" placeholder="Şifre" required type="password">
