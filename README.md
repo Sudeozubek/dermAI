@@ -19,7 +19,7 @@
 
 ## **Proje İsmi**
 
-**SkinSentinel**
+**DermAI**
 
 ---
 
