@@ -22,14 +22,14 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/auth/login")              // Controller ile servis edilen login sayfanın mapping'i
-                        .loginProcessingUrl("/login")           // Formun action'u (POST işlemi)
-                        .defaultSuccessUrl("/deneme", true) // Başarılı login sonrası yönlendirme
-                        .permitAll()
+                        .loginPage("/auth/login")          // custom login sayfası
+                        .loginProcessingUrl("/auth/login") // form un post edileceği URL
+                        .defaultSuccessUrl("/deneme", true)
+                        .failureUrl("/auth/login?error")
                 )
                 .logout(logout -> logout
+                        .logoutUrl("/auth/logout")
                         .logoutSuccessUrl("/auth/login?logout")
-                        .permitAll()
                 );
 
         return http.build();
