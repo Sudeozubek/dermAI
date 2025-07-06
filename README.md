@@ -71,7 +71,7 @@
 - **Sprint Board Güncellemesi**: Sprint 1 görevleri tamamlanarak Done sütununa taşınmıştır. Sprint 2 için planlanan işler Sprint Backlog ve In Progress sütunlarına taşınarak çalışma süreci başlatılmıştır. Güncel sprint board durumu aşağıda yer almaktadır.
 
   
-![Sprint Board](images/sprint.png)
+![Sprint Board](images/Sprint .png)
 
 ---
 
