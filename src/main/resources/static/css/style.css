@@ -96,71 +96,79 @@ body {
   font-weight: 500;
   font-size: 1rem;
 }
+/* Navbar link hover: yarı opak arka plan ve blur efekti */
+.nav-links li a:hover, .nav-links li a:focus {
+  background: rgba(79, 60, 201, 0.15);
+  color: #301B7B;
+  transform: scale(1.08);
+  border-radius: 8px;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  box-shadow: 0 2px 8px rgba(79,60,201,0.08);
+  padding: 6px 18px;
+  margin: 0 -8px;
+}
 .hero {
   position: relative;
-  width: 100%;
-  min-height: 70vh;
+  min-height: 60vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: url('skin.jpg') center center/cover no-repeat;
-  overflow: hidden;
+  z-index: 1;
+  padding: 4rem 0;
+  overflow: hidden; /* Eklendi: arka plan taşmasın */
 }
+
+.hero-bg {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 0;
+  background: url('/image/skin.jpg') center center/cover no-repeat;
+  filter: blur(2px) brightness(0.7);
+  opacity: 0.5;
+}
+
 .hero-overlay {
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(60, 40, 120, 0.45);
+  top: 0; left: 0; width: 100%; height: 100%;
   z-index: 1;
+  background: linear-gradient(120deg, #a18cd1cc 0%, #fbc2ebcc 100%);
+  opacity: 0.7;
 }
 .hero-panel {
   position: relative;
   z-index: 2;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.hero-content {
-  background: rgba(255,255,255,0.22);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.25);
-  border-radius: 1.5rem;
-  padding: 2.5rem 2rem;
+  background: rgba(255,255,255,0.55);
+  box-shadow: 0 8px 32px 0 rgba(31,38,135,0.18);
+  border-radius: 24px;
+  padding: 3rem 2rem;
   max-width: 600px;
-  margin: 3rem 1rem;
-  color: #fff;
+  margin: 0 auto;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.18);
   text-align: center;
-  font-family: 'Poppins', Arial, sans-serif;
-  text-shadow: 0 2px 8px #2228, 0 1px 2px #0006;
-  border: 1.5px solid rgba(255,255,255,0.18);
-  backdrop-filter: blur(4px);
 }
-.hero-content h2 {
-  font-size: 2.2rem;
-  font-weight: 700;
-  margin-bottom: 1.2rem;
-  letter-spacing: 1px;
+
+.hero-panel h2, .hero-panel p, .hero-panel b {
+  color: #222;
+  text-shadow: 0 2px 8px rgba(79,60,201,0.08);
 }
-.hero-content p {
-  font-size: 1.15rem;
-  font-weight: 400;
-  line-height: 1.7;
-  margin-bottom: 2rem;
-}
+
 .scroll-btn {
-  background: #4F8CFF;
+  background: #4F3CC9;
   color: #fff;
   border: none;
-  border-radius: 2em;
-  padding: 0.8em 2em;
+  border-radius: 8px;
+  padding: 0.8rem 2rem;
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
-  box-shadow: 0 2px 8px #4F8CFF33;
-  transition: background 0.2s, transform 0.2s;
+  margin-top: 2rem;
+  transition: background 0.2s;
 }
 .scroll-btn:hover {
-  background: #4F3CC9;
-  transform: translateY(3px) scale(1.04);
+  background: #301B7B;
 }
 @media (max-width: 900px) {
   .hero {
@@ -1055,70 +1063,80 @@ body {
 
 /* Chat geçmişi paneli (ChatGPT tarzı) */
 .chat-history-panel {
-  width: 240px;
-  background: #f5f7fb;
-  border-right: 2px solid #eae6fa;
-  box-shadow: 2px 0 16px #4F3CC91A;
-  padding: 0;
+  background: #f7f7fb;
+  border-radius: 24px 0 0 24px;
+  box-shadow: 0 4px 24px 0 rgba(79,60,201,0.06);
+  padding: 2rem 1.2rem 1.2rem 1.2rem;
+  min-width: 260px;
+  max-width: 320px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  min-height: 100%;
 }
+
 .chat-history-header {
-  padding: 1.2em 1em 0.7em 1em;
-  border-bottom: 1.5px solid #eae6fa;
-  background: #fff;
-  text-align: left;
+  margin-bottom: 1.5rem;
 }
+
 .new-chat-btn {
   width: 100%;
-  background: #4F3CC9;
+  background: linear-gradient(90deg, #4F3CC9 0%, #6a5acd 100%);
   color: #fff;
+  font-weight: 700;
+  font-size: 1.1rem;
   border: none;
-  border-radius: 8px;
-  padding: 10px 0;
-  font-size: 1.08rem;
-  font-weight: 600;
+  border-radius: 12px;
+  padding: 0.9rem 0;
+  box-shadow: 0 2px 8px rgba(79,60,201,0.10);
   cursor: pointer;
-  box-shadow: 0 2px 8px #4F3CC91A;
-  transition: background 0.18s, transform 0.18s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5em;
+  transition: background 0.2s, box-shadow 0.2s;
+  margin-bottom: 1.2rem;
 }
 .new-chat-btn:hover {
-  background: #301B7B;
-  transform: translateY(-2px) scale(1.04);
+  background: linear-gradient(90deg, #301B7B 0%, #4F3CC9 100%);
+  box-shadow: 0 4px 16px rgba(79,60,201,0.13);
 }
+
 .chat-history-list {
   list-style: none;
+  padding: 0;
   margin: 0;
-  padding: 0.5em 0 0 0;
-  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
+
 .chat-history-item {
-  padding: 0.85em 1.2em;
-  color: #4F3CC9;
-  font-size: 1.05rem;
-  font-weight: 500;
-  cursor: pointer;
-  border-left: 4px solid transparent;
-  background: none;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
   display: flex;
   align-items: center;
-  gap: 0.5em;
+  gap: 0.7em;
+  background: #fff;
+  border-radius: 10px;
+  padding: 0.85em 1.1em;
+  font-size: 1.08rem;
+  color: #4F3CC9;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(79,60,201,0.04);
+  border: 2px solid transparent;
+  transition: background 0.2s, color 0.2s, border 0.2s, box-shadow 0.2s;
+}
+.chat-history-item .emoji {
+  font-size: 1.2em;
+  margin-right: 0.3em;
 }
 .chat-history-item:hover {
-  background: #eae6fa;
+  background: rgba(79,60,201,0.08);
   color: #301B7B;
+  border: 2px solid #b3a6f7;
+  box-shadow: 0 4px 16px rgba(79,60,201,0.10);
 }
 .chat-history-item.active {
-  background: #4F3CC9;
-  color: #fff;
-  border-left: 4px solid #4F8CFF;
+  background: linear-gradient(90deg, #edeaff 0%, #f3f3ff 100%);
+  color: #301B7B;
+  border: 2px solid #4F3CC9;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(79,60,201,0.13);
 }
 @media (max-width: 900px) {
   .chat-history-panel {
@@ -1127,4 +1145,144 @@ body {
   .chat-section {
     flex-direction: column !important;
   }
+}
+
+/* Navbar linkleri ve logout butonu: padding, margin, border, box-sizing, font sabit ve eşit */
+.nav-links li a, .logout-link {
+  display: inline-block;
+  padding: 6px 18px;
+  margin: 0 -8px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  font-weight: 500;
+  font-size: 1rem;
+  color: #4F3CC9;
+  background: none;
+  box-sizing: border-box;
+  font-family: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.3s, color 0.2s, border-color 0.2s;
+  outline: none;
+  box-shadow: none;
+  appearance: none;
+  vertical-align: middle;
+  line-height: 1.5;
+}
+
+/* Hover/focus durumunda sadece renk ve arka plan değişsin, font-weight sabit */
+.nav-links li a:hover, .nav-links li a:focus, .logout-link:hover, .logout-link:focus {
+  background: rgba(79, 60, 201, 0.15) !important;
+  color: #301B7B !important;
+  border-color: #b3a6f7 !important;
+  backdrop-filter: blur(2px) !important;
+  -webkit-backdrop-filter: blur(2px) !important;
+  box-shadow: 0 2px 8px rgba(79,60,201,0.08) !important;
+  text-decoration: none !important;
+}
+
+/* Çıkış Yap butonunu link gibi göster, underline ve box-shadow'u kaldır */
+.logout-link {
+  display: inline-block;
+  padding: 6px 18px;
+  margin: 0 -8px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  font-weight: 500;
+  font-size: 1rem;
+  color: #4F3CC9;
+  background: none;
+  box-sizing: border-box;
+  font-family: inherit;
+  text-decoration: none !important;
+  cursor: pointer;
+  transition: background 0.3s, color 0.2s, border-color 0.2s;
+  outline: none;
+  box-shadow: none !important;
+  appearance: none;
+  vertical-align: middle;
+  line-height: 1.5;
+}
+
+/* Çıkış Yap butonunda hover/focus durumunda underline ve box-shadow'u engelle */
+.logout-link:hover, .logout-link:focus {
+  background: rgba(79, 60, 201, 0.15);
+  color: #301B7B;
+  border-color: #b3a6f7;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  box-shadow: 0 2px 8px rgba(79,60,201,0.08) !important;
+  text-decoration: none !important;
+}
+
+.logout-link::after {
+  display: none !important;
+}
+
+.logout-link, .nav-links li a {
+  text-decoration: none !important;
+  font-family: inherit !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  background: none !important;
+  border: 2px solid transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+  appearance: none !important;
+  vertical-align: middle !important;
+  line-height: 1.5 !important;
+  color: #4F3CC9 !important;
+  padding: 6px 18px !important;
+  margin: 0 -8px !important;
+  border-radius: 8px !important;
+  display: inline-block !important;
+  cursor: pointer !important;
+}
+.logout-link:active, .logout-link:focus, .logout-link:hover {
+  text-decoration: none !important;
+}
+.logout-link::after {
+  display: none !important;
+}
+
+.logo-text {
+  font-family: 'Montserrat', 'Poppins', Arial, sans-serif;
+  font-size: 2.2rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  background: none;
+  color: #4F3CC9;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.1em;
+  text-decoration: none !important;
+  user-select: none;
+  text-shadow: 0 2px 12px rgba(79,60,201,0.08);
+}
+
+.logo-derm {
+  color: #4F3CC9;
+  letter-spacing: 0.12em;
+}
+
+.logo-ai {
+  color: #301B7B;
+  background: linear-gradient(90deg, #4F3CC9 0%, #301B7B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 900;
+  margin-left: 0.05em;
+  letter-spacing: 0.15em;
+}
+
+.logo-text::after {
+  content: '';
+  display: block;
+  height: 3px;
+  width: 60%;
+  margin: 0.2em auto 0 auto;
+  background: linear-gradient(90deg, #4F3CC9 0%, #301B7B 100%);
+  border-radius: 2px;
+  opacity: 0.15;
 }
