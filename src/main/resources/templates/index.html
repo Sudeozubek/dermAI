@@ -41,20 +41,19 @@
 <div th:replace="fragments/navbar :: navbar"></div>
 
 <section class="hero">
+    <div class="hero-bg"></div>
     <div class="hero-overlay"></div>
     <div class="hero-panel">
-        <div class="hero-content">
-            <h2>DermAI Neler Yapar?</h2>
-            <p>
-                Cildinizde bir sorun mu var? <br>
-                Hemen fotoğrafınızı yükleyin, cilt sağlığında uzmanlaşmış yapay zekamız saniyeler içinde analiz etsin!
-                <br>
-                Size özel öneriler ve ön bilgilendirme ile cildinizin sağlığını koruyun. <br>
-                <b>DermAI ile cildiniz güvende, içiniz rahat!</b>
-            </p>
-            <button class="scroll-btn" onclick="scrollToChat()">Aşağı Kaydır <span
-                    style="font-size:1.5em;">&#8595;</span></button>
-        </div>
+        <h2>DermAI Neler Yapar?</h2>
+        <p>
+            Cildinizde bir sorun mu var? <br>
+            Hemen fotoğrafınızı yükleyin, cilt sağlığında uzmanlaşmış yapay zekamız saniyeler içinde analiz etsin! <br>
+            Size özel öneriler ve ön bilgilendirme ile cildinizin sağlığını koruyun.<br>
+            <b>DermAI ile cildiniz güvende, içiniz rahat!</b>
+        </p>
+        <button class="scroll-btn" onclick="document.getElementById('chat-section').scrollIntoView({ behavior: 'smooth' });">
+            Aşağı Kaydır <span style="font-size:1.5em;">&#8595;</span>
+        </button>
     </div>
 </section>
 
