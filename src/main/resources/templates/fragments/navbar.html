@@ -1,25 +1,25 @@
 <div th:fragment="navbar" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
      xmlns:th="http://www.thymeleaf.org">
-    <nav class="navbar">
+    <nav class="navbar" style="background: #fff; box-shadow: 0 2px 12px #2563eb1A;">
         <div class="nav-logo">
-            <a class="navbar-brand logo-text" th:href="@{/}">
-              <span class="logo-derm">DERM</span><span class="logo-ai">AI</span>
+            <a class="navbar-brand logo-text" th:href="@{/}" style="color: #2563eb;">
+              <span class="logo-derm" style="color: #2563eb;">DERM</span><span class="logo-ai" style="color: #1e40af; background: linear-gradient(90deg, #2563eb 0%, #1e40af 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">AI</span>
             </a>
         </div>
         <ul class="nav-links">
-            <li><a th:href="@{/}">Anasayfa</a></li>
-            <li><a th:href="@{/blog}">Blog</a></li>
-            <li><a th:href="@{/skintypes}">Cilt Tipleri</a></li>
-            <li><a th:href="@{/about}">Hakkında</a></li>
+            <li><a th:href="@{/}" style="color: #2563eb;">Anasayfa</a></li>
+            <li><a th:href="@{/blog}" style="color: #2563eb;">Blog</a></li>
+            <li><a th:href="@{/skintypes}" style="color: #2563eb;">Cilt Tipleri</a></li>
+            <li><a th:href="@{/about}" style="color: #2563eb;">Hakkında</a></li>
 
             <!-- Anonymous kullanıcılar -->
-            <li sec:authorize="isAnonymous()"><a th:href="@{/auth/login}">Giriş Yap</a></li>
-            <li sec:authorize="isAnonymous()"><a th:href="@{/auth/register}">Kayıt Ol</a></li>
+            <li sec:authorize="isAnonymous()"><a th:href="@{/auth/login}" style="color: #2563eb;">Giriş Yap</a></li>
+            <li sec:authorize="isAnonymous()"><a th:href="@{/auth/register}" style="color: #2563eb;">Kayıt Ol</a></li>
 
             <!-- Authenticated kullanıcılar -->
-            <li sec:authorize="isAuthenticated()"><a th:href="@{/user/profil}">Profil</a></li>
+            <li sec:authorize="isAuthenticated()"><a th:href="@{/user/profil}" style="color: #2563eb;">Profil</a></li>
             <li sec:authorize="isAuthenticated()">
-                <a href="#" class="logout-link" onclick="document.getElementById('logoutForm').submit(); return false;">Çıkış Yap</a>
+                <a href="#" class="logout-link" style="color: #2563eb;" onclick="document.getElementById('logoutForm').submit(); return false;">Çıkış Yap</a>
             </li>
         </ul>
     </nav>

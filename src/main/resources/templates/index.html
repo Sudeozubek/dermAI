@@ -7,12 +7,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/layer.css}">
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    
 
     <style>
         .logout-link {
            background: none;
            border: none;
-           color: #4F3CC9;
+           color: #2563eb;
            font-weight: 500;
            font-size: 1rem;
            padding: 0;
@@ -24,9 +25,115 @@
        }
 
        .logout-link:hover {
-           color: #301B7B;
+           color: #1e40af;
            text-decoration: underline;
        }
+       .modern-modal {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(37, 99, 235, 0.15);
+  padding: 48px 40px 40px 40px;
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  animation: modalFadeIn 0.3s;
+}
+
+@keyframes modalFadeIn {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modern-modal-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.modern-modal-icon {
+  font-size: 2.5rem;
+  margin-bottom: 8px;
+}
+
+.modern-modal-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #2563eb;
+}
+
+.modern-modal-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  justify-content: center;
+  margin-top: 32px;
+  margin-bottom: 8px;
+  padding: 0 16px;
+}
+
+.modern-btn {
+  min-width: 170px;
+  padding: 18px 0;
+  font-size: 1.15rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 12px;
+  background: #e3f0ff;
+  color: #2563eb;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.05);
+}
+
+.modern-btn.select {
+  background: linear-gradient(90deg, #e3f0ff 0%, #f0f6ff 100%);
+}
+
+.modern-btn.capture {
+  background: linear-gradient(90deg, #f0fff0 0%, #e0ffe7 100%);
+  color: #1e40af;
+}
+
+.modern-btn.cancel {
+  background: #fff0f3;
+  color: #e53e3e;
+}
+
+.modern-btn:hover {
+  background: #b3d1ff;
+  color: #2563eb;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.10);
+}
+
+.modern-btn.cancel:hover {
+  background: #ffe0e7;
+  color: #b91c1c;
+}
+
+.modern-modal-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 32px;
+  margin-left: 32px;
+}
+
+.modern-modal-list-item {
+  display: flex;
+  align-items: center;
+  font-size: 1.15rem;
+  color: #2563eb;
+  font-weight: 500;
+  gap: 10px;
+}
+
+.modern-modal-list-icon {
+  font-size: 1.3rem;
+  margin-right: 8px;
+}
     </style>
 </head>
 <body>
@@ -89,33 +196,64 @@
         
         <!-- Fotoğraf ekleme seçenek modalı -->
         <div id="photo-choice-modal" class="photo-modal" style="display:none;">
-          <div class="photo-modal-content">
-            <h3><span class="emoji">📷</span> Fotoğraf Ekle</h3>
-            <button id="choose-photo-btn"><span class="emoji">🖼️</span> Fotoğraf Seç</button>
-            <button id="take-photo-btn"><span class="emoji">🤳</span> Fotoğraf Çek</button>
-            <button id="photo-choice-cancel"><span class="emoji">❌</span> Vazgeç</button>
+          <div class="modern-modal">
+            <div class="modern-modal-header">
+              <span class="modern-modal-icon">📷</span>
+              <span class="modern-modal-title">Fotoğraf Ekle</span>
+            </div>
+            <div class="modern-modal-actions">
+              <button class="modern-btn select" id="choose-photo-btn">
+                <span>🖼️</span> Fotoğraf Seç
+              </button>
+              <button class="modern-btn capture" id="take-photo-btn">
+                <span>📸</span> Fotoğraf Çek
+              </button>
+              <button class="modern-btn cancel" id="photo-choice-cancel">
+                <span>❌</span> Vazgeç
+              </button>
+            </div>
           </div>
         </div>
         <!-- Fotoğraf uyarı modalı -->
         <div id="photo-warning-modal" class="photo-modal" style="display:none;">
-          <div class="photo-modal-content">
-            <h3><span class="emoji">💡</span> Fotoğraf Çekmeden/Seçmeden Önce</h3>
-            <ul>
-              <li>Işıklı bir ortamda olun.</li>
-              <li>Yüzünüz kameraya düz bakmalı.</li>
-              <li>Arka plan sade olmalı.</li>
-            </ul>
-            <button id="photo-warning-continue"><span class="emoji">👍</span> Tamam</button>
-            <button id="photo-warning-cancel"><span class="emoji">❌</span> Vazgeç</button>
+          <div class="modern-modal">
+            <div class="modern-modal-header">
+              <span class="modern-modal-icon">💡</span>
+              <span class="modern-modal-title">Fotoğraf Çekmeden/Seçmeden Önce</span>
+            </div>
+            <div class="modern-modal-list">
+              <div class="modern-modal-list-item"><span class="modern-modal-list-icon">💡</span> Işıklı bir ortamda olun.</div>
+              <div class="modern-modal-list-item"><span class="modern-modal-list-icon">💡</span> Yüzünüz kameraya düz bakmalı.</div>
+              <div class="modern-modal-list-item"><span class="modern-modal-list-icon">💡</span> Arka plan sade olmalı.</div>
+            </div>
+            <div class="modern-modal-actions">
+              <button class="modern-btn select" id="photo-warning-continue">
+                <span>👍</span> Tamam
+              </button>
+              <button class="modern-btn cancel" id="photo-warning-cancel">
+                <span>❌</span> Vazgeç
+              </button>
+            </div>
           </div>
         </div>
         <!-- Kamera modalı -->
         <div id="photo-camera-modal" class="photo-modal" style="display:none;">
-          <div class="photo-modal-content">
-            <h3><span class="emoji">🤳</span> Kameradan Fotoğraf Çek</h3>
-            <video id="camera-stream" autoplay playsinline width="320" height="240"></video>
-            <button id="capture-photo"><span class="emoji">📸</span> Fotoğrafı Çek</button>
-            <button id="photo-camera-close"><span class="emoji">❌</span> Kapat</button>
+          <div class="modern-modal">
+            <div class="modern-modal-header">
+              <span class="modern-modal-icon">🤳</span>
+              <span class="modern-modal-title">Kameradan Fotoğraf Çek</span>
+            </div>
+            <div style="display: flex; justify-content: center; margin-bottom: 32px;">
+              <video id="camera-stream" autoplay playsinline width="400" height="300" style="border-radius: 16px; box-shadow: 0 2px 16px rgba(90,62,200,0.08);"></video>
+            </div>
+            <div class="modern-modal-actions">
+              <button class="modern-btn capture" id="capture-photo">
+                <span>📸</span> Fotoğrafı Çek
+              </button>
+              <button class="modern-btn cancel" id="photo-camera-close">
+                <span>❌</span> Kapat
+              </button>
+            </div>
           </div>
         </div>
     </div>
