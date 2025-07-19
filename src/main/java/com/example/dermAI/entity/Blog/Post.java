@@ -2,13 +2,13 @@ package com.example.dermAI.entity.Blog;
 
 import com.example.dermAI.entity.User;
 import jakarta.persistence.*;
-import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Entity
 public class Post {
 
     @Id

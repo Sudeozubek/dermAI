@@ -6,12 +6,15 @@ import com.example.dermAI.dto.Blog.response.CommentResponse;
 import com.example.dermAI.dto.Blog.response.PostResponse;
 import com.example.dermAI.entity.Blog.Comment;
 import com.example.dermAI.entity.Blog.Post;
+import com.example.dermAI.enums.ReactionType;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-
-@Mapper(componentModel = "spring")
+@Mapper(
+        componentModel = "spring",
+        imports = { ReactionType.class }
+)
 public interface BlogMapper {
 
     @Mapping(target = "author.username", source = "authorUsername")

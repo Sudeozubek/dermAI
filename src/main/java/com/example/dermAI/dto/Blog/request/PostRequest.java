@@ -5,6 +5,8 @@ public class PostRequest {
 
     private String content;
 
+    private String authorUsername;
+
     public String getTitle() {
         return title;
     }
@@ -19,5 +21,13 @@ public class PostRequest {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getAuthorUsername() {
+        return authorUsername;
+    }
+
+    public void setAuthorUsername(String authorUsername) {
+        this.authorUsername = authorUsername;
     }
 }
