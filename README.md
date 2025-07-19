@@ -110,8 +110,8 @@ Ekip Sprint 1 sonunda genel iş paylaşımını değerlendirdi ve herkesin proje
 
 - **Backlog düzeni ve Story seçimleri**: Bu sprintte kullanıcı oturum yönetimi, loglama, frontend responsive testler, model eğitimi, veri artırma stratejisi ve Gemini API entegrasyonu gibi sistemin çalışabilirliğini sağlayan temel adımlar seçilmiştir. Veri bilimi tarafında DenseNet121 modeli ile yapılan eğitim süreci bu sprintte başarıyla tamamlanmıştır.
 
-- **Daily Scrum**: Meet üzerinden haftada 2 gün toplantı yapılarak yürütülmüştür. Ekran görüntüleri:  
-- [Sprint 2 - Daily Scrum Chats](https://imgur.com/a/qBWnqv6)
+- **Daily Scrum**: Meet üzerinden haftada 2 gün toplantı yapılarak yürütülmüştür. Sprint 2 Daily Scrum ekran görüntüleri:  
+- [Sprint 2 - Daily Scrum Chats](https://imgur.com/a/TgAoPFW)
 
 - **Sprint Board Güncellemesi**: Sprint 2 görevleri tamamlandıkça Done sütununa taşınmıştır. Sprint 3 için planlanan işler Sprint Backlog'da bekletilmekte ve önceliklendirilmektedir. Güncel sprint board durumu aşağıda yer almaktadır.
 
