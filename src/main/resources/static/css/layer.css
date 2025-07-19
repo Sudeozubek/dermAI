@@ -9,13 +9,14 @@ html, body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: linear-gradient(135deg, #e3f0ff 0%, #f0f6ff 100%);
 }
 * { box-sizing: border-box; }
 
 .navbar {
     width: 100%;
     background: #fff;
-    box-shadow: 0 2px 12px #4F3CC91A;
+    box-shadow: 0 2px 12px #2563eb1A;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -28,11 +29,11 @@ html, body {
     font-family: 'Montserrat', Arial, sans-serif;
     font-size: 2rem;
     font-weight: 700;
-    color: #4F3CC9;
+    color: #2563eb;
     letter-spacing: 2px;
   }
   .nav-glow .star-nav {
-    color: #4F8CFF;
+    color: #38bdf8;
     font-size: 1.5rem;
     margin: 0 0.1em;
     font-weight: 900;
@@ -48,13 +49,16 @@ html, body {
     font-family: 'Poppins', Arial, sans-serif;
     font-weight: 500;
     font-size: 1.1rem;
-    color: #4F3CC9;
+    color: #2563eb;
     text-decoration: none;
     transition: color 0.2s;
   }
+  .nav-links li a:hover {
+    color: #1e40af;
+  }
 
 .site-footer {
-  background: #232946;
+  background: #1e40af;
   color: #fff;
   text-align: center;
   padding: 1.5rem 1rem 1rem 1rem;
@@ -66,7 +70,7 @@ html, body {
   font-size: 1.1rem;
   font-weight: 600;
   letter-spacing: 1px;
-  color: #4F8CFF;
+  color: #38bdf8;
   margin-bottom: 0.3em;
   display: inline-block;
   font-family: 'Montserrat', Arial, sans-serif;

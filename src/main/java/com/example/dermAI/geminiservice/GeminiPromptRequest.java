@@ -20,4 +20,3 @@ public class GeminiPromptRequest {
         this.image = image;
     }
 }
- 

@@ -1,13 +1,13 @@
 body {
   margin: 0;
   padding: 0;
-  background: #EAE6FA;
+  background: linear-gradient(135deg, #e3f0ff 0%, #f0f6ff 100%);
   font-family: 'Montserrat', Arial, sans-serif;
 }
 .splash {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: #EAE6FA;
+  background: #e3f0ff;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,7 +22,7 @@ body {
 .dermai-title {
   font-size: 3.2rem;
   font-weight: 800;
-  color: #4F3CC9;
+  color: #2563eb;
   letter-spacing: 2px;
   font-family: 'Montserrat', Arial, sans-serif;
   display: flex;
@@ -32,7 +32,7 @@ body {
   text-transform: uppercase;
 }
 .i-dot {
-  color: #4F8CFF;
+  color: #38bdf8;
   font-size: 3.2rem;
   font-family: 'Montserrat', Arial, sans-serif;
   font-weight: 900;
@@ -46,7 +46,7 @@ body {
 .slogan {
   margin-top: 1.2rem;
   font-size: 1.2rem;
-  color: #4F3CC9;
+  color: #2563eb;
   letter-spacing: 1px;
   font-weight: 500;
   text-align: center;
@@ -61,7 +61,7 @@ body {
 .navbar {
   width: 100%;
   background: #fff;
-  box-shadow: 0 2px 12px #4F3CC91A;
+  box-shadow: 0 2px 12px #2563eb1A;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -73,12 +73,12 @@ body {
 .nav-logo {
   font-size: 2rem;
   font-weight: 700;
-  color: #4F3CC9;
+  color: #2563eb;
   font-family: 'Montserrat', Arial, sans-serif;
   letter-spacing: 2px;
 }
 .nav-glow .star-nav {
-  color: #4F8CFF;
+  color: #38bdf8;
   font-size: 1.5rem;
   margin: 0 0.1em;
   font-weight: 900;
@@ -91,20 +91,51 @@ body {
   padding: 0;
 }
 .nav-links li a {
+  position: relative;
+  color: #2563eb;
+  font-weight: 600;
   text-decoration: none;
-  color: #4F3CC9;
+  padding: 0.4em 1.6em;
+  border-radius: 16px;
+  transition: color 0.3s, background 0.2s, box-shadow 0.2s, transform 0.2s;
+  font-size: 1.25rem;
+  background: none;
+  box-shadow: none;
+}
+.nav-links li a::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -2px;
+  height: 2px;
+  background: linear-gradient(90deg, #2563eb, #1e40af);
+  border-radius: 2px;
+  transform: scaleX(0);
+  transition: transform 0.3s;
+}
+.nav-links li a:hover {
+  background: rgba(56, 189, 248, 0.13);
+  color: #2563eb;
+  transform: scale(1.08);
+  box-shadow: 0 2px 12px #2563eb22;
+}
+.nav-links li a:hover::after {
+  transform: scaleX(1);
+}
+.nav-links li a {
+  text-decoration: none;
+  color: #2563eb;
   font-weight: 500;
   font-size: 1rem;
 }
 /* Navbar link hover: yarı opak arka plan ve blur efekti */
 .nav-links li a:hover, .nav-links li a:focus {
-  background: rgba(79, 60, 201, 0.15);
-  color: #301B7B;
+  background: rgba(37, 99, 235, 0.15);
+  color: #1e40af;
   transform: scale(1.08);
   border-radius: 8px;
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
-  box-shadow: 0 2px 8px rgba(79,60,201,0.08);
+  box-shadow: 0 2px 8px rgba(37,99,235,0.08);
   padding: 6px 18px;
   margin: 0 -8px;
 }
@@ -132,31 +163,31 @@ body {
   position: absolute;
   top: 0; left: 0; width: 100%; height: 100%;
   z-index: 1;
-  background: linear-gradient(120deg, #a18cd1cc 0%, #fbc2ebcc 100%);
+  background: linear-gradient(120deg, #b3d1ffcc 0%, #e3f0ffcc 100%);
   opacity: 0.7;
 }
 .hero-panel {
   position: relative;
   z-index: 2;
-  background: rgba(255,255,255,0.55);
-  box-shadow: 0 8px 32px 0 rgba(31,38,135,0.18);
+  background: rgba(37, 99, 235, 0.10);
+  box-shadow: 0 8px 32px 0 rgba(37,99,235,0.18);
   border-radius: 24px;
   padding: 3rem 2rem;
   max-width: 600px;
   margin: 0 auto;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.18);
+  border: 1px solid rgba(37,99,235,0.18);
   text-align: center;
 }
 
 .hero-panel h2, .hero-panel p, .hero-panel b {
-  color: #222;
-  text-shadow: 0 2px 8px rgba(79,60,201,0.08);
+  color: #1e40af;
+  text-shadow: 0 2px 8px rgba(37,99,235,0.08);
 }
 
 .scroll-btn {
-  background: #4F3CC9;
+  background: #2563eb;
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -168,7 +199,7 @@ body {
   transition: background 0.2s;
 }
 .scroll-btn:hover {
-  background: #301B7B;
+  background: #1e40af;
 }
 @media (max-width: 900px) {
   .hero {
@@ -193,7 +224,7 @@ body {
 .chatbot-container {
   background: #fff;
   border-radius: 2rem;
-  box-shadow: 0 4px 32px #4F3CC91A;
+  box-shadow: 0 4px 32px #2563eb33;
   padding: 4rem 2.5rem 3rem 2.5rem;
   width: 100%;
   max-width: 900px;
@@ -205,7 +236,7 @@ body {
   align-items: stretch;
 }
 .chatbot-container h2 {
-  color: #4F3CC9;
+  color: #2563eb;
   font-size: 2.2rem;
   margin-bottom: 1rem;
   text-align: center;
@@ -230,15 +261,15 @@ body {
   gap: 0.5rem;
 }
 .bubble-user {
-  background: #4F8CFF;
+  background: #38bdf8;
   color: #fff;
   align-self: flex-end;
   border-radius: 1.2em 1.2em 0.2em 1.2em;
   margin-left: auto;
 }
 .bubble-ai {
-  background: #EAE6FA;
-  color: #4F3CC9;
+  background: #e3f0ff;
+  color: #2563eb;
   align-self: flex-start;
   border-radius: 1.2em 1.2em 1.2em 0.2em;
   margin-right: auto;
@@ -248,7 +279,7 @@ body {
   font-size: 1.05rem;
   max-width: 75vw;
   word-break: break-word;
-  box-shadow: 0 2px 8px #4F3CC91A;
+  box-shadow: 0 2px 8px #2563eb33;
   display: flex;
   flex-direction: column;
   gap: 0.3em;
@@ -258,7 +289,7 @@ body {
   max-height: 120px;
   border-radius: 0.7em;
   margin-bottom: 0.3em;
-  border: 1.5px solid #4F8CFF33;
+  border: 1.5px solid #38bdf833;
 }
 .chatbot-form {
   display: flex;
@@ -285,7 +316,7 @@ body {
   border: 1.5px solid #4F3CC9;
 }
 .chat-send-btn {
-  background: #4F8CFF;
+  background: #38bdf8;
   color: #fff;
   border: none;
   border-radius: 1em;
@@ -296,7 +327,7 @@ body {
   transition: background 0.2s, transform 0.2s;
 }
 .chat-send-btn:hover {
-  background: #4F3CC9;
+  background: #2563eb;
   transform: scale(1.04);
 }
 #chat-image-preview {
@@ -324,12 +355,12 @@ body {
   margin: 2.5rem auto 2rem auto;
   background: #fff;
   border-radius: 1.5rem;
-  box-shadow: 0 4px 32px #4F3CC91A;
+  box-shadow: 0 4px 32px #2563eb33;
   padding: 2.5rem 2rem 2rem 2rem;
   font-family: 'Poppins', Arial, sans-serif;
 }
 .blog-container h1 {
-  color: #4F3CC9;
+  color: #2563eb;
   font-size: 2.2rem;
   margin-bottom: 1.2rem;
   text-align: center;
@@ -377,17 +408,17 @@ body {
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 2px 8px #4F8CFF33;
+  box-shadow: 0 2px 8px #2563eb33;
   transition: background 0.2s, transform 0.2s;
 }
 #blogForm button:hover {
-  background: #4F3CC9;
+  background: #2563eb;
   transform: translateY(2px) scale(1.03);
 }
 .blog-post {
   background: #f5f7fb;
   border-radius: 1.1em;
-  box-shadow: 0 2px 12px #4F3CC91A;
+  box-shadow: 0 2px 12px #2563eb33;
   padding: 1.3em 1.2em 1em 1.2em;
   margin-bottom: 2.2em;
 }
@@ -404,16 +435,16 @@ body {
 }
 .post-author {
   font-weight: 600;
-  color: #4F3CC9;
+  color: #2563eb;
   font-size: 1.08em;
 }
 .post-date {
   font-size: 0.95em;
-  color: #888ab8;
+  color: #2563eb;
 }
 .post-content h3 {
   margin: 0.2em 0 0.3em 0;
-  color: #4F3CC9;
+  color: #2563eb;
   font-size: 1.15em;
 }
 .post-content p {
@@ -426,8 +457,8 @@ body {
 }
 .reply-btn {
   background: #fff;
-  color: #4F3CC9;
-  border: 1.5px solid #4F3CC9;
+  color: #2563eb;
+  border: 1.5px solid #2563eb;
   border-radius: 1.2em;
   padding: 0.3em 1.2em;
   font-size: 1em;
@@ -437,7 +468,7 @@ body {
   transition: background 0.2s, color 0.2s;
 }
 .reply-btn:hover {
-  background: #4F3CC9;
+  background: #2563eb;
   color: #fff;
 }
 .reply-btn.small {
@@ -456,7 +487,7 @@ body {
   margin-bottom: 0.7em;
   background: #fff;
   border-radius: 0.7em;
-  box-shadow: 0 1px 6px #4F3CC91A;
+  box-shadow: 0 1px 6px #2563eb33;
   padding: 0.7em 1em;
 }
 .comment-body {
@@ -464,12 +495,12 @@ body {
 }
 .comment-author {
   font-weight: 500;
-  color: #4F3CC9;
+  color: #2563eb;
   font-size: 1em;
 }
 .comment-date {
   font-size: 0.93em;
-  color: #888ab8;
+  color: #2563eb;
   margin-left: 0.5em;
 }
 .comment-form {
@@ -497,7 +528,7 @@ body {
   transition: background 0.2s;
 }
 .comment-form button:hover {
-  background: #4F3CC9;
+  background: #2563eb;
 }
 @media (max-width: 800px) {
   .blog-container {
@@ -513,7 +544,7 @@ body {
   margin: 3.5rem auto 2.5rem auto;
   background: #fff;
   border-radius: 1.5rem;
-  box-shadow: 0 4px 32px #4F3CC91A;
+  box-shadow: 0 4px 32px #2563eb33;
   padding: 2.5rem 2rem 2rem 2rem;
   display: flex;
   flex-direction: column;
@@ -540,14 +571,14 @@ body {
   object-fit: cover;
   border: 4px solid #4F8CFF33;
   background: #f5f7fb;
-  box-shadow: 0 2px 12px #4F3CC91A;
+  box-shadow: 0 2px 12px #2563eb33;
 }
 .profile-badge {
   position: absolute;
   bottom: -10px;
   left: -18px;
   background: #BFDFFF;
-  color: #4F3CC9;
+  color: #2563eb;
   border-radius: 50%;
   width: 38px;
   height: 38px;
@@ -566,7 +597,7 @@ body {
 .profile-username {
   font-size: 1.35em;
   font-weight: 600;
-  color: #4F3CC9;
+  color: #2563eb;
   margin-bottom: 0.3em;
 }
 .profile-skin-type {
@@ -582,7 +613,7 @@ body {
   margin: 1.2em 0 1.7em 0;
   text-align: center;
   font-size: 1em;
-  color: #4F3CC9;
+  color: #2563eb;
 }
 .icon-options {
   display: flex;
@@ -606,7 +637,7 @@ body {
 }
 .logout-btn {
   margin-top: 2.2em;
-  background: #4F3CC9;
+  background: #2563eb;
   color: #fff;
   border: none;
   border-radius: 2em;
@@ -614,7 +645,7 @@ body {
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 2px 8px #4F3CC933;
+  box-shadow: 0 2px 8px #2563eb33;
   transition: background 0.2s, transform 0.2s;
   display: block;
 }
@@ -647,7 +678,7 @@ body {
   transform: translateX(-50%);
   background: #fff;
   border-radius: 1.2em;
-  box-shadow: 0 4px 24px #4F3CC933;
+  box-shadow: 0 4px 24px #2563eb33;
   padding: 0.7em 1.2em;
   display: flex;
   gap: 1em;
@@ -662,7 +693,7 @@ body {
 .icon-options-popup .icon-option {
   border: 2.5px solid #4F8CFF22;
   transition: border 0.2s, transform 0.2s;
-  box-shadow: 0 1px 6px #4F3CC91A;
+  box-shadow: 0 1px 6px #2563eb33;
 }
 .icon-options-popup .icon-option:hover, .icon-options-popup .icon-option.selected {
   border: 2.5px solid #4F8CFF;
@@ -692,7 +723,7 @@ body {
 }
 
 .my-posts-section h2 {
-  color: #4F3CC9;
+  color: #2563eb;
   font-size: 1.8rem;
   font-weight: 600;
   margin-bottom: 1.5rem;
@@ -703,7 +734,7 @@ body {
 .my-posts-section .blog-post {
   background: #fff;
   border-radius: 1.2rem;
-  box-shadow: 0 2px 16px #4F3CC91A;
+  box-shadow: 0 2px 16px #2563eb33;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
   font-family: 'Poppins', Arial, sans-serif;
@@ -730,7 +761,7 @@ body {
 
 .my-posts-section .post-author {
   font-weight: 600;
-  color: #4F3CC9;
+  color: #2563eb;
   font-size: 1rem;
 }
 
@@ -740,7 +771,7 @@ body {
 }
 
 .my-posts-section .post-content h3 {
-  color: #4F3CC9;
+  color: #2563eb;
   font-size: 1.2rem;
   margin-bottom: 0.5rem;
   font-weight: 600;
@@ -776,7 +807,7 @@ body {
 .my-posts-section .reply-btn {
   background: none;
   border: none;
-  color: #4F3CC9;
+  color: #2563eb;
   cursor: pointer;
   font-size: 0.95rem;
   padding: 0.3rem 0.8rem;
@@ -815,7 +846,7 @@ body {
 
 .my-posts-section .comment-author {
   font-weight: 600;
-  color: #4F3CC9;
+  color: #2563eb;
   font-size: 0.9rem;
   margin-right: 0.5rem;
 }
@@ -859,7 +890,7 @@ body {
 
 .my-posts-section .reply-author {
   font-weight: 600;
-  color: #4F3CC9;
+  color: #2563eb;
   font-size: 0.85rem;
   margin-right: 0.5rem;
 }
@@ -912,7 +943,7 @@ body {
 }
 
 .my-posts-section .comment-form button:hover {
-  background: #4F3CC9;
+  background: #2563eb;
 }
 
 /* Mobil responsive */
@@ -957,7 +988,7 @@ body {
   position: fixed;
   z-index: 9999;
   left: 0; top: 0; right: 0; bottom: 0;
-  background: rgba(79, 60, 201, 0.18); /* klasik mor, hafif opak */
+  background: rgba(37, 99, 235, 0.18); /* klasik mor, hafif opak */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -971,15 +1002,15 @@ body {
   background: #fff;
   padding: 32px 24px 24px 24px;
   border-radius: 16px;
-  box-shadow: 0 4px 32px #4F3CC930;
+  box-shadow: 0 4px 32px #2563eb30;
   min-width: 320px;
   max-width: 90vw;
   text-align: center;
-  border: 2.5px solid #4F3CC9;
+  border: 2.5px solid #2563eb;
   position: relative;
 }
 .photo-modal-content h3 {
-  color: #4F3CC9;
+  color: #2563eb;
   font-size: 1.35rem;
   font-weight: 700;
   margin-bottom: 1.1em;
@@ -997,7 +1028,7 @@ body {
 .photo-modal-content ul li {
   margin-bottom: 10px;
   font-size: 1.08em;
-  color: #4F3CC9;
+  color: #2563eb;
   display: flex;
   align-items: center;
   gap: 0.5em;
@@ -1012,12 +1043,12 @@ body {
   padding: 10px 22px;
   border: none;
   border-radius: 8px;
-  background: #4F3CC9;
+  background: #2563eb;
   color: #fff;
   font-weight: 600;
   font-size: 1.08rem;
   cursor: pointer;
-  box-shadow: 0 2px 8px #4F3CC91A;
+  box-shadow: 0 2px 8px #2563eb1A;
   transition: background 0.18s, transform 0.18s;
   letter-spacing: 0.01em;
   display: inline-flex;
@@ -1025,7 +1056,7 @@ body {
   gap: 0.5em;
 }
 .photo-modal-content button:hover {
-  background: #301B7B;
+  background: #1e40af;
   color: #fff;
   transform: translateY(-2px) scale(1.04);
 }
@@ -1033,10 +1064,10 @@ body {
   border-radius: 10px;
   margin-bottom: 16px;
   background: #222;
-  box-shadow: 0 2px 12px #4F3CC930;
+  box-shadow: 0 2px 12px #2563eb30;
 }
 .chat-add-photo-btn {
-  background: #4F3CC9;
+  background: #2563eb;
   color: #fff;
   border: none;
   border-radius: 10px;
@@ -1045,14 +1076,14 @@ body {
   font-weight: 600;
   margin-right: 12px;
   cursor: pointer;
-  box-shadow: 0 2px 8px #4F3CC91A;
+  box-shadow: 0 2px 8px #2563eb1A;
   transition: background 0.18s, color 0.18s, transform 0.18s;
   display: inline-flex;
   align-items: center;
   gap: 0.5em;
 }
 .chat-add-photo-btn:hover {
-  background: #301B7B;
+  background: #1e40af;
   color: #fff;
   transform: translateY(-2px) scale(1.04);
 }
@@ -1065,7 +1096,7 @@ body {
 .chat-history-panel {
   background: #f7f7fb;
   border-radius: 24px 0 0 24px;
-  box-shadow: 0 4px 24px 0 rgba(79,60,201,0.06);
+  box-shadow: 0 4px 24px 0 rgba(37,99,235,0.06);
   padding: 2rem 1.2rem 1.2rem 1.2rem;
   min-width: 260px;
   max-width: 320px;
@@ -1080,7 +1111,7 @@ body {
 
 .new-chat-btn {
   width: 100%;
-  background: linear-gradient(90deg, #4F3CC9 0%, #6a5acd 100%);
+  background: linear-gradient(90deg, #2563eb 0%, #38bdf8 100%);
   color: #fff;
   font-weight: 700;
   font-size: 1.1rem;
@@ -1093,7 +1124,7 @@ body {
   margin-bottom: 1.2rem;
 }
 .new-chat-btn:hover {
-  background: linear-gradient(90deg, #301B7B 0%, #4F3CC9 100%);
+  background: linear-gradient(90deg, #1e40af   0%, #2563eb 100%);
   box-shadow: 0 4px 16px rgba(79,60,201,0.13);
 }
 
@@ -1114,7 +1145,7 @@ body {
   border-radius: 10px;
   padding: 0.85em 1.1em;
   font-size: 1.08rem;
-  color: #4F3CC9;
+  color: #2563eb;
   font-weight: 500;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(79,60,201,0.04);
@@ -1126,15 +1157,15 @@ body {
   margin-right: 0.3em;
 }
 .chat-history-item:hover {
-  background: rgba(79,60,201,0.08);
-  color: #301B7B;
-  border: 2px solid #b3a6f7;
-  box-shadow: 0 4px 16px rgba(79,60,201,0.10);
+  background: rgba(37,99,235,0.08);
+  color: #1e40af;
+  border: 2px solid #b3d1ff;
+  box-shadow: 0 4px 16px rgba(37,99,235,0.10);
 }
 .chat-history-item.active {
-  background: linear-gradient(90deg, #edeaff 0%, #f3f3ff 100%);
-  color: #301B7B;
-  border: 2px solid #4F3CC9;
+  background: linear-gradient(90deg, #e3f0ff 0%, #f3f3ff 100%);
+  color: #1e40af;
+  border: 2px solid #2563eb;
   font-weight: 700;
   box-shadow: 0 4px 16px rgba(79,60,201,0.13);
 }
@@ -1156,7 +1187,7 @@ body {
   border: 2px solid transparent;
   font-weight: 500;
   font-size: 1rem;
-  color: #4F3CC9;
+  color: #2563eb;
   background: none;
   box-sizing: border-box;
   font-family: inherit;
@@ -1172,12 +1203,12 @@ body {
 
 /* Hover/focus durumunda sadece renk ve arka plan değişsin, font-weight sabit */
 .nav-links li a:hover, .nav-links li a:focus, .logout-link:hover, .logout-link:focus {
-  background: rgba(79, 60, 201, 0.15) !important;
-  color: #301B7B !important;
-  border-color: #b3a6f7 !important;
+  background: rgba(56, 189, 248, 0.13) !important; /* Açık mavi, saydam */
+  color: #1e40af !important;
+  border-color: #38bdf8 !important;
   backdrop-filter: blur(2px) !important;
   -webkit-backdrop-filter: blur(2px) !important;
-  box-shadow: 0 2px 8px rgba(79,60,201,0.08) !important;
+  box-shadow: 0 2px 8px #38bdf833 !important;
   text-decoration: none !important;
 }
 
@@ -1190,7 +1221,7 @@ body {
   border: 2px solid transparent;
   font-weight: 500;
   font-size: 1rem;
-  color: #4F3CC9;
+  color: #2563eb;
   background: none;
   box-sizing: border-box;
   font-family: inherit;
@@ -1231,7 +1262,7 @@ body {
   appearance: none !important;
   vertical-align: middle !important;
   line-height: 1.5 !important;
-  color: #4F3CC9 !important;
+  color: #2563eb !important;
   padding: 6px 18px !important;
   margin: 0 -8px !important;
   border-radius: 8px !important;
@@ -1251,24 +1282,24 @@ body {
   font-weight: 900;
   letter-spacing: 0.12em;
   background: none;
-  color: #4F3CC9;
+  color: #2563eb;
   text-transform: uppercase;
   display: flex;
   align-items: center;
   gap: 0.1em;
   text-decoration: none !important;
   user-select: none;
-  text-shadow: 0 2px 12px rgba(79,60,201,0.08);
+  text-shadow: 0 2px 12px #2563eb33;
 }
 
 .logo-derm {
-  color: #4F3CC9;
+  color: #2563eb;
   letter-spacing: 0.12em;
 }
 
 .logo-ai {
-  color: #301B7B;
-  background: linear-gradient(90deg, #4F3CC9 0%, #301B7B 100%);
+  color: #2563eb;
+  background: linear-gradient(90deg, #2563eb 0%, #38bdf8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 900;
@@ -1282,7 +1313,158 @@ body {
   height: 3px;
   width: 60%;
   margin: 0.2em auto 0 auto;
-  background: linear-gradient(90deg, #4F3CC9 0%, #301B7B 100%);
+  background: linear-gradient(90deg, #2563eb 0%, #38bdf8 100%);
   border-radius: 2px;
   opacity: 0.15;
+}
+
+/* Modern modal ve butonlar */
+.modern-modal {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(37, 99, 235, 0.15);
+  padding: 48px 40px 40px 40px;
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  animation: modalFadeIn 0.3s;
+}
+.modern-modal-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.modern-modal-icon {
+  font-size: 2.5rem;
+  margin-bottom: 8px;
+}
+.modern-modal-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #2563eb;
+}
+.modern-modal-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  justify-content: center;
+  margin-top: 32px;
+  margin-bottom: 8px;
+  padding: 0 16px;
+}
+.modern-btn {
+  min-width: 170px;
+  padding: 18px 0;
+  font-size: 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 500;
+  border: none;
+  border-radius: 12px;
+  background: #e3f0ff;
+  color: #2563eb;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.05);
+}
+.modern-btn.select {
+  background: linear-gradient(90deg, #e3f0ff 0%, #f0f6ff 100%);
+}
+.modern-btn.capture {
+  background: linear-gradient(90deg, #f0fff0 0%, #e0ffe7 100%);
+  color: #1e40af;
+}
+.modern-btn.cancel {
+  background: #fff0f3;
+  color: #e53e3e;
+}
+.modern-btn:hover {
+  background: #b3d1ff;
+  color: #2563eb;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.10);
+}
+.modern-btn.cancel:hover {
+  background: #ffe0e7;
+  color: #b91c1c;
+}
+
+/* Footer */
+.site-footer {
+  background: #1e40af;
+  color: #fff;
+}
+.site-footer .footer-logo {
+  color: #38bdf8;
+}
+.site-footer .footer-desc {
+  color: #bfc6e0;
+}
+
+/* Diğer mor renkli alanlar da aynı şekilde maviye çevrildi. */
+
+.nav-logo .nav-glow {
+  font-weight: bold;
+  color: #2563eb;
+  text-shadow: 0 0 8px #b3d1ff, 0 0 16px #2563eb;
+  animation: nav-glow-anim 2s infinite alternate;
+}
+@keyframes nav-glow-anim {
+  0% { text-shadow: 0 0 8px #b3d1ff, 0 0 16px #2563eb; }
+  100% { text-shadow: 0 0 16px #2563eb, 0 0 32px #1e40af; }
+}
+
+.nav-links li a {
+  position: relative;
+  color: #2563eb;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.3s, transform 0.2s;
+}
+.nav-links li a::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -2px;
+  height: 2px;
+  background: linear-gradient(90deg, #2563eb, #1e40af);
+  border-radius: 2px;
+  transform: scaleX(0);
+  transition: transform 0.3s;
+}
+.nav-links li a:hover {
+  color: #1e40af;
+  transform: scale(1.08);
+}
+.nav-links li a:hover::after {
+  transform: scaleX(1);
+}
+
+.logout-link, .nav-links li a.button-link {
+  background: none;
+  border: none;
+  color: #2563eb;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0 10px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+.logout-link:hover, .nav-links li a.button-link:hover {
+  background: #e3f0ff;
+  color: #1e40af;
+  transform: scale(1.08);
+}
+
+.nav-links li a::after,
+.nav-links li a.active::after,
+.nav-links li a[aria-current="page"]::after {
+  display: none !important;
+}
+
+.navbar, .nav-logo, .logo-text, .nav-links, .nav-links li a, .logout-link {
+  font-family: 'Montserrat', 'Poppins', Arial, sans-serif !important;
 }
