@@ -115,7 +115,7 @@ Ekip Sprint 1 sonunda genel iş paylaşımını değerlendirdi ve herkesin proje
 
 - **Sprint Board Güncellemesi**: Sprint 2 görevleri tamamlandıkça Done sütununa taşınmıştır. Sprint 3 için planlanan işler Sprint Backlog'da bekletilmekte ve önceliklendirilmektedir. Güncel sprint board durumu aşağıda yer almaktadır.
 
-![Sprint Board](images/Sprint.png)
+![Sprint Board](images/sprint2.png)
 
 ---
 
