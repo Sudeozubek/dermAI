@@ -48,3 +48,111 @@
 .comment-date, .post-date {
   color: #38bdf8 !important;
 }
+
+/* overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* kutu */
+.modal-content {
+  background: #fff;
+  border-radius: 0.5rem;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  position: relative;
+  padding: 1.5rem;
+}
+
+/* başlık + X tuşu */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+.modal-close {
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+/* footer düğmeleri */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.modal-footer .btn-cancel {
+  background: #ccc;
+  padding: .5rem 1rem;
+  border: none;
+  border-radius: .25rem;
+  cursor: pointer;
+}
+.modal-footer .btn-delete {
+  background: #e53e3e;
+  color: #fff;
+  padding: .5rem 1rem;
+  border: none;
+  border-radius: .25rem;
+  cursor: pointer;
+}
+
+/* Gönder butonuyla aynı boyut, font, padding vs.  */
+.delete-btn,
+.btn-danger {
+  /* Eğer .delete-btn başka stil içeriyorsa bu satırı silebilirsin */
+  /* ortak button reset */
+  display: inline-block;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+/* Kırmızı – koyu kırmızı degrade */
+.btn-danger {
+  background: linear-gradient(135deg, #f56565 /* açık kırmızı */, #c53030 /* koyu kırmızı */);
+  color: white;
+}
+
+/* Hover / aktif halleri */
+.btn-danger:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #e53e3e, #9b2c2c);
+}
+.btn-danger:active {
+  transform: translateY(0);
+  background: linear-gradient(135deg, #c53030, #822727);
+}
+
+/* 1) post-header’ı flex container yapalım */
+.post-header {
+  display: flex;
+  align-items: center;      /* ortalama için */
+  /* justify-content: space-between;  // isterseniz tüm içeriği ikiye ayırmak için */
+}
+
+/* 2) butonu sağa itmek için */
+.post-header .btn-danger {
+  margin-left: auto;
+}

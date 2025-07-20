@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="tr" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="tr"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -11,6 +11,13 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/blog.css}">
     <link rel="stylesheet" th:href="@{/css/toast.css}">
+    <script defer th:src="@{/js/toast.js}"></script>
+
+    <style>
+        /* x-cloak ile işaretlenmiş her şeyi Alpine başladığında gizle */
+        [x-cloak] { display: none !important; }
+    </style>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body>
 
@@ -20,37 +27,34 @@
 <div class="main-content show">
     <div class="blog-container">
         <h1>Blog</h1>
-        <section class="blog-share">
+        <section class="blog-share" th:if="${isAuthenticated}">
             <h2>Ne paylaşmak istersin?</h2>
+            <form class="blog-form"
+                  id="blogForm"
+                  method="post"
+                  th:action="@{/blog/posts}"
+                  th:object="${postRequest}">
 
-            <sec:authorize access="isAuthenticated()">
-                <form class="blog-form"
-                      id="blogForm"
-                      method="post"
-                      th:action="@{/blog/posts}"
-                      th:object="${postRequest}">
+                <div>
+                    <label for="title">Başlık</label>
+                    <input id="title"
+                           placeholder="Başlık"
+                           required
+                           th:field="*{title}"
+                           type="text"/>
+                </div>
 
-                    <div>
-                        <label for="title">Başlık</label>
-                        <input id="title"
-                               placeholder="Başlık"
-                               required
-                               th:field="*{title}"
-                               type="text"/>
-                    </div>
+                <div>
+                    <label for="content">İçerik</label>
+                    <textarea id="content"
+                              placeholder="Cilt sorununu veya önerini yaz..."
+                              required
+                              rows="4"
+                              th:field="*{content}"></textarea>
+                </div>
 
-                    <div>
-                        <label for="content">İçerik</label>
-                        <textarea id="content"
-                                  placeholder="Cilt sorununu veya önerini yaz..."
-                                  required
-                                  rows="4"
-                                  th:field="*{content}"></textarea>
-                    </div>
-
-                    <button id="submitPost" type="submit">Paylaş</button>
-                </form>
-            </sec:authorize>
+                <button id="submitPost" type="submit">Paylaş</button>
+            </form>
         </section>
 
         <!-- Paylaşımlar -->
@@ -63,17 +67,44 @@
             </div>
 
             <!-- Post listesi -->
-            <div class="blog-post" th:each="post : ${posts.content}">
+            <div class="blog-post" th:each="post : ${posts.content}" x-data="{ open: false }">
                 <div class="post-header">
                     <span class="post-author" th:text="${post.authorUsername}">Yazar</span>
                     <span class="post-date"
                           th:text="${#temporals.format(post.createdAt, 'dd MMMM yyyy')}">
                     </span>
+
+                    <!-- sadece post’un yazarıysa göster -->
+                    <button
+                            @click="open = true"
+                            class="delete-btn btn-danger"
+                            th:if="${currentUsername != null and currentUsername == post.authorUsername}">
+                        Paylaşımımı Sil
+                    </button>
+
+                    <!-- silme modal’ı da aynı koşulun içinde kalır -->
+                    <div class="modal-overlay" x-cloak x-show="open">
+                        <div @click.away="open = false" class="modal-content">
+                            <div class="modal-header">
+                                <h3>Silme Onayı</h3>
+                                <button @click="open = false" class="modal-close">×</button>
+                            </div>
+                            <p>Bu yazıyı silmek istediğinize emin misiniz?</p>
+                            <div class="modal-footer">
+                                <button @click="open = false" class="btn-cancel">Vazgeç</button>
+                                <form method="post" th:action="@{/blog/posts/{id}/delete(id=${post.id})}">
+                                    <input sec:csrfInput type="hidden"/>
+                                    <button class="btn-delete" type="submit">Sil</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="post-content">
-                    <h3 th:text="${post.title}">Post Başlığı</h3>
-                    <p th:text="${post.content}">Post içeriği buraya gelecek...</p>
+                    <h3 th:text="${post.title}"></h3>
+                    <p th:text="${post.content}"></p>
                 </div>
 
                 <div class="post-actions">
@@ -98,7 +129,7 @@
                         <span class="comment-date"
                               th:text="${#temporals.format(cmt.createdAt, 'dd MMM yyyy HH:mm')}">
                         </span>
-                        <p th:text="${cmt.content}">Yorum içeriği...</p>
+                        <p th:text="${cmt.content}"></p>
                     </div>
 
                     <!-- Yeni yorum formu -->
@@ -114,28 +145,26 @@
                 </div>
 
             </div>
-
-            <!-- Sayfalama -->
-            <div class="pagination"
-                 th:if="${posts.totalPages > 1}">
-                <a th:href="@{/blog(page=${posts.number-1},size=${posts.size})}"
-                   th:if="${posts.hasPrevious()}">
-                    « Geri
-                </a>
-                <span th:text="${posts.number + 1} + ' / ' + ${posts.totalPages}"></span>
-                <a th:href="@{/blog(page=${posts.number+1},size=${posts.size})}"
-                   th:if="${posts.hasNext()}">
-                    İleri »
-                </a>
-            </div>
         </section>
+    </div>
 
+    <!-- Sayfalama -->
+    <div class="pagination"
+         th:if="${posts.totalPages > 1}">
+        <a th:href="@{/blog(page=${posts.number-1},size=${posts.size})}"
+           th:if="${posts.hasPrevious()}">
+            « Geri
+        </a>
+        <span th:text="${posts.number + 1} + ' / ' + ${posts.totalPages}"></span>
+        <a th:href="@{/blog(page=${posts.number+1},size=${posts.size})}"
+           th:if="${posts.hasNext()}">
+            İleri »
+        </a>
     </div>
 </div>
 
 <div th:replace="fragments/footer :: footer"></div>
 
-<script th:src="@{/js/toast.js}" defer></script>
 <!--<script th:src="@{/js/app.js}"></script>-->
 
 </body>

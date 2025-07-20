@@ -18,9 +18,11 @@ import com.example.dermAI.enums.ReactionType;
 import com.example.dermAI.mapper.Blog.BlogMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -53,6 +55,15 @@ public class BlogServiceImpl implements BlogService {
         post.setAuthor(user);
         post = postRepo.save(post);
         return mapper.toPostResponse(post, reactionRepo);
+    }
+
+    @Override
+    public void deletePost(String username, UUID postId) {
+        Post post = postRepo.findById(postId).orElseThrow(() -> new NoSuchElementException("Post bulunamadı"));
+        if (!post.getAuthor().getUsername().equals(username)) {
+            throw new AccessDeniedException("Bu işlemi yapmaya yetkiniz yok");
+        }
+        postRepo.delete(post);
     }
 
     public PostResponse getPost(UUID postId) {
