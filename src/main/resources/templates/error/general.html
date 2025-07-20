@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hata Oluştu</title>
+</head>
+<body>
+<h1>Üzgünüz, bir hata meydana geldi.</h1>
+<p th:text="${errorMessage}"></p>
+<a th:href="@{/}">Anasayfaya Dön</a>
+</body>
+</html>

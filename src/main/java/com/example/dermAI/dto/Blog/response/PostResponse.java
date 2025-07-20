@@ -2,6 +2,7 @@ package com.example.dermAI.dto.Blog.response;
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public class PostResponse {
@@ -18,6 +19,8 @@ public class PostResponse {
     private long likeCount;
 
     private long dislikeCount;
+
+    private List<CommentResponse> comments;
 
     public UUID getId() {
         return id;
@@ -73,5 +76,13 @@ public class PostResponse {
 
     public void setDislikeCount(long dislikeCount) {
         this.dislikeCount = dislikeCount;
+    }
+
+    public List<CommentResponse> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentResponse> comments) {
+        this.comments = comments;
     }
 }

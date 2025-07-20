@@ -6,11 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class PageController {
 
-    @GetMapping("/blog")
-    public String blog() {
-        return "blog/blog";
-    }
-
     @GetMapping("/skintypes")
     public String skintypes() {
         return "skintypes";

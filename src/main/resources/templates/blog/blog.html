@@ -6,143 +6,137 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Blog - Cilt Sorunları ve Öneriler</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" th:href="@{/css/layer.css}">
-  <link rel="stylesheet" th:href="@{/css/style.css}">
-    <style>
-.blog-container h1, .blog-container h2, .blog-share h2 {
-  color: #2563eb !important;
-  font-weight: 700;
-}
-
-.post-author, .comment-author {
-  color: #1e40af !important;
-  font-weight: 600;
-}
-
-#blogForm button {
-  background: linear-gradient(135deg, #2563eb 0%, #38bdf8 100%);
-  color: #fff;
-  font-weight: 700;
-  border: none;
-  border-radius: 20px;
-  box-shadow: 0 4px 24px #2563eb22;
-  padding: 0.9rem 2.2rem;
-  font-size: 1.35rem;
-  cursor: pointer;
-  transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
-  min-width: 120px;
-  min-height: 56px;
-  display: inline-block;
-}
-#blogForm button:hover {
-  background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
-  box-shadow: 0 8px 32px #2563eb33;
-  transform: translateY(-2px) scale(1.04);
-}
-.blog-post, .comment, .reply {
-  background: linear-gradient(135deg, #f0f6ff 0%, #e3f0ff 100%);
-  border-radius: 1.2em;
-  box-shadow: 0 2px 12px #2563eb11;
-  border: 1.5px solid #e3f0ff;
-}
-.post-header, .comment {
-  color: #1e40af;
-}
-.post-author, .comment-author {
-  color: #2563eb !important;
-  font-weight: 700;
-}
-.post-content h3 {
-  color: #1e40af !important;
-  font-weight: 700;
-}
-.comment-date, .post-date {
-  color: #38bdf8 !important;
-}
-</style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/layer.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/blog.css}">
+    <link rel="stylesheet" th:href="@{/css/toast.css}">
 </head>
 <body>
 
 <div th:replace="fragments/navbar :: navbar"></div>
+<div th:replace="fragments/messages :: messages"></div>
 
 <div class="main-content show">
     <div class="blog-container">
         <h1>Blog</h1>
         <section class="blog-share">
             <h2>Ne paylaşmak istersin?</h2>
-            <form id="blogForm">
-                <div class="profile-input-row">
-                    <img alt="Profil" class="profile-icon" id="currentUserIcon" th:src="@{/image/icon1.png}">
-                    <span id="currentUserName">Kullanıcı</span>
-                </div>
-                <input id="postTitle" placeholder="Başlık" required type="text"><br>
-                <textarea id="postContent" placeholder="Cilt sorununu veya önerini yaz..." required></textarea><br>
-                <button type="submit">Paylaş</button>
-            </form>
+
+            <sec:authorize access="isAuthenticated()">
+                <form class="blog-form"
+                      id="blogForm"
+                      method="post"
+                      th:action="@{/blog/posts}"
+                      th:object="${postRequest}">
+
+                    <div>
+                        <label for="title">Başlık</label>
+                        <input id="title"
+                               placeholder="Başlık"
+                               required
+                               th:field="*{title}"
+                               type="text"/>
+                    </div>
+
+                    <div>
+                        <label for="content">İçerik</label>
+                        <textarea id="content"
+                                  placeholder="Cilt sorununu veya önerini yaz..."
+                                  required
+                                  rows="4"
+                                  th:field="*{content}"></textarea>
+                    </div>
+
+                    <button id="submitPost" type="submit">Paylaş</button>
+                </form>
+            </sec:authorize>
         </section>
-        <hr>
+
+        <!-- Paylaşımlar -->
         <section class="blog-posts">
             <h2>Paylaşımlar</h2>
-            <div id="postsList">
-                <!-- Örnek bir post -->
-                <div class="blog-post">
-                    <div class="post-header">
-                        <img alt="Profil" class="profile-icon" th:src="@{/image/icon1.png}">
-                        <div class="post-user-info">
-                            <span class="post-author">Ayşe</span>
-                            <span class="post-date">10 Mayıs 2024</span>
-                        </div>
-                    </div>
-                    <div class="post-content">
-                        <h3>Yanakta Kızarıklık</h3>
-                        <p>Son zamanlarda yanaklarımda sürekli bir kızarıklık oluyor. Benzer sorun yaşayan var mı? Ne
-                            önerirsiniz?</p>
-                    </div>
-                    <div class="post-actions">
-                        <button class="like-btn">❤️ 3</button>
-                        <button class="reply-btn">Yanıtla</button>
-                    </div>
-                    <div class="post-comments">
-                        <div class="comment">
-                            <img alt="Profil" class="profile-icon comment-icon" th:src="@{/image/icon3.png}">
-                            <div class="comment-body">
-                                <span class="comment-author">Mehmet</span>
-                                <span class="comment-date">10 Mayıs 2024</span>
-                                <p>Ben de benzer bir sorun yaşadım, nemlendirici kullanmak iyi geliyor. Özellikle hassas
-                                    ciltler için olanları deneyebilirsin.</p>
-                                <button class="like-btn small">❤️ 1</button>
-                                <button class="reply-btn small">Yanıtla</button>
-                            </div>
-                        </div>
-                        <!-- Yorum ekleme alanı -->
-                        <form class="comment-form">
-                            <img alt="Profil" class="profile-icon comment-icon" id="currentUserIconComment"
-                                 th:src="@{/image/icon1.png}">
-                            <input placeholder="Yanıtını yaz..." required type="text">
-                            <button type="submit">Gönder</button>
-                        </form>
-                    </div>
+
+            <!-- Hiç post yoksa -->
+            <div th:if="${posts.empty}">
+                <p>Henüz paylaşım yok. İlk paylaşımı sen yap!</p>
+            </div>
+
+            <!-- Post listesi -->
+            <div class="blog-post" th:each="post : ${posts.content}">
+                <div class="post-header">
+                    <span class="post-author" th:text="${post.authorUsername}">Yazar</span>
+                    <span class="post-date"
+                          th:text="${#temporals.format(post.createdAt, 'dd MMMM yyyy')}">
+                    </span>
                 </div>
+
+                <div class="post-content">
+                    <h3 th:text="${post.title}">Post Başlığı</h3>
+                    <p th:text="${post.content}">Post içeriği buraya gelecek...</p>
+                </div>
+
+                <div class="post-actions">
+                    <form class="inline-form"
+                          method="post"
+                          th:action="@{/blog/posts/{id}/reactions(id=${post.id})}">
+                        <input name="type" type="hidden" value="LIKE"/>
+                        <button type="submit">❤️ <span th:text="${post.likeCount}">0</span></button>
+                    </form>
+                    <form class="inline-form"
+                          method="post"
+                          th:action="@{/blog/posts/{id}/reactions(id=${post.id})}">
+                        <input name="type" type="hidden" value="DISLIKE"/>
+                        <button type="submit">👎 <span th:text="${post.dislikeCount}">0</span></button>
+                    </form>
+                </div>
+
+                <!-- Yorumlar -->
+                <div class="post-comments">
+                    <div class="comment" th:each="cmt : ${post.comments}">
+                        <span class="comment-author" th:text="${cmt.authorUsername}">Yorumcu</span>
+                        <span class="comment-date"
+                              th:text="${#temporals.format(cmt.createdAt, 'dd MMM yyyy HH:mm')}">
+                        </span>
+                        <p th:text="${cmt.content}">Yorum içeriği...</p>
+                    </div>
+
+                    <!-- Yeni yorum formu -->
+                    <form class="comment-form"
+                          method="post"
+                          th:action="@{/blog/posts/{id}/comments(id=${post.id})}">
+                        <input name="content"
+                               placeholder="Yorumunuzu yazın"
+                               required
+                               type="text"/>
+                        <button type="submit">Gönder</button>
+                    </form>
+                </div>
+
+            </div>
+
+            <!-- Sayfalama -->
+            <div class="pagination"
+                 th:if="${posts.totalPages > 1}">
+                <a th:href="@{/blog(page=${posts.number-1},size=${posts.size})}"
+                   th:if="${posts.hasPrevious()}">
+                    « Geri
+                </a>
+                <span th:text="${posts.number + 1} + ' / ' + ${posts.totalPages}"></span>
+                <a th:href="@{/blog(page=${posts.number+1},size=${posts.size})}"
+                   th:if="${posts.hasNext()}">
+                    İleri »
+                </a>
             </div>
         </section>
+
     </div>
 </div>
 
 <div th:replace="fragments/footer :: footer"></div>
 
-<script th:src="@{/js/app.js}"></script>
+<script th:src="@{/js/toast.js}" defer></script>
+<!--<script th:src="@{/js/app.js}"></script>-->
 
-<script>
-    // Giriş yapan kullanıcının adı ve iconunu otomatik doldur
-    window.onload = function() {
-        var user = localStorage.getItem('username') || 'Kullanıcı';
-        var icon = localStorage.getItem('profileIcon') || 'icon1.png';
-        document.getElementById('currentUserName').textContent = user;
-        document.getElementById('currentUserIcon').src = icon;
-        var commentIcon = document.getElementById('currentUserIconComment');
-        if(commentIcon) commentIcon.src = icon;
-    }
-</script>
 </body>
 </html> 

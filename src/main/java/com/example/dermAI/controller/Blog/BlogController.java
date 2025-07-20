@@ -7,19 +7,22 @@ import com.example.dermAI.dto.Blog.response.CommentResponse;
 import com.example.dermAI.dto.Blog.response.PostResponse;
 import com.example.dermAI.dto.Blog.response.ReactionResponse;
 import com.example.dermAI.service.Blog.BlogService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/blog/posts")
+@RequestMapping("/blog")
 public class BlogController {
 
     private final BlogService blogService;
@@ -28,28 +31,43 @@ public class BlogController {
         this.blogService = blogService;
     }
 
-    @GetMapping
-    public Page<PostResponse> getAll(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    /**
+     * Hem GET hem de POST’da ihtiyaç duyulan 'posts' listesini
+     * her request için otomatik model’e yükler.
+     */
+    @ModelAttribute("posts")
+    public Page<PostResponse> populatePosts(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return blogService.listPosts(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt")));
     }
 
-    @PostMapping
-    public ResponseEntity<PostResponse> create(@AuthenticationPrincipal(expression = "username") String username, @RequestBody PostRequest req) {
-        PostResponse resp = blogService.createPost(username, req);
-        return ResponseEntity.status(HttpStatus.CREATED).body(resp);
+    @GetMapping
+    public String viewBlog(Model model) {
+        model.addAttribute("postRequest", new PostRequest());
+        return "blog/blog";
     }
 
-    @GetMapping("/{id}")
+    @PostMapping(path = "/posts", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public String createPostForm(@AuthenticationPrincipal(expression = "username") String username, @Valid @ModelAttribute("postRequest") PostRequest postRequest, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            return "blog/blog";
+        }
+
+        blogService.createPost(username, postRequest);
+        redirectAttributes.addFlashAttribute("successMessage", "Yazınız başarıyla yayınlandı!");
+        return "redirect:/blog";
+    }
+
+    @GetMapping("/posts/{id}")
     public PostResponse getOne(@PathVariable UUID id) {
         return blogService.getPost(id);
     }
 
-    @PostMapping("/{id}/comments")
+    @PostMapping("/posts/{id}/comments")
     public CommentResponse comment(@AuthenticationPrincipal(expression = "username") String username, @PathVariable UUID id, @RequestBody CommentRequest req) {
         return blogService.addComment(username, id, req);
     }
 
-    @PostMapping("/{id}/reactions")
+    @PostMapping("/posts/{id}/reactions")
     public ReactionResponse react(@AuthenticationPrincipal(expression = "username") String username, @PathVariable UUID id, @RequestBody ReactionRequest req) {
         return blogService.react(username, id, req);
     }
