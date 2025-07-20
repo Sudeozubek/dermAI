@@ -100,3 +100,52 @@ Ekip Sprint 1 sonunda genel iş paylaşımını değerlendirdi ve herkesin proje
 
 ---
 
+# **Sprint 2**
+
+- **Sprint Notları**: User Story’ler Trello kartlarında detaylı biçimde yazılmıştır. Kartlara tıklandığında görev kapsamları görülebilir. Yeterince açıklayıcı görev adı olan kartlarda görev kapsamları eklenmemiştir.
+
+- **Sprint içinde tamamlanması tahmin edilen puan**: 100 Puan
+
+- **Puan tamamlama mantığı**: Projenin toplamda 300 puanlık backlog’u vardır. Sprint 2 için 100 puan planlanmış, işlerin büyük çoğunluğu tamamlanmış ve bazı maddeler Sprint 3’e aktarılmıştır.
+
+- **Backlog düzeni ve Story seçimleri**: Bu sprintte kullanıcı oturum yönetimi, loglama, frontend responsive testler, model eğitimi, veri artırma stratejisi ve Gemini API entegrasyonu gibi sistemin çalışabilirliğini sağlayan temel adımlar seçilmiştir. Veri bilimi tarafında DenseNet121 modeli ile yapılan eğitim süreci bu sprintte başarıyla tamamlanmıştır.
+
+- **Daily Scrum**: Meet üzerinden haftada 2 gün toplantı yapılarak yürütülmüştür. Sprint 2 Daily Scrum ekran görüntüleri:  
+- [Sprint 2 - Daily Scrum Chats](https://imgur.com/a/TgAoPFW)
+
+- **Sprint Board Güncellemesi**: Sprint 2 görevleri tamamlandıkça Done sütununa taşınmıştır. Sprint 3 için planlanan işler Sprint Backlog'da bekletilmekte ve önceliklendirilmektedir. Güncel sprint board durumu aşağıda yer almaktadır.
+
+![Sprint Board](images/sprint2.png)
+
+---
+
+<details> <summary><h3>Ürün Durumu: Ekran Görüntüleri</h3></summary>
+  
+  ![Ürün Görseli](images/urun1.jpg)
+  ![Ürün Görseli](images/urun2.jpg)
+  ![Ürün Görseli](images/urun3.jpg)
+
+  </details>
+
+## **Sprint Review**
+
+Sprint 2 kapsamında ekip, sistemin temel işlevlerini bir araya getirerek çalışır bir uygulama bütünlüğü sağlamaya odaklandı.  
+Backend tarafında kullanıcı oturum yönetimi, loglama altyapısı ve Gemini API için gerekli entegrasyon testleri gerçekleştirildi. Frontend tarafında responsive tasarım güncellemeleri tamamlandı ve arayüz testleri ile sistem uyumluluğu doğrulandı.  
+Veri bilimi tarafında model eğitimi süreci **DenseNet121 mimarisi** kullanılarak başarıyla tamamlandı. Eğitim ve doğrulama verileriyle yapılan testler sonucu elde edilen metrikler analiz edildi. Bu sprint ile birlikte model eğitimi süreci tamamlandı; kalan işler final raporlama ve çıktıların proje deposuna eklenmesi olarak planlandı.  
+Sprint boyunca planlanan işlerin büyük bölümü tamamlandı, premium özellikler ise Sprint 3’e aktarıldı.  
+Ekip, mevcut çıktıları değerlendirerek bir sonraki sprint için öncelikli işleri netleştirdi.
+
+**Sprint Review katılımcıları:** Sude Özübek, Furkan Aras, Batuhan Umay, Ayşe Verda Gülcemal, Rabia Yılmaz
+
+
+## Sprint Retrospective
+
+Ekip Sprint 2 sonunda proje sürecini genel hatlarıyla değerlendirdi. Tüm üyelerin sorumluluklarını zamanında ve uyumlu bir şekilde tamamladığı görüldü.  
+Veri bilimi tarafında model eğitimi tamamlandı, Sprint 3’e yalnızca **Confusion Matrix & final metrik raporu** ile **model çıktısının repo’ya eklenmesi** gibi son dokümantasyon görevleri bırakıldı.  
+Backend ve frontend taraflarında kalan işlerin daha hızlı ilerleyebilmesi için odak noktası yazılım stabilitesi ve kullanıcı deneyimi olarak belirlendi.  
+Premium modüller, entegrasyonları ve erişim kontrolleri için Sprint 3’e taşındı.
+
+Sprint 3’te ekip, genel sistem kararlılığını artırmaya, çıktıları ürünleştirmeye ve kullanıcıya sunulabilir hale getirmeye odaklanacaktır.
+
+
+---
