@@ -1,0 +1,14 @@
+<div th:fragment="messages">
+    <div aria-atomic="true" aria-live="polite" class="toast-container">
+        <!-- Başarı Mesajı -->
+        <div class="toast toast--success" th:if="${successMessage}">
+            <span class="toast__text" th:text="${successMessage}"></span>
+            <button class="toast__close" onclick="closeToast(this)">×</button>
+        </div>
+        <!-- Hata Mesajı -->
+        <div class="toast toast--error" th:if="${errorMessage}">
+            <span class="toast__text" th:text="${errorMessage}"></span>
+            <button class="toast__close" onclick="closeToast(this)">×</button>
+        </div>
+    </div>
+</div>
