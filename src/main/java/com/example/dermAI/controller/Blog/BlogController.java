@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,10 +32,6 @@ public class BlogController {
         this.blogService = blogService;
     }
 
-    /**
-     * Hem GET hem de POST’da ihtiyaç duyulan 'posts' listesini
-     * her request için otomatik model’e yükler.
-     */
     @ModelAttribute("posts")
     public Page<PostResponse> populatePosts(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return blogService.listPosts(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt")));
@@ -47,6 +44,7 @@ public class BlogController {
     }
 
     @PostMapping(path = "/posts", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PreAuthorize("isAuthenticated()")
     public String createPostForm(@AuthenticationPrincipal(expression = "username") String username, @Valid @ModelAttribute("postRequest") PostRequest postRequest, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "blog/blog";
@@ -54,6 +52,14 @@ public class BlogController {
 
         blogService.createPost(username, postRequest);
         redirectAttributes.addFlashAttribute("successMessage", "Yazınız başarıyla yayınlandı!");
+        return "redirect:/blog";
+    }
+
+    @PostMapping("/posts/{id}/delete")
+    @PreAuthorize("#username == principal.username")
+    public String deletePost(@AuthenticationPrincipal(expression = "username") String username, @PathVariable UUID id, RedirectAttributes flash) {
+        blogService.deletePost(username, id);
+        flash.addFlashAttribute("successMessage", "Yazı başarıyla silindi!");
         return "redirect:/blog";
     }
 

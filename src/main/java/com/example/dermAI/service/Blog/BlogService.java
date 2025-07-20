@@ -17,6 +17,8 @@ public interface BlogService {
 
     PostResponse createPost(String username, PostRequest req);
 
+    void deletePost(String username, UUID postId);
+
     PostResponse getPost(UUID postId);
 
     CommentResponse addComment(String username, UUID postId, CommentRequest req);
