@@ -134,6 +134,67 @@
   font-size: 1.3rem;
   margin-right: 8px;
 }
+
+.ai-skin-type {
+  font-size: 2.1rem;
+  font-weight: 900;
+  color: #fff;
+  background: linear-gradient(90deg, #2563eb 0%, #38bdf8 100%);
+  border-radius: 18px;
+  padding: 18px 0 16px 0;
+  margin-bottom: 1.3em;
+  letter-spacing: 0.08em;
+  text-align: center;
+  box-shadow: 0 4px 24px #2563eb33, 0 2px 8px #38bdf822;
+  text-shadow: 0 3px 12px #1e40af44, 0 1px 0 #38bdf8;
+  border: 3.5px solid #38bdf8;
+  text-transform: uppercase;
+  word-spacing: 0.15em;
+}
+
+/* Cilt tipi kutusu daha sade */
+.ai-skin-type-highlight {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #2563eb;
+  background: #e3f0ff;
+  border-radius: 12px;
+  padding: 12px 0 10px 0;
+  margin-bottom: 1em;
+  letter-spacing: 0.06em;
+  text-align: center;
+  box-shadow: 0 2px 8px #2563eb11;
+  border: 2px solid #b3d1ff;
+  text-transform: uppercase;
+  word-spacing: 0.12em;
+}
+
+/* Highlight daha sade ve mavi tonlu */
+.highlight {
+  background: #d0e7ff;
+  color: #2563eb;
+  padding: 0 4px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.ai-result-error {
+  background: #e3f0ff;
+  color: #2563eb;
+  border-radius: 16px;
+  padding: 18px 24px 16px 24px;
+  margin: 12px 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  box-shadow: 0 2px 8px #2563eb11;
+  border: 1.5px solid #b3d1ff;
+  text-align: left;
+}
+
+.ai-result-error b {
+  color: #2563eb;
+  font-weight: 700;
+}
     </style>
 </head>
 <body>
@@ -419,21 +480,87 @@ Cevabını sadece Türkçe ve doğal, açıklayıcı bir dille yaz. Gereksiz tek
 </script>
 
 <script>
-function formatAiResponse(rawText) {
-  // Örnek: "Your skin type is Oily! ... - Clean your face twice a day. - Use oil-free moisturizer."
-  const lines = rawText.split('\n').filter(l => l.trim() !== '');
-  let result = '';
-  if (lines.length > 0) {
-    result += `<h3>${lines[0]}</h3>`;
-    if (lines.length > 1) {
-      result += '<ul>';
-      for (let i = 1; i < lines.length; i++) {
-        result += `<li>${lines[i]}</li>`;
-      }
-      result += '</ul>';
+function formatAiResponse(rawData) {
+  console.log("AI rawData:", rawData); // Debug için
+
+  let text = rawData;
+  let isError = false;
+  let errorMsg = "";
+
+  try {
+    const obj = typeof rawData === "string" ? JSON.parse(rawData) : rawData;
+    if (obj.error && obj.error.message) {
+      isError = true;
+      errorMsg = obj.error.message;
+    } else if (obj.candidates && obj.candidates[0]?.content?.parts[0]?.text) {
+      text = obj.candidates[0].content.parts[0].text;
+    } else {
+      text = typeof rawData === "string" ? rawData : JSON.stringify(rawData);
+    }
+  } catch (e) {
+    // Eğer JSON parse edilemiyorsa, düz metin olarak bırak
+    text = rawData;
+  }
+
+  if (isError) {
+    return `<div class="ai-result-error">
+      <b>Üzgünüz, yapay zeka şu anda yanıt veremiyor.</b><br>
+      <span style="font-size:1.05em;">${errorMsg}</span>
+    </div>`;
+  }
+
+  // Cilt tipi başlığını yakala ve özel kutuya al, uygun emoji ekle
+  text = text.replace(
+    /^Senin cilt tipin: ([^\n!]+)!?/im,
+    (match, p1) => {
+      let skinType = p1.trim().toLowerCase();
+      let emoji = "";
+      if (skinType.includes("yağlı")) emoji = "💧";
+      else if (skinType.includes("kuru")) emoji = "🌵";
+      else if (skinType.includes("karma")) emoji = "🍃";
+      else if (skinType.includes("hassas")) emoji = "🌸";
+      else if (skinType.includes("normal")) emoji = "😊";
+      else emoji = "🧴";
+      return `<div class="ai-skin-type-highlight">${emoji} Senin cilt tipin: <span>${p1.toUpperCase()}</span></div>`;
+    }
+  );
+
+  // Anahtar kelimelere emoji ekle ve vurgula
+  const keywordEmojis = [
+    { word: "sivilce", emoji: "🔴" },
+    { word: "leke", emoji: "🟤" },
+    { word: "normal", emoji: "😊" },
+    { word: "güneş koruyucu", emoji: "☀️" },
+    { word: "temizlemelisin", emoji: "🧼" },
+    { word: "nemlendirici", emoji: "💧" },
+    { word: "doktor", emoji: "🩺" },
+    { word: "gözenek", emoji: "🔬" },
+    { word: "yağlı", emoji: "💧" },
+    { word: "kuru", emoji: "🌵" },
+    { word: "karma", emoji: "🍃" },
+    { word: "hassas", emoji: "🌸" },
+    { word: "temizlik", emoji: "🧼" }
+  ];
+  keywordEmojis.forEach(({ word, emoji }) => {
+    const regex = new RegExp(`\\b(${word})\\b`, "gi");
+    text = text.replace(regex, `<span class=\"highlight\">$1 ${emoji}</span>`);
+  });
+
+  // AI cevabının başına genel bir emoji ekle
+  text = `🤖<br>` + text;
+
+  // Sağlık paragrafının başına sağlık emojisi ekle
+  // Paragrafları ayır (iki veya daha fazla \n ile)
+  let paragraphs = text.split(/\n{2,}/);
+  if (paragraphs.length > 1) {
+    // Eğer zaten emoji yoksa başına ekle
+    if (!/^([🩺❤️‍🩹🏥💊])/.test(paragraphs[1].trim())) {
+      paragraphs[1] = '🩺 ' + paragraphs[1].trim();
     }
   }
-  return result;
+  text = paragraphs.join("\n\n");
+
+  return `<div class="ai-result">${text.replace(/\n/g, "<br>")}</div>`;
 }
 
 // Kullanım:
