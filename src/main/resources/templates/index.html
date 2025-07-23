@@ -526,9 +526,11 @@ Cevabını sadece Türkçe ve doğal, açıklayıcı bir dille yaz. Gereksiz tek
       })
       .then(data => {
         loadingBubble.remove();
-        // AI cevabını formatla ve ekle
         const formatted = formatAiResponse(data);
-        addMessageBubble('ai', '', null, formatted);
+        let aiText = typeof data === "string" ? data : (data.candidates?.[0]?.content?.parts?.[0]?.text || "");
+        const skinType = extractSkinTypeFromRaw(aiText);
+        const aiBubble = addMessageBubble('ai', '', null, formatted);
+        suggestProductsAfterAi(skinType, aiBubble);
         // Formu temizle (başarıdan sonra)
         chatInput.value = "";
         chatImageInput.value = "";
@@ -657,7 +659,7 @@ function formatAiResponse(rawData) {
   if (paragraphs.length > 1) {
     // Eğer zaten emoji yoksa başına ekle
     if (!/^([🩺❤️‍🩹🏥💊])/.test(paragraphs[1].trim())) {
-      paragraphs[1] = '🩺 ' + paragraphs[1].trim();
+      paragraphs[2] = '🩺 ' + paragraphs[1].trim();
     }
   }
   text = paragraphs.join("\n\n");
@@ -673,9 +675,132 @@ Cildini günde 2 kez nazikçe temizlemelisin.
 Hafif, yağsız nemlendirici kullanmalısın.
 Güneş koruyucu ihmal edilmemeli.`;
 
-document.getElementById('ai-result').innerHTML = formatAiResponse(aiRaw);
+// document.getElementById('ai-result').innerHTML = formatAiResponse(aiRaw); // Bu satırı kaldır
 </script>
+<script>
+  // Cilt tipini AI cevabından çekmek için yardımcı fonksiyon
+function extractSkinTypeFromHtml(html) {
+  // AI cevabında <div class="ai-skin-type-highlight">...<span>...</span></div> var
+  const match = html.match(/ai-skin-type-highlight[^>]*>[^<]*<span>([^<]+)<\/span>/i);
+  if (match) {
+    return match[1].toLowerCase();
+  }
+  return null;
+}
 
+function extractSkinTypeFromRaw(aiText) {
+  // Türkçe cilt tipi başlığını yakala
+  const match = aiText.match(/Senin cilt tipin: ([^\n!]+)!?/i);
+  if (match) {
+    return match[1].trim().toLowerCase();
+  }
+  return null;
+}
+
+// Cilt tipini İngilizceye çevir
+function mapSkinTypeToApi(skinType) {
+  const map = {
+    'yağlı': 'oily',
+    'kuru': 'dry',
+    'combination': 'combination',
+    'normal': 'normal',
+    'sensitive': 'sensitive'
+  };
+  return map[skinType] || 'all';
+}
+
+// Ürünleri gösteren fonksiyon
+function showProductCards(products, aiBubble) {
+  // Eski öneri kutusunu kaldır (balonun içindekini)
+  let old = aiBubble.querySelector('#product-suggestions');
+  if (old) old.remove();
+
+  // Yeni kutu oluştur
+  const container = document.createElement('div');
+  container.id = 'product-suggestions';
+  container.style = 'margin: 24px auto 0 auto; max-width: 900px; display: flex; flex-wrap: wrap; gap: 18px; justify-content: center;';
+
+  // Başlık
+  const title = document.createElement('h3');
+  title.textContent = 'Senin için önerilen ürünler';
+  title.style = 'width: 100%; text-align: center; color: #2563eb; font-size: 1.1em; margin-bottom: 8px;';
+  container.appendChild(title);
+
+  // Ürün kartları
+  products.slice(0, 6).forEach(product => {
+    const card = document.createElement('a');
+    card.href = product.seoUrl || product.targetUrl || '#';
+    card.target = '_blank';
+    card.style = 'display: flex; flex-direction: column; align-items: center; width: 140px; background: #fff; border-radius: 14px; box-shadow: 0 2px 12px #2563eb22; text-decoration: none; color: #232946; padding: 12px 8px; transition: box-shadow 0.2s;';
+
+    const img = document.createElement('img');
+    img.src = product.heroImage || product.imageUrl || '';
+    img.alt = product.displayName || product.name || '';
+    img.style = 'width: 90px; height: 90px; object-fit: contain; border-radius: 8px; margin-bottom: 8px;';
+    card.appendChild(img);
+
+    const name = document.createElement('div');
+    name.textContent = product.displayName || product.name || '';
+    name.style = 'font-weight: 600; font-size: 1em; text-align: center; margin-bottom: 4px;';
+    card.appendChild(name);
+
+    if (product.brandName) {
+      const brand = document.createElement('div');
+      brand.textContent = product.brandName;
+      brand.style = 'font-size: 0.95em; color: #2563eb; margin-bottom: 2px;';
+      card.appendChild(brand);
+    }
+
+    container.appendChild(card);
+  });
+
+  // AI balonunun içine ekle
+  aiBubble.querySelector('.bubble-content').appendChild(container);
+}
+
+// AI cevabı geldikten sonra ürün önerisi çek
+async function suggestProductsAfterAi(skinType, aiBubble) {
+  if (!skinType) {
+    console.error('Cilt tipi bulunamadı!');
+    return;
+  }
+
+  const apiSkinType = mapSkinTypeToApi(skinType); // Türkçeden İngilizceye çevir
+  const skinTypeToQuery = {
+    'oily': 'oily skin care',
+    'dry': 'dry skin care',
+    'combination': 'combination skin care',
+    'normal': 'normal skin care',
+    'sensitive': 'sensitive skin care'
+  };
+  const query = skinTypeToQuery[apiSkinType] || (apiSkinType + ' skin care');
+  const url = `https://sephora.p.rapidapi.com/us/products/v2/search?q=${encodeURIComponent(query)}&pageSize=6&currentPage=1`;
+
+  const options = {
+    method: 'GET',
+    headers: {
+      'x-rapidapi-key': '3540611e10msh3a4fe4c1fc293ccp10358ejsn784fc89dbfff',
+      'x-rapidapi-host': 'sephora.p.rapidapi.com'
+    }
+  };
+
+  try {
+    console.log('Ürün önerisi için istek atılıyor:', url);
+    const response = await fetch(url, options);
+    const result = await response.json();
+    console.log('API yanıtı:', result);
+    showProductCards(result.products || [], aiBubble);
+  } catch (error) {
+    console.error('Ürün önerisi alınamadı:', error);
+    showProductCards([], aiBubble);
+  }
+}
+
+// AI cevabı eklenirken bu fonksiyonu çağır
+// addMessageBubble fonksiyonunda, AI cevabı ekledikten hemen sonra:
+//const aiBubble = addMessageBubble('ai', '', null, formatted);
+suggestProductsAfterAi(skinType, aiBubble);
+</script>
 <script src="/js/app.js"></script>
 
 <div th:replace="fragments/footer :: footer"></div>
