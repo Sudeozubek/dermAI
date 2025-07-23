@@ -6,7 +6,8 @@
               <span class="logo-derm" style="color: #2563eb;">DERM</span><span class="logo-ai" style="color: #1e40af; background: linear-gradient(90deg, #2563eb 0%, #1e40af 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">AI</span>
             </a>
         </div>
-        <ul class="nav-links">
+        <button class="menu-toggle" id="menuToggle" aria-label="Menüyü Aç/Kapat">☰</button>
+        <ul class="nav-links" id="navLinks">
             <li><a th:href="@{/}" style="color: #2563eb;">Anasayfa</a></li>
             <li><a th:href="@{/blog}" style="color: #2563eb;">Blog</a></li>
             <li><a th:href="@{/skintypes}" style="color: #2563eb;">Cilt Tipleri</a></li>
@@ -24,4 +25,18 @@
         </ul>
     </nav>
     <form id="logoutForm" th:action="@{/auth/logout}" method="post" sec:csrf="input" style="display:none;"></form>
+    <script>
+      // Hamburger menü aç/kapat
+      const menuToggle = document.getElementById('menuToggle');
+      const navLinks = document.getElementById('navLinks');
+      menuToggle && menuToggle.addEventListener('click', function() {
+        navLinks.classList.toggle('open');
+      });
+      // Menü açıkken dışarı tıklayınca kapansın
+      document.addEventListener('click', function(e) {
+        if (navLinks.classList.contains('open') && !navLinks.contains(e.target) && e.target !== menuToggle) {
+          navLinks.classList.remove('open');
+        }
+      });
+    </script>
 </div>
