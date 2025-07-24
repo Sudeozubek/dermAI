@@ -773,8 +773,15 @@ async function suggestProductsAfterAi(skinType, aiBubble) {
     'normal': 'normal skin care',
     'sensitive': 'sensitive skin care'
   };
-  const query = skinTypeToQuery[apiSkinType] || (apiSkinType + ' skin care');
-  const url = `https://sephora.p.rapidapi.com/us/products/v2/search?q=${encodeURIComponent(query)}&pageSize=6&currentPage=1`;
+  const queries = [
+    `${apiSkinType} skin care`,
+    `${apiSkinType} skin moisturizer`,
+    `${apiSkinType} skin serum`,
+    `${apiSkinType} skin cleanser`
+  ];
+  const query = queries[Math.floor(Math.random() * queries.length)];
+  const randomPage = Math.floor(Math.random() * 5) + 1; // 1-5 arası
+  const url = `https://sephora.p.rapidapi.com/us/products/v2/search?q=${encodeURIComponent(query)}&pageSize=6&currentPage=${randomPage}`;
 
   const options = {
     method: 'GET',
