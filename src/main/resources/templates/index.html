@@ -297,6 +297,77 @@
           height: 120px !important;
         }
       }
+      /* Ürün sliderı ve kartları için özel stil */
+      .product-slider {
+        width: 100%;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        display: flex;
+        flex-direction: column;
+      }
+      .product-slider-title {
+        font-size: 1em;
+        font-weight: 600;
+        color: #2563eb;
+        margin-bottom: 6px;
+        text-align: left;
+        padding-left: 4px;
+      }
+      .product-slider-list {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        overflow-x: auto;
+        padding-bottom: 6px;
+        scrollbar-width: thin;
+      }
+      .product-slider-list::-webkit-scrollbar {
+        height: 6px;
+      }
+      .product-slider-list::-webkit-scrollbar-thumb {
+        background: #b3d1ff;
+        border-radius: 4px;
+      }
+      .product-card {
+        min-width: 140px;
+        max-width: 140px;
+        height: 210px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px #2563eb22;
+        text-decoration: none;
+        color: #232946;
+        padding: 12px 6px 10px 6px;
+        border: 1px solid #e3f0ff;
+        transition: box-shadow 0.18s, transform 0.18s;
+        cursor: pointer;
+        overflow: hidden;
+      }
+      .product-card img {
+        width: 64px;
+        height: 64px;
+        object-fit: contain;
+        border-radius: 6px;
+        margin-bottom: 6px;
+      }
+      .product-card .product-name {
+        font-weight: 600;
+        font-size: 1.08em;
+        text-align: center;
+        margin-bottom: 4px;
+        line-height: 1.15;
+        max-height: 2.3em;
+        overflow: hidden;
+      }
+      .product-card .product-brand {
+        font-size: 0.95em;
+        color: #2563eb;
+        margin-bottom: 2px;
+        text-align: center;
+      }
     </style>
 </head>
 <body>
@@ -479,76 +550,85 @@
     chatForm.addEventListener('submit', function(e) {
       e.preventDefault();
       chatError.textContent = "";
-    
+
       const userMessage = chatInput.value.trim();
       if (!userMessage && !imageDataUrl) {
         chatError.textContent = "Lütfen bir mesaj yazın veya fotoğraf ekleyin.";
         return;
       }
 
-      // Kullanıcı mesajını ekle
       addMessageBubble('user', userMessage, imageDataUrl);
-
-      // Loading mesajı göster
       const loadingBubble = addMessageBubble('ai', 'Analiz ediliyor...');
 
-      // --- PROMPT ŞABLONU ---
-      let prompt = `Aşağıda bir kullanıcının cilt fotoğrafı ve/veya mesajı var.
+      if (imageDataUrl) {
+        // 1. Flask API ile hastalık tahmini
+        fetch('/api/skin/predict', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ image: imageDataUrl })
+        })
+        .then(res => res.json())
+        .then(diseaseData => {
+          if (diseaseData.error) {
+            loadingBubble.remove();
+            addMessageBubble('ai', 'Üzgünüm, analiz yapılamadı.');
+            return;
+          }
+          // 1. En üstte hastalık ve açıklaması
+          let diseaseMsg = `DermAI sizde ${diseaseData.description}olduğunu tahmin ediyor.`;
+          addMessageBubble('ai', '', null, diseaseMsg);
+
+          // 2. Gemini'den hastalıkla ilgili kısa bilgi ve teşvik
+          let geminiPrompt = `Bir cildiyecisin. Kullanıcıda "${diseaseData.description}" (${diseaseData.diagnosis.toUpperCase()}) olduğu tahmin ediliyor. Bu hastalık hakkında kısa, 1-2 cümlelik bilgiler ver ve doktora gitmeliyse teşvik et. Sadece Türkçe yaz.`;
+          fetch('/api/gemini/ask', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt: geminiPrompt })
+          })
+          .then(res => res.text())
+          .then(geminiDiseaseText => {
+            addMessageBubble('ai', geminiDiseaseText);
+
+            // 3. Gemini'den cilt tipi analizi ve ürün önerisi
+            let skinPrompt = `Aşağıda bir kullanıcının cilt fotoğrafı ve/veya mesajı var.
 Sen bir dermatoloji uzmanı gibi davran ve detaylı bir cilt analizi yap.
 Cevabına “Senin cilt tipin: [Cilt Tipi]” başlığıyla başla.
-Devamında, ciltte tespit ettiğin özellikleri, sorunları ve genel durumu detaylı ve açıklayıcı paragraflar halinde anlat.
-Sonrasında, cilt sağlığı açısından yorumla veya olası bir sağlık sorunu olup olmadığıyla ilgili kısa bir değerlendirme paragrafı ekle doktora görünmeli mi yorumla.
-En sonda, günlük bakım ve dikkat edilmesi gerekenler için kısa bir paragraf öneri ekle.
+Devamında, ciltte tespit ettiğin genel durumu anlat.
+Sonra, cilt sağlığı açısından yorumla ve doktora görünmeli mi yorumla.
+En sonda, günlük bakım ve dikkat edilmesi gerekenler için kısa öneriler ekle.
 Cevabını sadece Türkçe ve doğal, açıklayıcı bir dille yaz. Gereksiz tekrar ve madde işareti kullanma.`;
-      if (userMessage) {
-        prompt += `\n\nKullanıcı mesajı: ${userMessage}`;
-      }
-      if (imageDataUrl) {
-        prompt += `\n\nFotoğrafı analiz et.`;
+            if (userMessage) {
+              skinPrompt += `\n\nKullanıcı mesajı: ${userMessage}`;
+            }
+            if (imageDataUrl) {
+              skinPrompt += `\n\nFotoğrafı analiz et.`;
+            }
+            fetch('/api/gemini/ask', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ prompt: skinPrompt, image: imageDataUrl })
+            })
+            .then(res => res.text())
+            .then(data => {
+              loadingBubble.remove();
+              const formatted = formatAiResponse(data);
+              const aiBubble = addMessageBubble('ai', '', null, formatted);
+              let aiText = typeof data === "string" ? data : (data.candidates?.[0]?.content?.parts?.[0]?.text || "");
+              const skinType = extractSkinTypeFromRaw(aiText);
+              suggestProductsAfterAi(skinType, aiBubble);
+              // Formu temizle
+              chatInput.value = "";
+              chatImageInput.value = "";
+              chatImagePreview.src = "";
+              chatImagePreview.style.display = 'none';
+              imageDataUrl = null;
+            });
+          });
+        });
       }
 
-      // Gemini API'ye istek gönder
-      fetch('/api/gemini/ask', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          prompt: prompt,
-          image: imageDataUrl
-        })
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('API yanıt vermedi');
-        }
-        return response.text();
-      })
-      .then(data => {
-        loadingBubble.remove();
-        const formatted = formatAiResponse(data);
-        let aiText = typeof data === "string" ? data : (data.candidates?.[0]?.content?.parts?.[0]?.text || "");
-        const skinType = extractSkinTypeFromRaw(aiText);
-        const aiBubble = addMessageBubble('ai', '', null, formatted);
-        suggestProductsAfterAi(skinType, aiBubble);
-        // Formu temizle (başarıdan sonra)
-        chatInput.value = "";
-        chatImageInput.value = "";
-        chatImagePreview.src = "";
-        chatImagePreview.style.display = 'none';
-        imageDataUrl = null;
-      })
-      .catch(error => {
-        console.error('Hata:', error);
-        loadingBubble.remove();
-        addMessageBubble('ai', 'Üzgünüm, şu anda yanıt veremiyorum. Lütfen daha sonra tekrar deneyin.');
-        // Hata olsa da formu temizle
-        chatInput.value = "";
-        chatImageInput.value = "";
-        chatImagePreview.src = "";
-        chatImagePreview.style.display = 'none';
-        imageDataUrl = null;
-      });
+      // Sadece metin varsa, doğrudan cilt tipi analizi ve ürün önerisi yap
+      // ... mevcut Gemini kodun ...
     });
     
     // Mesaj balonu ekleme fonksiyonu
@@ -711,51 +791,59 @@ function mapSkinTypeToApi(skinType) {
 
 // Ürünleri gösteren fonksiyon
 function showProductCards(products, aiBubble) {
-  // Eski öneri kutusunu kaldır (balonun içindekini)
-  let old = aiBubble.querySelector('#product-suggestions');
+  // Eski öneri kutusunu kaldır
+  let old = aiBubble.querySelector('.product-slider');
   if (old) old.remove();
 
-  // Yeni kutu oluştur
-  const container = document.createElement('div');
-  container.id = 'product-suggestions';
-  container.style = 'margin: 24px auto 0 auto; max-width: 900px; display: flex; flex-wrap: wrap; gap: 18px; justify-content: center;';
+  // Ana slider divi
+  const slider = document.createElement('div');
+  slider.className = 'product-slider';
 
   // Başlık
-  const title = document.createElement('h3');
+  const title = document.createElement('div');
+  title.className = 'product-slider-title';
   title.textContent = 'Senin için önerilen ürünler';
-  title.style = 'width: 100%; text-align: center; color: #2563eb; font-size: 1.1em; margin-bottom: 8px;';
-  container.appendChild(title);
+  slider.appendChild(title);
 
-  // Ürün kartları
-  products.slice(0, 6).forEach(product => {
+  // Kartları tutan yatay scroll divi
+  const list = document.createElement('div');
+  list.className = 'product-slider-list';
+
+  products.slice(0, 10).forEach(product => {
     const card = document.createElement('a');
-    card.href = product.seoUrl || product.targetUrl || '#';
+    card.className = 'product-card';
+    // Linki bul ve tam URL yap
+    let link = product.seoUrl || product.targetUrl || product.productUrl || product.url || '#';
+    if (typeof link === 'string' && link.startsWith('/')) {
+      link = 'https://www.sephora.com' + link;
+    }
+    card.href = link;
     card.target = '_blank';
-    card.style = 'display: flex; flex-direction: column; align-items: center; width: 140px; background: #fff; border-radius: 14px; box-shadow: 0 2px 12px #2563eb22; text-decoration: none; color: #232946; padding: 12px 8px; transition: box-shadow 0.2s;';
 
     const img = document.createElement('img');
     img.src = product.heroImage || product.imageUrl || '';
     img.alt = product.displayName || product.name || '';
-    img.style = 'width: 90px; height: 90px; object-fit: contain; border-radius: 8px; margin-bottom: 8px;';
     card.appendChild(img);
 
     const name = document.createElement('div');
+    name.className = 'product-name';
     name.textContent = product.displayName || product.name || '';
-    name.style = 'font-weight: 600; font-size: 1em; text-align: center; margin-bottom: 4px;';
     card.appendChild(name);
 
     if (product.brandName) {
       const brand = document.createElement('div');
+      brand.className = 'product-brand';
       brand.textContent = product.brandName;
-      brand.style = 'font-size: 0.95em; color: #2563eb; margin-bottom: 2px;';
       card.appendChild(brand);
     }
 
-    container.appendChild(card);
+    list.appendChild(card);
   });
 
+  slider.appendChild(list);
+
   // AI balonunun içine ekle
-  aiBubble.querySelector('.bubble-content').appendChild(container);
+  aiBubble.querySelector('.bubble-content').appendChild(slider);
 }
 
 // AI cevabı geldikten sonra ürün önerisi çek
@@ -809,6 +897,37 @@ async function suggestProductsAfterAi(skinType, aiBubble) {
 suggestProductsAfterAi(skinType, aiBubble);
 </script>
 <script src="/js/app.js"></script>
+<script>  // Fotoğrafı analiz ettir
+  // Bu kod, chat formunun submit event'inde olmalı.
+  // imageDataUrl dolu değilse hiçbir şey olmuyor.
+  if (imageDataUrl) {
+    fetch('/api/skin/predict', { // veya /api/ai/diagnose, hangisi varsa
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ image: imageDataUrl })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.error) {
+        addMessageBubble('ai', 'Üzgünüm, analiz yapılamadı.');
+        return;
+      }
+      let message = `Tahmin edilen hastalık: <b>${data.diagnosis.toUpperCase()}</b><br>${data.description}`;
+      let extra = '';
+      if (data.diagnosis === 'mel') {
+        extra = '<br><b>Uyarı:</b> Melanom ciddi bir cilt kanseri türüdür, lütfen bir dermatoloğa başvurun!';
+      } else if (data.diagnosis === 'bcc') {
+        extra = '<br><b>Bilgi:</b> Bazal hücreli karsinom genellikle yavaş ilerler, yine de doktor kontrolü önemlidir.';
+      } else if (data.diagnosis === 'nv') {
+        extra = '<br><b>Bilgi:</b> Melanositik nevüsler genellikle iyi huyludur, ancak değişiklik gözlemlerseniz doktora danışın.';
+      }
+      addMessageBubble('ai', null, null, message + extra);
+    })
+    .catch(err => {
+      addMessageBubble('ai', 'Üzgünüm, analiz yapılamadı.');
+    });
+  }
+</script>
 
 <div th:replace="fragments/footer :: footer"></div>
 
