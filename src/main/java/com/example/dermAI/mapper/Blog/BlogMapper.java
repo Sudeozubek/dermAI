@@ -10,8 +10,9 @@ import com.example.dermAI.enums.ReactionType;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring", imports = {ReactionType.class})
+@Mapper(componentModel = "spring")
 public interface BlogMapper {
 
     @Mapping(target = "author.username", source = "authorUsername")
