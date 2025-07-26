@@ -13,6 +13,10 @@ public class CommentResponse {
 
     private LocalDateTime createdAt;
 
+    private long likeCount;
+
+    private long dislikeCount;
+
     public UUID getId() {
         return id;
     }
@@ -43,5 +47,21 @@ public class CommentResponse {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public long getDislikeCount() {
+        return dislikeCount;
+    }
+
+    public void setDislikeCount(long dislikeCount) {
+        this.dislikeCount = dislikeCount;
+    }
+
+    public long getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(long likeCount) {
+        this.likeCount = likeCount;
     }
 }

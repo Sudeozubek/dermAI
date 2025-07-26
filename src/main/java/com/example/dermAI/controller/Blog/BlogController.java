@@ -5,6 +5,7 @@ import com.example.dermAI.dto.Blog.request.PostRequest;
 import com.example.dermAI.dto.Blog.request.ReactionRequest;
 import com.example.dermAI.dto.Blog.response.PostResponse;
 import com.example.dermAI.dto.Blog.response.ReactionResponse;
+import com.example.dermAI.enums.ReactionType;
 import com.example.dermAI.service.Blog.BlogService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -80,14 +81,31 @@ public class BlogController {
 
     @PostMapping("/posts/{postId}/comments/{commentId}/delete")
     @PreAuthorize("principal.username == #username or @blogService.isPostAuthor(#username,#postId)")
-    public String deleteComment(@AuthenticationPrincipal(expression="username") String username, @PathVariable UUID postId, @PathVariable UUID commentId, RedirectAttributes flash) {
+    public String deleteComment(@AuthenticationPrincipal(expression = "username") String username, @PathVariable UUID postId, @PathVariable UUID commentId, RedirectAttributes flash) {
         blogService.deleteComment(username, postId, commentId);
         flash.addFlashAttribute("successMessage", "Yorum başarıyla silindi!");
         return "redirect:/blog";
     }
 
     @PostMapping("/posts/{id}/reactions")
-    public ReactionResponse react(@AuthenticationPrincipal(expression = "username") String username, @PathVariable UUID id, @RequestBody ReactionRequest req) {
+    @ResponseBody
+    public ReactionResponse reactApi(@AuthenticationPrincipal(expression = "username") String username, @PathVariable UUID id, @RequestBody ReactionRequest req) {
         return blogService.react(username, id, req);
+    }
+
+    @PostMapping(path = "/posts/{id}/reactions", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PreAuthorize("isAuthenticated()")
+    public String reactForm(@AuthenticationPrincipal(expression = "username") String username, @PathVariable UUID id, @RequestParam("type") ReactionType type, RedirectAttributes flash) {
+        blogService.react(username, id, new ReactionRequest(type));
+        flash.addFlashAttribute("successMessage", "Bloğa tepkiniz kaydedildi!");
+        return "redirect:/blog";
+    }
+
+    @PostMapping("/posts/{postId}/comments/{commentId}/reactions")
+    @PreAuthorize("isAuthenticated()")
+    public String reactToComment(@AuthenticationPrincipal(expression = "username") String username, @PathVariable UUID postId, @PathVariable UUID commentId, @RequestParam("type") ReactionType type, RedirectAttributes flash) {
+        blogService.reactToComment(username, postId, commentId, type);
+        flash.addFlashAttribute("successMessage", "Yoruma tepkiniz kaydedildi!");
+        return "redirect:/blog";
     }
 }

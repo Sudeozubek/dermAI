@@ -1,5 +1,6 @@
 package com.example.dermAI.service.Blog;
 
+import com.example.dermAI.dao.Blog.CommentReactionRepository;
 import com.example.dermAI.dao.Blog.CommentRepository;
 import com.example.dermAI.dao.Blog.PostRepository;
 import com.example.dermAI.dao.Blog.ReactionRepository;
@@ -11,6 +12,7 @@ import com.example.dermAI.dto.Blog.response.CommentResponse;
 import com.example.dermAI.dto.Blog.response.PostResponse;
 import com.example.dermAI.dto.Blog.response.ReactionResponse;
 import com.example.dermAI.entity.Blog.Comment;
+import com.example.dermAI.entity.Blog.CommentReaction;
 import com.example.dermAI.entity.Blog.Post;
 import com.example.dermAI.entity.Blog.Reaction;
 import com.example.dermAI.entity.User;
@@ -30,13 +32,15 @@ public class BlogServiceImpl implements BlogService {
 
     private final PostRepository postRepo;
     private final CommentRepository commentRepo;
+    private final CommentReactionRepository commentReactionRepo;
     private final ReactionRepository reactionRepo;
     private final UserRepository userRepo;
     private final BlogMapper mapper;
 
-    public BlogServiceImpl(PostRepository postRepo, CommentRepository commentRepo, ReactionRepository reactionRepo, UserRepository userRepo, BlogMapper mapper) {
+    public BlogServiceImpl(PostRepository postRepo, CommentRepository commentRepo, CommentReactionRepository commentReactionRepo, ReactionRepository reactionRepo, UserRepository userRepo, BlogMapper mapper) {
         this.postRepo = postRepo;
         this.commentRepo = commentRepo;
+        this.commentReactionRepo = commentReactionRepo;
         this.reactionRepo = reactionRepo;
         this.userRepo = userRepo;
         this.mapper = mapper;
@@ -82,16 +86,37 @@ public class BlogServiceImpl implements BlogService {
     @Override
     @Transactional
     public ReactionResponse react(String username, UUID postId, ReactionRequest req) {
-        User user = userRepo.findByUsername(username).orElseThrow();
-        Post post = postRepo.findById(postId).orElseThrow();
-        Reaction reaction = reactionRepo.findByUserIdAndPostId(user.getId(), post.getId()).orElseGet(() -> new Reaction());
+        User user = userRepo.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("User bulunamadı"));
+        Post post = postRepo.findById(postId).orElseThrow(() -> new NoSuchElementException("Post bulunamadı"));
+
+        // Eğer kullanıcı zaten tepki verdiyse güncelle, yoksa yeni yarat
+        Reaction reaction = reactionRepo.findByUserIdAndPostId(user.getId(), post.getId()).orElseGet(Reaction::new);
+
         reaction.setUser(user);
         reaction.setPost(post);
         reaction.setType(req.getType());
         reactionRepo.save(reaction);
-        long likes = reactionRepo.countByPostIdAndType(post.getId(), ReactionType.LIKE);
-        long dislikes = reactionRepo.countByPostIdAndType(post.getId(), ReactionType.DISLIKE);
+
+        long likes = reactionRepo.countByPostIdAndType(postId, ReactionType.LIKE);
+        long dislikes = reactionRepo.countByPostIdAndType(postId, ReactionType.DISLIKE);
+
         return new ReactionResponse(req.getType(), likes, dislikes);
+    }
+
+    @Override
+    @Transactional
+    public void reactToComment(String username, UUID postId, UUID commentId, ReactionType type) {
+        User user = userRepo.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("User yok"));
+        Comment comment = commentRepo.findById(commentId).orElseThrow(() -> new NoSuchElementException("Comment bulunamadı"));
+
+        if (!comment.getPost().getId().equals(postId)) {
+            throw new IllegalArgumentException("Bu yorum bu gönderiye ait değil");
+        }
+
+        CommentReaction cr = commentReactionRepo.findByUserAndComment(user, comment).orElseGet(() -> new CommentReaction(user, comment));
+
+        cr.setType(type);
+        commentReactionRepo.save(cr);
     }
 
     @Override

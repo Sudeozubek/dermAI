@@ -9,7 +9,10 @@ public class ReactionResponse {
 
     private long dislikeCount;
 
-    public ReactionResponse(ReactionType type, long likes, long dislikes) {
+    public ReactionResponse(ReactionType type, long likeCount, long dislikeCount) {
+        this.type = type;
+        this.likeCount = likeCount;
+        this.dislikeCount = dislikeCount;
     }
 
     public ReactionType getType() {

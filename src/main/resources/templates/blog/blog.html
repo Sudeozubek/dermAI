@@ -108,17 +108,28 @@
                 </div>
 
                 <div class="post-actions">
+                    <!-- 👍 Like -->
                     <form class="inline-form"
                           method="post"
-                          th:action="@{/blog/posts/{id}/reactions(id=${post.id})}">
+                          th:action="@{/blog/posts/{id}/reactions(id=${post.id})}"
+                          th:if="${isAuthenticated}">
+                        <input sec:csrfInput type="hidden"/>
                         <input name="type" type="hidden" value="LIKE"/>
-                        <button type="submit">❤️ <span th:text="${post.likeCount}">0</span></button>
+                        <button type="submit">
+                            ❤️ <span th:text="${post.likeCount}">0</span>
+                        </button>
                     </form>
+
+                    <!-- 👎 Dislike -->
                     <form class="inline-form"
                           method="post"
-                          th:action="@{/blog/posts/{id}/reactions(id=${post.id})}">
+                          th:action="@{/blog/posts/{id}/reactions(id=${post.id})}"
+                          th:if="${isAuthenticated}">
+                        <input sec:csrfInput type="hidden"/>
                         <input name="type" type="hidden" value="DISLIKE"/>
-                        <button type="submit">👎 <span th:text="${post.dislikeCount}">0</span></button>
+                        <button type="submit">
+                            👎 <span th:text="${post.dislikeCount}">0</span>
+                        </button>
                     </form>
                 </div>
 
@@ -143,6 +154,22 @@
 
                         <div class="comment-body">
                             <p th:text="${cmt.content}"></p>
+                        </div>
+
+                        <!-- yorum reaksiyonları -->
+                        <div class="comment-actions" th:if="${isAuthenticated}">
+                            <form method="post"
+                                  th:action="@{/blog/posts/{postId}/comments/{commentId}/reactions(postId=${post.id},commentId=${cmt.id})}">
+                                <input sec:csrfInput type="hidden"/>
+                                <input name="type" type="hidden" value="LIKE"/>
+                                <button type="submit">❤️</button>
+                            </form>
+                            <form method="post"
+                                  th:action="@{/blog/posts/{postId}/comments/{commentId}/reactions(postId=${post.id},commentId=${cmt.id})}">
+                                <input sec:csrfInput type="hidden"/>
+                                <input name="type" type="hidden" value="DISLIKE"/>
+                                <button type="submit">👎</button>
+                            </form>
                         </div>
                     </div>
 

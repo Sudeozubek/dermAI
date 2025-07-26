@@ -6,6 +6,7 @@ import com.example.dermAI.dto.Blog.request.ReactionRequest;
 import com.example.dermAI.dto.Blog.response.CommentResponse;
 import com.example.dermAI.dto.Blog.response.PostResponse;
 import com.example.dermAI.dto.Blog.response.ReactionResponse;
+import com.example.dermAI.enums.ReactionType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -22,6 +23,8 @@ public interface BlogService {
     CommentResponse addComment(String username, UUID postId, CommentRequest req);
 
     ReactionResponse react(String username, UUID postId, ReactionRequest req);
+
+    void reactToComment(String username, UUID postId, UUID commentId, ReactionType type);
 
     void deleteComment(String username, UUID postId, UUID commentId);
 

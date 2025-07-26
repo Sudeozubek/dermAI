@@ -5,6 +5,13 @@ import com.example.dermAI.enums.ReactionType;
 public class ReactionRequest {
     private ReactionType type;
 
+    public ReactionRequest() {
+    }
+
+    public ReactionRequest(ReactionType type) {
+        this.type = type;
+    }
+
     public ReactionType getType() {
         return type;
     }
