@@ -37,6 +37,12 @@ public class BlogController {
         return blogService.listPosts(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt")));
     }
 
+    @ModelAttribute("commentRequest")
+    public CommentRequest commentRequest() {
+        return new CommentRequest();
+    }
+
+
     @GetMapping
     public String viewBlog(Model model) {
         model.addAttribute("postRequest", new PostRequest());
@@ -63,14 +69,15 @@ public class BlogController {
         return "redirect:/blog";
     }
 
-    @GetMapping("/posts/{id}")
-    public PostResponse getOne(@PathVariable UUID id) {
-        return blogService.getPost(id);
-    }
-
-    @PostMapping("/posts/{id}/comments")
-    public CommentResponse comment(@AuthenticationPrincipal(expression = "username") String username, @PathVariable UUID id, @RequestBody CommentRequest req) {
-        return blogService.addComment(username, id, req);
+    @PostMapping(path = "/posts/{id}/comments", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PreAuthorize("isAuthenticated()")
+    public String commentForm(@AuthenticationPrincipal(expression = "username") String username, @PathVariable UUID id, @Valid @ModelAttribute("commentRequest") CommentRequest commentRequest, BindingResult br, RedirectAttributes ra) {
+        if (br.hasErrors()) {
+            return "blog/blog";
+        }
+        blogService.addComment(username, id, commentRequest);
+        ra.addFlashAttribute("successMessage", "Yorumunuz başarıyla eklendi!");
+        return "redirect:/blog";
     }
 
     @PostMapping("/posts/{id}/reactions")

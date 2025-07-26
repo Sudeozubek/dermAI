@@ -125,23 +125,32 @@
                 <!-- Yorumlar -->
                 <div class="post-comments">
                     <div class="comment" th:each="cmt : ${post.comments}">
-                        <span class="comment-author" th:text="${cmt.authorUsername}">Yorumcu</span>
-                        <span class="comment-date"
-                              th:text="${#temporals.format(cmt.createdAt, 'dd MMM yyyy HH:mm')}">
+                        <div class="comment-header">
+                            <span class="comment-author" th:text="${cmt.authorUsername}">Yorumcu</span>
+                            <span class="comment-date"
+                                  th:text="${#temporals.format(cmt.createdAt, 'dd MMM yyyy HH:mm')}">
                         </span>
-                        <p th:text="${cmt.content}"></p>
+                        </div>
+
+                        <div class="comment-body">
+                            <p th:text="${cmt.content}"></p>
+                        </div>
                     </div>
 
-                    <!-- Yeni yorum formu -->
+
                     <form class="comment-form"
                           method="post"
-                          th:action="@{/blog/posts/{id}/comments(id=${post.id})}">
-                        <input name="content"
-                               placeholder="Yorumunuzu yazın"
+                          th:action="@{/blog/posts/{id}/comments(id=${post.id})}"
+                          th:object="${commentRequest}">
+                        <input sec:csrfInput type="hidden"/>
+
+                        <input placeholder="Yorumunuzu yazın"
                                required
+                               th:field="*{content}"
                                type="text"/>
                         <button type="submit">Gönder</button>
                     </form>
+
                 </div>
 
             </div>
@@ -168,4 +177,4 @@
 <!--<script th:src="@{/js/app.js}"></script>-->
 
 </body>
-</html> 
+</html>
