@@ -156,3 +156,31 @@
 .post-header .btn-danger {
   margin-left: auto;
 }
+
+/* 1) yorum blokları arasına boşluk */
+.post-comments .comment {
+  margin-bottom: 1rem;
+}
+
+/* 2) header: yazar + tarih tek satır, sola hizalı */
+.comment-header {
+  display: flex;
+  gap: 0.5rem;             /* yazar ve tarih arası */
+  align-items: center;
+  margin-bottom: 0.25rem;  /* altındaki metne boşluk */
+}
+
+/* 3) yorum metni: tam başlığın altına, sola yasla */
+.comment-body p {
+  margin: 0;
+  padding-left: 0;         /* istersen dilersen kaydırma */
+  color: #1e40af;          /* tercihen yorum renginizle eşleştir */
+  line-height: 1.4;
+}
+
+/* 4) yorum kutusuna padding (isteğe bağlı) */
+.post-comments .comment {
+  background: linear-gradient(135deg, #f0f6ff 0%, #e3f0ff 100%);
+  border-radius: 1.2em;
+  padding: 0.75rem 1rem;
+}
