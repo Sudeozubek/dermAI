@@ -13,5 +13,5 @@ public interface CommentReactionRepository extends JpaRepository<CommentReaction
 
     Optional<CommentReaction> findByUserAndComment(User u, Comment c);
 
-    long countByCommentAndType(Comment comment, ReactionType type);
+    long countByComment_IdAndType(UUID commentId, ReactionType type);
 }

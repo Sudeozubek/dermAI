@@ -48,7 +48,17 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public Page<PostResponse> listPosts(Pageable pageable) {
-        return postRepo.findAll(pageable).map(post -> mapper.toPostResponse(post, reactionRepo));
+        Page<PostResponse> page = postRepo.findAll(pageable).map(post -> mapper.toPostResponse(post, reactionRepo));
+
+        // her yorum için commentReactionRepo’dan sayıları alıp DTO’ya koy
+        page.getContent().forEach(postResp -> postResp.getComments().forEach(cResp -> {
+            long likes = commentReactionRepo.countByComment_IdAndType(cResp.getId(), ReactionType.LIKE);
+            long dislikes = commentReactionRepo.countByComment_IdAndType(cResp.getId(), ReactionType.DISLIKE);
+            cResp.setLikeCount(likes);
+            cResp.setDislikeCount(dislikes);
+        }));
+
+        return page;
     }
 
     @Override
@@ -117,6 +127,7 @@ public class BlogServiceImpl implements BlogService {
 
         cr.setType(type);
         commentReactionRepo.save(cr);
+        commentReactionRepo.flush();
     }
 
     @Override

@@ -4,29 +4,34 @@ import com.example.dermAI.entity.User;
 import com.example.dermAI.enums.ReactionType;
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
-
-import static jakarta.persistence.FetchType.LAZY;
 
 
 @Entity
-@Table(name="comment_reaction")
+@Table(name = "comment_reaction")
 public class CommentReaction {
     @Id
     @GeneratedValue
     private UUID id;
 
-    @ManyToOne(fetch = LAZY)
-    private User user;
-
-    @ManyToOne(fetch = LAZY)
-    private Comment comment;
-
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private ReactionType type;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "comment_id", nullable = false)
+    private Comment comment;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    public CommentReaction() {
+    }
+
     public CommentReaction(User user, Comment comment) {
+        this.user = user;
+        this.comment = comment;
     }
 
     public UUID getId() {

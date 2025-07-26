@@ -158,19 +158,28 @@
 
                         <!-- yorum reaksiyonları -->
                         <div class="comment-actions" th:if="${isAuthenticated}">
+                            <!-- 👍 Like -->
                             <form method="post"
                                   th:action="@{/blog/posts/{postId}/comments/{commentId}/reactions(postId=${post.id},commentId=${cmt.id})}">
                                 <input sec:csrfInput type="hidden"/>
                                 <input name="type" type="hidden" value="LIKE"/>
-                                <button type="submit">❤️</button>
+                                <button type="submit">
+                                    ❤️<span th:text="${cmt.likeCount}">0</span>
+                                </button>
                             </form>
+
+                            <!-- 👎 Dislike -->
                             <form method="post"
                                   th:action="@{/blog/posts/{postId}/comments/{commentId}/reactions(postId=${post.id},commentId=${cmt.id})}">
                                 <input sec:csrfInput type="hidden"/>
                                 <input name="type" type="hidden" value="DISLIKE"/>
-                                <button type="submit">👎</button>
+                                <button type="submit">
+                                    👎<span th:text="${cmt.dislikeCount}">0</span>
+                                </button>
                             </form>
                         </div>
+
+
                     </div>
 
                     <form class="comment-form"
