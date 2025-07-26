@@ -19,9 +19,16 @@ public interface BlogService {
 
     void deletePost(String username, UUID postId);
 
-    PostResponse getPost(UUID postId);
-
     CommentResponse addComment(String username, UUID postId, CommentRequest req);
 
     ReactionResponse react(String username, UUID postId, ReactionRequest req);
+
+    void deleteComment(String username, UUID postId, UUID commentId);
+
+    /**
+     * SpEL’den çağrılacak metot.
+     *
+     * @PreAuthorize içinde @blogService.isPostAuthor(...) diye kullanacağız.
+     */
+    boolean isPostAuthor(String username, UUID postId);
 }

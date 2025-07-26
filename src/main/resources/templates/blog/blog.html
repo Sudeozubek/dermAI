@@ -129,14 +129,22 @@
                             <span class="comment-author" th:text="${cmt.authorUsername}">Yorumcu</span>
                             <span class="comment-date"
                                   th:text="${#temporals.format(cmt.createdAt, 'dd MMM yyyy HH:mm')}">
-                        </span>
+                            </span>
+
+                            <!-- sadece post sahibi veya yorum sahibi görsün -->
+                            <form class="comment-delete-form"
+                                  method="post"
+                                  th:action="@{/blog/posts/{postId}/comments/{commentId}/delete(postId=${post.id}, commentId=${cmt.id})}"
+                                  th:if="${currentUsername == post.authorUsername or currentUsername == cmt.authorUsername}">
+                                <input sec:csrfInput type="hidden"/>
+                                <button class="btn-comment-delete" type="submit">Yorumu Kaldır</button>
+                            </form>
                         </div>
 
                         <div class="comment-body">
                             <p th:text="${cmt.content}"></p>
                         </div>
                     </div>
-
 
                     <form class="comment-form"
                           method="post"
@@ -150,7 +158,6 @@
                                type="text"/>
                         <button type="submit">Gönder</button>
                     </form>
-
                 </div>
 
             </div>

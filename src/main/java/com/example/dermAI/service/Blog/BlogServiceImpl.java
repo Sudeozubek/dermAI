@@ -66,11 +66,6 @@ public class BlogServiceImpl implements BlogService {
         postRepo.delete(post);
     }
 
-    public PostResponse getPost(UUID postId) {
-        Post post = postRepo.findById(postId).orElseThrow(() -> new IllegalArgumentException("Post not found"));
-        return mapper.toPostResponse(post, reactionRepo);
-    }
-
     @Override
     @Transactional
     public CommentResponse addComment(String username, UUID postId, CommentRequest req) {
@@ -97,5 +92,38 @@ public class BlogServiceImpl implements BlogService {
         long likes = reactionRepo.countByPostIdAndType(post.getId(), ReactionType.LIKE);
         long dislikes = reactionRepo.countByPostIdAndType(post.getId(), ReactionType.DISLIKE);
         return new ReactionResponse(req.getType(), likes, dislikes);
+    }
+
+    @Override
+    @Transactional
+    public void deleteComment(String username, UUID postId, UUID commentId) {
+        Comment comment = commentRepo.findById(commentId).orElseThrow(() -> new NoSuchElementException("Yorum bulunamadı"));
+
+        if (!comment.getPost().getId().equals(postId)) {
+            throw new IllegalArgumentException("Bu yorum bu gönderiye ait değil");
+        }
+
+        boolean isPostAuthor = comment.getPost().getAuthor().getUsername().equals(username);
+        boolean isCommentAuthor = comment.getAuthor().getUsername().equals(username);
+
+        if (!isPostAuthor && !isCommentAuthor) {
+            throw new AccessDeniedException("Yorum silme yetkiniz yok");
+        }
+
+        // güvenlik kontrolleri…
+        Post p = comment.getPost();
+        p.getComments().remove(comment);           // collection’dan da at
+        commentRepo.delete(comment);               // sil
+        commentRepo.flush();
+    }
+
+    /**
+     * SpEL’den çağrılacak metot.
+     *
+     * @PreAuthorize içinde @blogService.isPostAuthor(...) diye kullanacağız.
+     */
+    @Override
+    public boolean isPostAuthor(String username, UUID postId) {
+        return postRepo.findById(postId).map(p -> p.getAuthor().getUsername().equals(username)).orElse(false);
     }
 }

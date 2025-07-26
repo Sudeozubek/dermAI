@@ -3,7 +3,6 @@ package com.example.dermAI.controller.Blog;
 import com.example.dermAI.dto.Blog.request.CommentRequest;
 import com.example.dermAI.dto.Blog.request.PostRequest;
 import com.example.dermAI.dto.Blog.request.ReactionRequest;
-import com.example.dermAI.dto.Blog.response.CommentResponse;
 import com.example.dermAI.dto.Blog.response.PostResponse;
 import com.example.dermAI.dto.Blog.response.ReactionResponse;
 import com.example.dermAI.service.Blog.BlogService;
@@ -42,7 +41,6 @@ public class BlogController {
         return new CommentRequest();
     }
 
-
     @GetMapping
     public String viewBlog(Model model) {
         model.addAttribute("postRequest", new PostRequest());
@@ -77,6 +75,14 @@ public class BlogController {
         }
         blogService.addComment(username, id, commentRequest);
         ra.addFlashAttribute("successMessage", "Yorumunuz başarıyla eklendi!");
+        return "redirect:/blog";
+    }
+
+    @PostMapping("/posts/{postId}/comments/{commentId}/delete")
+    @PreAuthorize("principal.username == #username or @blogService.isPostAuthor(#username,#postId)")
+    public String deleteComment(@AuthenticationPrincipal(expression="username") String username, @PathVariable UUID postId, @PathVariable UUID commentId, RedirectAttributes flash) {
+        blogService.deleteComment(username, postId, commentId);
+        flash.addFlashAttribute("successMessage", "Yorum başarıyla silindi!");
         return "redirect:/blog";
     }
 
