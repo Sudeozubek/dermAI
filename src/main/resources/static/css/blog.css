@@ -156,3 +156,75 @@
 .post-header .btn-danger {
   margin-left: auto;
 }
+
+/* 1) yorum blokları arasına boşluk */
+.post-comments .comment {
+  margin-bottom: 1rem;
+}
+
+/* 2) header: yazar + tarih tek satır, sola hizalı */
+.comment-header {
+  display: flex;
+  gap: 0.5rem;             /* yazar ve tarih arası */
+  align-items: center;
+  margin-bottom: 0.25rem;  /* altındaki metne boşluk */
+}
+
+/* 3) yorum metni: tam başlığın altına, sola yasla */
+.comment-body p {
+  margin: 0;
+  padding-left: 0;         /* istersen dilersen kaydırma */
+  color: #1e40af;          /* tercihen yorum renginizle eşleştir */
+  line-height: 1.4;
+}
+
+/* 4) yorum kutusuna padding (isteğe bağlı) */
+.post-comments .comment {
+  background: linear-gradient(135deg, #f0f6ff 0%, #e3f0ff 100%);
+  border-radius: 1.2em;
+  padding: 0.75rem 1rem;
+}
+
+/* yorum bloğu */
+.comment {
+  position: relative;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #f0f6ff 0%, #e3f0ff 100%);
+  border-radius: 1rem;
+}
+
+/* header flex */
+.comment-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* silme formunu sağ üste taşı */
+.comment-delete-form {
+  margin-left: auto; /* header içinde en sağa iter */
+}
+
+/* butonun kendisi */
+.btn-comment-delete {
+  background: linear-gradient(135deg, #f56565, #c53030);
+  color: #fff;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s ease-in-out;
+}
+
+/* hover / active */
+.btn-comment-delete:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, #e53e3e, #9b2c2c);
+}
+.btn-comment-delete:active {
+  transform: translateY(0);
+  background: linear-gradient(135deg, #c53030, #822727);
+}

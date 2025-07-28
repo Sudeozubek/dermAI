@@ -3,9 +3,9 @@ package com.example.dermAI.controller.Blog;
 import com.example.dermAI.dto.Blog.request.CommentRequest;
 import com.example.dermAI.dto.Blog.request.PostRequest;
 import com.example.dermAI.dto.Blog.request.ReactionRequest;
-import com.example.dermAI.dto.Blog.response.CommentResponse;
 import com.example.dermAI.dto.Blog.response.PostResponse;
 import com.example.dermAI.dto.Blog.response.ReactionResponse;
+import com.example.dermAI.enums.ReactionType;
 import com.example.dermAI.service.Blog.BlogService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -37,6 +37,11 @@ public class BlogController {
         return blogService.listPosts(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt")));
     }
 
+    @ModelAttribute("commentRequest")
+    public CommentRequest commentRequest() {
+        return new CommentRequest();
+    }
+
     @GetMapping
     public String viewBlog(Model model) {
         model.addAttribute("postRequest", new PostRequest());
@@ -63,18 +68,44 @@ public class BlogController {
         return "redirect:/blog";
     }
 
-    @GetMapping("/posts/{id}")
-    public PostResponse getOne(@PathVariable UUID id) {
-        return blogService.getPost(id);
+    @PostMapping(path = "/posts/{id}/comments", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PreAuthorize("isAuthenticated()")
+    public String commentForm(@AuthenticationPrincipal(expression = "username") String username, @PathVariable UUID id, @Valid @ModelAttribute("commentRequest") CommentRequest commentRequest, BindingResult br, RedirectAttributes ra) {
+        if (br.hasErrors()) {
+            return "blog/blog";
+        }
+        blogService.addComment(username, id, commentRequest);
+        ra.addFlashAttribute("successMessage", "Yorumunuz başarıyla eklendi!");
+        return "redirect:/blog";
     }
 
-    @PostMapping("/posts/{id}/comments")
-    public CommentResponse comment(@AuthenticationPrincipal(expression = "username") String username, @PathVariable UUID id, @RequestBody CommentRequest req) {
-        return blogService.addComment(username, id, req);
+    @PostMapping("/posts/{postId}/comments/{commentId}/delete")
+    @PreAuthorize("principal.username == #username or @blogService.isPostAuthor(#username,#postId)")
+    public String deleteComment(@AuthenticationPrincipal(expression = "username") String username, @PathVariable UUID postId, @PathVariable UUID commentId, RedirectAttributes flash) {
+        blogService.deleteComment(username, postId, commentId);
+        flash.addFlashAttribute("successMessage", "Yorum başarıyla silindi!");
+        return "redirect:/blog";
     }
 
     @PostMapping("/posts/{id}/reactions")
-    public ReactionResponse react(@AuthenticationPrincipal(expression = "username") String username, @PathVariable UUID id, @RequestBody ReactionRequest req) {
+    @ResponseBody
+    public ReactionResponse reactApi(@AuthenticationPrincipal(expression = "username") String username, @PathVariable UUID id, @RequestBody ReactionRequest req) {
         return blogService.react(username, id, req);
+    }
+
+    @PostMapping(path = "/posts/{id}/reactions", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PreAuthorize("isAuthenticated()")
+    public String reactForm(@AuthenticationPrincipal(expression = "username") String username, @PathVariable UUID id, @RequestParam("type") ReactionType type, RedirectAttributes flash) {
+        blogService.react(username, id, new ReactionRequest(type));
+        flash.addFlashAttribute("successMessage", "Bloğa tepkiniz kaydedildi!");
+        return "redirect:/blog";
+    }
+
+    @PostMapping("/posts/{postId}/comments/{commentId}/reactions")
+    @PreAuthorize("isAuthenticated()")
+    public String reactToComment(@AuthenticationPrincipal(expression = "username") String username, @PathVariable UUID postId, @PathVariable UUID commentId, @RequestParam("type") ReactionType type, RedirectAttributes flash) {
+        blogService.reactToComment(username, postId, commentId, type);
+        flash.addFlashAttribute("successMessage", "Yoruma tepkiniz kaydedildi!");
+        return "redirect:/blog";
     }
 }
