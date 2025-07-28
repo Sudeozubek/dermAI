@@ -32,9 +32,9 @@ build/
 ### VS Code ###
 .vscode/
 
-# .gitignore dosyasına şunları ekleyin
-echo "venv/" >> .gitignore
-echo "*.h5" >> .gitignore
-echo "*.pyd" >> .gitignore
-echo "*.dll" >> .gitignore
-echo "bfg.jar" >> .gitignore
+# Python
+venv/
+*.h5
+*.pyd
+*.dll
+bfg.jar
