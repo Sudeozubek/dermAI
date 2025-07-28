@@ -1,42 +1,133 @@
 <div th:fragment="navbar" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
      xmlns:th="http://www.thymeleaf.org">
-    <nav class="navbar" style="background: #fff; box-shadow: 0 2px 12px #2563eb1A;">
-        <div class="nav-logo">
-            <a class="navbar-brand logo-text" th:href="@{/}" style="color: #2563eb;">
-              <span class="logo-derm" style="color: #2563eb;">DERM</span><span class="logo-ai" style="color: #1e40af; background: linear-gradient(90deg, #2563eb 0%, #1e40af 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">AI</span>
-            </a>
+    <nav class="nav-blur fixed top-0 left-0 right-0 z-50 border-b border-gray-200/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a th:href="@{/}" class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-gradient-to-r from-primary-500 to-primary-600 rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">D</span>
+                        </div>
+                        <span class="text-xl font-bold text-gray-900">
+                            <span class="text-primary-600">Derm</span><span class="text-gray-900">AI</span>
+                        </span>
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a th:href="@{/}" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                            Anasayfa
+                        </a>
+                        <a th:href="@{/blog}" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                            Blog
+                        </a>
+                        <a th:href="@{/skintypes}" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                            Cilt Tipleri
+                        </a>
+                        <a th:href="@{/about}" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                            Hakkında
+                        </a>
+                    </div>
+                </div>
+
+                <!-- User Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-4 flex items-center space-x-4">
+                        <!-- Anonymous users -->
+                        <div sec:authorize="isAnonymous()" class="flex items-center space-x-4">
+                            <a th:href="@{/auth/login}" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                                Giriş Yap
+                            </a>
+                            <a th:href="@{/auth/register}" class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200">
+                                Kayıt Ol
+                            </a>
+                        </div>
+
+                        <!-- Authenticated users -->
+                        <div sec:authorize="isAuthenticated()" class="flex items-center space-x-4">
+                            <a th:href="@{/user/profil}" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                                Profil
+                            </a>
+                            <a href="#" onclick="document.getElementById('logoutForm').submit(); return false;" 
+                               class="text-gray-700 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                                Çıkış Yap
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="menuToggle" class="text-gray-700 hover:text-primary-600 p-2 rounded-md">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
         </div>
-        <button class="menu-toggle" id="menuToggle" aria-label="Menüyü Aç/Kapat">☰</button>
-        <ul class="nav-links" id="navLinks">
-            <li><a th:href="@{/}" style="color: #2563eb;">Anasayfa</a></li>
-            <li><a th:href="@{/blog}" style="color: #2563eb;">Blog</a></li>
-            <li><a th:href="@{/skintypes}" style="color: #2563eb;">Cilt Tipleri</a></li>
-            <li><a th:href="@{/about}" style="color: #2563eb;">Hakkında</a></li>
 
-            <!-- Anonymous kullanıcılar -->
-            <li sec:authorize="isAnonymous()"><a th:href="@{/auth/login}" style="color: #2563eb;">Giriş Yap</a></li>
-            <li sec:authorize="isAnonymous()"><a th:href="@{/auth/register}" style="color: #2563eb;">Kayıt Ol</a></li>
-
-            <!-- Authenticated kullanıcılar -->
-            <li sec:authorize="isAuthenticated()"><a th:href="@{/user/profil}" style="color: #2563eb;">Profil</a></li>
-            <li sec:authorize="isAuthenticated()">
-                <a href="#" class="logout-link" style="color: #2563eb;" onclick="document.getElementById('logoutForm').submit(); return false;">Çıkış Yap</a>
-            </li>
-        </ul>
+        <!-- Mobile menu -->
+        <div id="navLinks" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-200">
+                <a th:href="@{/}" class="text-gray-700 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200">
+                    Anasayfa
+                </a>
+                <a th:href="@{/blog}" class="text-gray-700 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200">
+                    Blog
+                </a>
+                <a th:href="@{/skintypes}" class="text-gray-700 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200">
+                    Cilt Tipleri
+                </a>
+                <a th:href="@{/about}" class="text-gray-700 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200">
+                    Hakkında
+                </a>
+                
+                <!-- Mobile user menu -->
+                <div sec:authorize="isAnonymous()" class="pt-4 border-t border-gray-200">
+                    <a th:href="@{/auth/login}" class="text-gray-700 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200">
+                        Giriş Yap
+                    </a>
+                    <a th:href="@{/auth/register}" class="bg-primary-600 hover:bg-primary-700 text-white block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 mt-2">
+                        Kayıt Ol
+                    </a>
+                </div>
+                
+                <div sec:authorize="isAuthenticated()" class="pt-4 border-t border-gray-200">
+                    <a th:href="@{/user/profil}" class="text-gray-700 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200">
+                        Profil
+                    </a>
+                    <a href="#" onclick="document.getElementById('logoutForm').submit(); return false;" 
+                       class="text-gray-700 hover:text-red-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200">
+                        Çıkış Yap
+                    </a>
+                </div>
+            </div>
+        </div>
     </nav>
+
+    <!-- Spacer for fixed navbar -->
+    <div class="h-16"></div>
+
     <form id="logoutForm" th:action="@{/auth/logout}" method="post" sec:csrf="input" style="display:none;"></form>
+    
     <script>
-      // Hamburger menü aç/kapat
-      const menuToggle = document.getElementById('menuToggle');
-      const navLinks = document.getElementById('navLinks');
-      menuToggle && menuToggle.addEventListener('click', function() {
-        navLinks.classList.toggle('open');
-      });
-      // Menü açıkken dışarı tıklayınca kapansın
-      document.addEventListener('click', function(e) {
-        if (navLinks.classList.contains('open') && !navLinks.contains(e.target) && e.target !== menuToggle) {
-          navLinks.classList.remove('open');
-        }
-      });
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        
+        menuToggle && menuToggle.addEventListener('click', function() {
+            navLinks.classList.toggle('hidden');
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!navLinks.classList.contains('hidden') && !navLinks.contains(e.target) && e.target !== menuToggle) {
+                navLinks.classList.add('hidden');
+            }
+        });
     </script>
 </div>

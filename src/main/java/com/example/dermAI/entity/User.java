@@ -22,6 +22,8 @@ public class User {
     private String role;
 
     private int puan = 0;
+    
+    private String skinType;
 
     public UUID getId() {
         return id;
@@ -69,5 +71,13 @@ public class User {
 
     public void setPuan(int puan) {
         this.puan = puan;
+    }
+    
+    public String getSkinType() {
+        return skinType;
+    }
+    
+    public void setSkinType(String skinType) {
+        this.skinType = skinType;
     }
 }

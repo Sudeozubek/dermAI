@@ -5,46 +5,106 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Profil - DermAI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/layer.css}">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            900: '#0c4a6e'
+                        },
+                        gray: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a'
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                        'display': ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
     <style>
-.my-posts-section .blog-post, .my-posts-section .comment, .my-posts-section .reply {
-  background: linear-gradient(135deg, #f0f6ff 0%, #e3f0ff 100%);
-  border-radius: 1.2em;
-  box-shadow: 0 2px 12px #2563eb11;
-  border: 1.5px solid #e3f0ff;
-}
-.my-posts-section h2 {
-  color: #2563eb !important;
-  font-weight: 700;
-}
-.my-posts-section .post-author, .my-posts-section .comment-author {
-  color: #1e40af !important;
-  font-weight: 700;
-}
-.my-posts-section .post-content h3 {
-  color: #2563eb !important;
-  font-weight: 700;
-}
-.my-posts-section .comment-date, .my-posts-section .post-date {
-  color: #38bdf8 !important;
-}
-.my-posts-section .comment-form button:hover {
-  background: #1e40af;
-  transform: translateY(-1px);
-}
-
-.routine-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(37,99,235,0.3);
-  background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
-}
-
-.routine-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 4px 15px rgba(37,99,235,0.2);
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            transform: translateY(-1px);
+        }
+        
+        .profile-icon-selector {
+            position: relative;
+        }
+        
+        .icon-options-popup {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 12px;
+            display: none;
+            z-index: 50;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            min-width: 200px;
+        }
+        
+        .icon-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .icon-option:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 </style>
 </head>
@@ -52,98 +112,190 @@
 
 <div th:replace="fragments/navbar :: navbar"></div>
 
-<div class="main-content show">
-    <div class="profile-container">
-        <div class="profile-header">
-            <div class="profile-pic-wrapper" id="profilePicWrapper" style="position:relative;">
-                <img alt="Profil" class="profile-pic" id="profilePic" onclick="toggleIconOptions()"
-                     th:src="@{/image/icon1.png}">
-                <span class="profile-badge" id="profileBadge">0</span>
-                <span id="profileStars" style="font-size:1.3em;vertical-align:middle;margin-left:6px;"></span>
-                <div class="icon-options-popup" id="iconOptionsPopup" style="display:none;">
-                    <img class="icon-option" onclick="selectProfileIcon('/image/icon1.png')"
-                         th:src="@{/image/icon1.png}">
-                    <img class="icon-option" onclick="selectProfileIcon('/image/icon2.png')"
-                         th:src="@{/image/icon2.png}">
-                    <img class="icon-option" onclick="selectProfileIcon('/image/icon4.png')"
-                         th:src="@{/image/icon4.png}">
-                    <img class="icon-option" onclick="selectProfileIcon('/image/icon3.png')"
-                         th:src="@{/image/icon3.png}">
-                    <img class="icon-option" onclick="selectProfileIcon('/image/icon5.png')"
-                         th:src="@{/image/icon5.png}">
-                    <img class="icon-option" onclick="selectProfileIcon('/image/icon6.png')"
-                         th:src="@{/image/icon6.png}">
+<!-- Professional Header -->
+<section class="bg-gradient-to-br from-primary-50 to-primary-100 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                <span class="text-primary-600">Profil</span> Sayfası
+            </h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Kişisel bilgileriniz ve cilt bakım rutininiz
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Profile Card -->
+        <div class="lg:col-span-1">
+            <div class="bg-white rounded-2xl shadow-lg p-8 card-hover">
+                <div class="text-center mb-8">
+                    <div class="profile-icon-selector inline-block">
+                        <div class="relative">
+                            <img alt="Profil" class="w-24 h-24 rounded-full border-4 border-primary-100 cursor-pointer hover:border-primary-300 transition-all duration-200" 
+                                 id="profilePic" onclick="toggleIconOptions()" th:src="@{/image/icon1.png}">
+                            <div class="absolute -top-2 -right-2 bg-primary-600 text-white text-sm font-bold rounded-full w-8 h-8 flex items-center justify-center" id="profileBadge">0</div>
+                        </div>
+                        <div class="icon-options-popup" id="iconOptionsPopup">
+                            <img class="icon-option" onclick="selectProfileIcon('/image/icon1.png')" th:src="@{/image/icon1.png}">
+                            <img class="icon-option" onclick="selectProfileIcon('/image/icon2.png')" th:src="@{/image/icon2.png}">
+                            <img class="icon-option" onclick="selectProfileIcon('/image/icon4.png')" th:src="@{/image/icon4.png}">
+                            <img class="icon-option" onclick="selectProfileIcon('/image/icon3.png')" th:src="@{/image/icon3.png}">
+                            <img class="icon-option" onclick="selectProfileIcon('/image/icon5.png')" th:src="@{/image/icon5.png}">
+                            <img class="icon-option" onclick="selectProfileIcon('/image/icon6.png')" th:src="@{/image/icon6.png}">
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-2" id="profileUsername">Ayşe</h2>
+                        <div class="flex items-center justify-center space-x-2 mb-4">
+                            <span id="profileStars" class="text-yellow-400 text-lg"></span>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                            <div class="text-sm text-gray-600 mb-1">Cilt Tipi</div>
+                            <div class="text-lg font-semibold text-gray-900" id="skinType" th:text="${user.skinType != null ? user.skinType : 'Belirtilmemiş'}">Belirtilmemiş</div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="profile-info">
-                <div class="profile-username" id="profileUsername">Ayşe</div>
-                <div class="profile-skin-type">Cilt Tipi: <span class="skin-type-value" id="skinType">Hassas</span>
+                
+                <div class="space-y-4">
+                    <button onclick="logoutUser()" class="w-full bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105">
+                        <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                        </svg>
+                        Çıkış Yap
+                    </button>
+                    
+                    <a href="/todo" class="w-full bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 inline-block text-center">
+                        <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                        </svg>
+                        Rutinim
+                    </a>
                 </div>
             </div>
         </div>
-        <button class="logout-btn" onclick="logoutUser()" style="width:100%;margin-bottom:10px;">Çıkış Yap</button>
-        <a href="/todo" class="routine-btn" style="display:block;margin-top:0;text-align:center;background:linear-gradient(135deg, #2563eb 0%, #1e40af 100%);color:#fff;padding:12px 0;border-radius:12px;text-decoration:none;font-weight:600;font-family:'Poppins',Arial,sans-serif;font-size:1rem;transition:all 0.3s;box-shadow:0 4px 15px rgba(37,99,235,0.2);border:5px solid transparent;width:100%;">Rutinim</a>
-    </div>
-    <!-- Kendi Paylaşımlarım Bölümü -->
-    <div class="my-posts-section">
-        <h2>Paylaşımlarım</h2>
-        <div id="myPostsList">
-            <!-- Örnek bir post -->
-            <div class="blog-post">
-                <div class="post-header">
-                    <img alt="Profil" class="profile-icon" th:src="@{/image/icon1.png}">
-                    <div class="post-user-info">
-                        <span class="post-author">Ayşe</span>
-                        <span class="post-date">1 Temmuz 2024</span>
+        <!-- Posts Section -->
+        <div class="lg:col-span-2">
+            <div class="bg-white rounded-2xl shadow-lg p-8 card-hover">
+                <div class="flex items-center justify-between mb-8">
+                    <h2 class="text-2xl font-bold text-gray-900">Paylaşımlarım</h2>
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                        <span class="text-sm text-gray-500">Son paylaşımlarınız</span>
                     </div>
                 </div>
-                <div class="post-content">
-                    <h3>Yanakta Kızarıklık</h3>
-                    <p>Son zamanlarda yanaklarımda sürekli bir kızarıklık oluyor. Benzer sorun yaşayan var mı? Ne önerirsiniz?</p>
+                
+                <div id="myPostsList" class="space-y-6">
+                    <!-- Sample Post -->
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border border-blue-200">
+                        <div class="flex items-start space-x-4 mb-4">
+                            <img alt="Profil" class="w-12 h-12 rounded-full border-2 border-white" th:src="@{/image/icon1.png}">
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h3 class="font-semibold text-gray-900">Ayşe</h3>
+                                        <p class="text-sm text-gray-500">1 Temmuz 2024</p>
                 </div>
-                <div class="post-actions">
-                    <button class="like-btn">❤️ 3</button>
-                    <button class="reply-btn">Yanıtla</button>
-                </div>
-                <div class="post-comments">
-                    <div class="comment">
-                        <img alt="Profil" class="profile-icon comment-icon" th:src="@{/image/icon3.png}">
-                        <div class="comment-body">
-                            <span class="comment-author">Mehmet</span>
-                            <span class="comment-date">1 Temmuz 2024</span>
-                            <p>Ben de benzer bir sorun yaşadım, nemlendirici kullanmak iyi geliyor. Özellikle hassas ciltler için olanları deneyebilirsin.</p>
-                            <button class="like-btn small">❤️ 1</button>
-                            <button class="reply-btn small">Yanıtla</button>
-                            <!-- Yanıtlar -->
-                            <div class="comment-replies">
-                                <div class="reply">
-                                    <img alt="Profil" class="profile-icon reply-icon" th:src="@{/image/icon2.png}">
-                                    <div class="reply-body">
-                                        <span class="reply-author">Zeynep</span>
-                                        <span class="reply-date">1 Temmuz 2024</span>
-                                        <p>Ben de aynı şekilde hassas ciltler için olan bir krem kullandım, çok faydasını gördüm.</p>
-                                        <button class="like-btn small">❤️ 0</button>
+                                    <div class="flex items-center space-x-2">
+                                        <button class="text-red-500 hover:text-red-600 transition-colors">
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+                                            </svg>
+                                        </button>
+                                        <span class="text-sm text-gray-500">3</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-lg font-semibold text-gray-900 mb-2">Yanakta Kızarıklık</h4>
+                            <p class="text-gray-700">Son zamanlarda yanaklarımda sürekli bir kızarıklık oluyor. Benzer sorun yaşayan var mı? Ne önerirsiniz?</p>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4 mb-4">
+                            <button class="flex items-center space-x-1 text-red-500 hover:text-red-600 transition-colors">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-sm">3</span>
+                            </button>
+                            <button class="flex items-center space-x-1 text-gray-500 hover:text-gray-600 transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                                </svg>
+                                <span class="text-sm">Yanıtla</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Comments -->
+                        <div class="border-t border-blue-200 pt-4">
+                            <div class="bg-white rounded-lg p-4 mb-4">
+                                <div class="flex items-start space-x-3">
+                                    <img alt="Profil" class="w-8 h-8 rounded-full" th:src="@{/image/icon3.png}">
+                                    <div class="flex-1">
+                                        <div class="flex items-center space-x-2 mb-1">
+                                            <span class="font-medium text-gray-900">Mehmet</span>
+                                            <span class="text-xs text-gray-500">1 Temmuz 2024</span>
+                                        </div>
+                                        <p class="text-gray-700 text-sm mb-2">Ben de benzer bir sorun yaşadım, nemlendirici kullanmak iyi geliyor. Özellikle hassas ciltler için olanları deneyebilirsin.</p>
+                                        <div class="flex items-center space-x-4">
+                                            <button class="flex items-center space-x-1 text-red-500 hover:text-red-600 transition-colors">
+                                                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+                                                </svg>
+                                                <span class="text-xs">1</span>
+                                            </button>
+                                            <button class="text-xs text-gray-500 hover:text-gray-600 transition-colors">Yanıtla</button>
+                                        </div>
+                                        
+                                        <!-- Reply -->
+                                        <div class="mt-3 ml-4 border-l-2 border-gray-200 pl-4">
+                                            <div class="flex items-start space-x-3">
+                                                <img alt="Profil" class="w-6 h-6 rounded-full" th:src="@{/image/icon2.png}">
+                                                <div class="flex-1">
+                                                    <div class="flex items-center space-x-2 mb-1">
+                                                        <span class="font-medium text-gray-900 text-sm">Zeynep</span>
+                                                        <span class="text-xs text-gray-500">1 Temmuz 2024</span>
+                                                    </div>
+                                                    <p class="text-gray-700 text-sm mb-2">Ben de aynı şekilde hassas ciltler için olan bir krem kullandım, çok faydasını gördüm.</p>
+                                                    <button class="flex items-center space-x-1 text-red-500 hover:text-red-600 transition-colors">
+                                                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+                                                        </svg>
+                                                        <span class="text-xs">0</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Comment Form -->
+                            <form class="flex items-center space-x-3">
+                                <img alt="Profil" class="w-8 h-8 rounded-full" th:src="@{/image/icon1.png}">
+                                <input type="text" placeholder="Yanıtını yaz..." class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                                <button type="submit" class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+                                    Gönder
+                                </button>
+                            </form>
+                        </div>
                     </div>
-                    <!-- Yorum ekleme alanı (sadece görsel) -->
-                    <form class="comment-form">
-                        <img alt="Profil" class="profile-icon comment-icon" th:src="@{/image/icon1.png}">
-                        <input placeholder="Yanıtını yaz..." required type="text">
-                        <button type="submit">Gönder</button>
-                    </form>
                 </div>
             </div>
-            
         </div>
     </div>
 </div>
 
 <div th:replace="fragments/footer :: footer"></div>
 
-<!-- Gizli logout formu -->
+<!-- Hidden logout form -->
 <form id="logoutForm" th:action="@{/logout}" method="post" style="display:none;"></form>
 
 <script>
@@ -151,10 +303,11 @@
         // Backend logout endpoint'ini kullan
         document.getElementById('logoutForm').submit();
     }
+    
     // Sayfa yüklendiğinde backend'den puanı çek ve profile-badge'a yaz
     window.onload = function() {
         document.getElementById('profileUsername').textContent = localStorage.getItem('username') || 'Kullanıcı';
-        document.getElementById('skinType').textContent = localStorage.getItem('skinType') || '-';
+        // Cilt tipi artık backend'den geliyor, JavaScript ile değiştirmeye gerek yok
         document.getElementById('profilePic').src = localStorage.getItem('profileIcon') || 'icon1.png';
 
         // Puanı backend'den çek
@@ -175,18 +328,21 @@
                 document.getElementById('profileStars').textContent = '';
             });
     }
+    
     function selectProfileIcon(icon) {
         localStorage.setItem('profileIcon', icon);
         document.getElementById('profilePic').src = icon;
         document.getElementById('iconOptionsPopup').style.display = 'none';
     }
+    
     function toggleIconOptions() {
         const popup = document.getElementById('iconOptionsPopup');
-        popup.style.display = (popup.style.display === 'none' || popup.style.display === '') ? 'flex' : 'none';
+        popup.style.display = (popup.style.display === 'none' || popup.style.display === '') ? 'grid' : 'none';
     }
+    
     // Dışarı tıklanınca popup'ı kapat
     document.addEventListener('click', function(event) {
-        const wrapper = document.getElementById('profilePicWrapper');
+        const wrapper = document.querySelector('.profile-icon-selector');
         const popup = document.getElementById('iconOptionsPopup');
         if (!wrapper.contains(event.target)) {
             popup.style.display = 'none';

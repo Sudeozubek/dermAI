@@ -5,219 +5,363 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Blog - Cilt Sorunları ve Öneriler</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/layer.css}">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="stylesheet" th:href="@{/css/blog.css}">
-    <link rel="stylesheet" th:href="@{/css/toast.css}">
-    <script defer th:src="@{/js/toast.js}"></script>
-
-    <style>
-        /* x-cloak ile işaretlenmiş her şeyi Alpine başladığında gizle */
-        [x-cloak] { display: none !important; }
-    </style>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            900: '#0c4a6e'
+                        },
+                        gray: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a'
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                        'display': ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Alpine.js -->
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        [x-cloak] { display: none !important; }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            transform: translateY(-1px);
+        }
+    </style>
 </head>
 <body>
 
 <div th:replace="fragments/navbar :: navbar"></div>
 <div th:replace="fragments/messages :: messages"></div>
 
-<div class="main-content show">
-    <div class="blog-container">
-        <h1>Blog</h1>
-        <section class="blog-share" th:if="${isAuthenticated}">
-            <h2>Ne paylaşmak istersin?</h2>
-            <form class="blog-form"
+<!-- Professional Blog Header -->
+<section class="bg-gradient-to-br from-primary-50 to-primary-100 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                <span class="text-primary-600">Cilt</span> Blog
+            </h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Cilt sağlığı hakkında deneyimlerinizi paylaşın, diğer kullanıcılardan öğrenin
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Blog Content -->
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Share Post Section -->
+    <section th:if="${isAuthenticated}" class="mb-12">
+        <div class="bg-white rounded-2xl shadow-lg p-8 card-hover">
+            <div class="flex items-center space-x-3 mb-6">
+                <div class="w-12 h-12 bg-gradient-to-r from-primary-500 to-primary-600 rounded-full flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">Deneyiminizi Paylaşın</h2>
+                    <p class="text-gray-600">Cilt sorunlarınızı ve çözümlerinizi diğer kullanıcılarla paylaşın</p>
+                </div>
+            </div>
+            
+            <form class="blog-form space-y-6"
                   id="blogForm"
                   method="post"
                   th:action="@{/blog/posts}"
                   th:object="${postRequest}">
 
                 <div>
-                    <label for="title">Başlık</label>
+                    <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Başlık</label>
                     <input id="title"
-                           placeholder="Başlık"
+                           placeholder="Başlığınızı yazın..."
                            required
                            th:field="*{title}"
-                           type="text"/>
+                           type="text"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all duration-200"/>
                 </div>
 
                 <div>
-                    <label for="content">İçerik</label>
+                    <label for="content" class="block text-sm font-medium text-gray-700 mb-2">İçerik</label>
                     <textarea id="content"
-                              placeholder="Cilt sorununu veya önerini yaz..."
+                              placeholder="Cilt sorununuzu veya önerinizi yazın..."
                               required
-                              rows="4"
-                              th:field="*{content}"></textarea>
+                              rows="6"
+                              th:field="*{content}"
+                              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all duration-200 resize-none"></textarea>
                 </div>
 
-                <button id="submitPost" type="submit">Paylaş</button>
+                <button id="submitPost" type="submit" 
+                        class="w-full bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105">
+                    Paylaş
+                </button>
             </form>
-        </section>
+        </div>
+    </section>
 
-        <!-- Paylaşımlar -->
-        <section class="blog-posts">
-            <h2>Paylaşımlar</h2>
-
-            <!-- Hiç post yoksa -->
-            <div th:if="${posts.empty}">
-                <p>Henüz paylaşım yok. İlk paylaşımı sen yap!</p>
+        <!-- Blog Posts Section -->
+        <section class="space-y-8">
+            <div class="flex items-center justify-between">
+                <h2 class="text-3xl font-bold text-gray-900">Paylaşımlar</h2>
+                <div class="text-sm text-gray-500" th:text="${posts.totalElements} + ' paylaşım'"></div>
             </div>
 
-            <!-- Post listesi -->
-            <div class="blog-post" th:each="post : ${posts.content}" x-data="{ open: false }">
-                <div class="post-header">
-                    <span class="post-author" th:text="${post.authorUsername}">Yazar</span>
-                    <span class="post-date"
-                          th:text="${#temporals.format(post.createdAt, 'dd MMMM yyyy')}">
-                    </span>
+            <!-- Empty State -->
+            <div th:if="${posts.empty}" class="text-center py-12">
+                <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Henüz paylaşım yok</h3>
+                <p class="text-gray-600">İlk paylaşımı sen yap!</p>
+            </div>
 
-                    <!-- sadece post’un yazarıysa göster -->
-                    <button
-                            @click="open = true"
-                            class="delete-btn btn-danger"
-                            th:if="${currentUsername != null and currentUsername == post.authorUsername}">
-                        Paylaşımımı Sil
-                    </button>
-
-                    <!-- silme modal’ı da aynı koşulun içinde kalır -->
-                    <div class="modal-overlay" x-cloak x-show="open">
-                        <div @click.away="open = false" class="modal-content">
-                            <div class="modal-header">
-                                <h3>Silme Onayı</h3>
-                                <button @click="open = false" class="modal-close">×</button>
+            <!-- Post List -->
+            <div class="space-y-6">
+                <div class="bg-white rounded-2xl shadow-lg p-8 card-hover" th:each="post : ${posts.content}" x-data="{ open: false }">
+                    <!-- Post Header -->
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-10 h-10 bg-gradient-to-r from-primary-500 to-primary-600 rounded-full flex items-center justify-center">
+                                <span class="text-white font-semibold text-sm" th:text="${#strings.substring(post.authorUsername, 0, 1).toUpperCase()}"></span>
                             </div>
-                            <p>Bu yazıyı silmek istediğinize emin misiniz?</p>
-                            <div class="modal-footer">
-                                <button @click="open = false" class="btn-cancel">Vazgeç</button>
-                                <form method="post" th:action="@{/blog/posts/{id}/delete(id=${post.id})}">
-                                    <input sec:csrfInput type="hidden"/>
-                                    <button class="btn-delete" type="submit">Sil</button>
-                                </form>
+                            <div>
+                                <div class="font-semibold text-gray-900" th:text="${post.authorUsername}">Yazar</div>
+                                <div class="text-sm text-gray-500" th:text="${#temporals.format(post.createdAt, 'dd MMMM yyyy')}">Tarih</div>
+                            </div>
+                        </div>
+
+                        <!-- Delete Button (only for post author) -->
+                        <button
+                                @click="open = true"
+                                class="text-red-600 hover:text-red-700 text-sm font-medium transition-colors duration-200"
+                                th:if="${currentUsername != null and currentUsername == post.authorUsername}">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                            </svg>
+                        </button>
+
+                        <!-- Delete Modal -->
+                        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" x-cloak x-show="open">
+                            <div @click.away="open = false" class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl">
+                                <div class="text-center">
+                                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Silme Onayı</h3>
+                                    <p class="text-gray-600 mb-6">Bu paylaşımı silmek istediğinize emin misiniz?</p>
+                                    <div class="flex space-x-4">
+                                        <button @click="open = false" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-medium transition-colors duration-200">
+                                            Vazgeç
+                                        </button>
+                                        <form method="post" th:action="@{/blog/posts/{id}/delete(id=${post.id})}" class="flex-1">
+                                            <input sec:csrfInput type="hidden"/>
+                                            <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200">
+                                                Sil
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                </div>
-
-                <div class="post-content">
-                    <h3 th:text="${post.title}"></h3>
-                    <p th:text="${post.content}"></p>
-                </div>
-
-                <div class="post-actions">
-                    <!-- 👍 Like -->
-                    <form class="inline-form"
-                          method="post"
-                          th:action="@{/blog/posts/{id}/reactions(id=${post.id})}"
-                          th:if="${isAuthenticated}">
-                        <input sec:csrfInput type="hidden"/>
-                        <input name="type" type="hidden" value="LIKE"/>
-                        <button type="submit">
-                            ❤️ <span th:text="${post.likeCount}">0</span>
-                        </button>
-                    </form>
-
-                    <!-- 👎 Dislike -->
-                    <form class="inline-form"
-                          method="post"
-                          th:action="@{/blog/posts/{id}/reactions(id=${post.id})}"
-                          th:if="${isAuthenticated}">
-                        <input sec:csrfInput type="hidden"/>
-                        <input name="type" type="hidden" value="DISLIKE"/>
-                        <button type="submit">
-                            👎 <span th:text="${post.dislikeCount}">0</span>
-                        </button>
-                    </form>
-                </div>
-
-                <!-- Yorumlar -->
-                <div class="post-comments">
-                    <div class="comment" th:each="cmt : ${post.comments}">
-                        <div class="comment-header">
-                            <span class="comment-author" th:text="${cmt.authorUsername}">Yorumcu</span>
-                            <span class="comment-date"
-                                  th:text="${#temporals.format(cmt.createdAt, 'dd MMM yyyy HH:mm')}">
-                            </span>
-
-                            <!-- sadece post sahibi veya yorum sahibi görsün -->
-                            <form class="comment-delete-form"
-                                  method="post"
-                                  th:action="@{/blog/posts/{postId}/comments/{commentId}/delete(postId=${post.id}, commentId=${cmt.id})}"
-                                  th:if="${currentUsername == post.authorUsername or currentUsername == cmt.authorUsername}">
-                                <input sec:csrfInput type="hidden"/>
-                                <button class="btn-comment-delete" type="submit">Yorumu Kaldır</button>
-                            </form>
-                        </div>
-
-                        <div class="comment-body">
-                            <p th:text="${cmt.content}"></p>
-                        </div>
-
-                        <!-- yorum reaksiyonları -->
-                        <div class="comment-actions" th:if="${isAuthenticated}">
-                            <!-- 👍 Like -->
-                            <form method="post"
-                                  th:action="@{/blog/posts/{postId}/comments/{commentId}/reactions(postId=${post.id},commentId=${cmt.id})}">
-                                <input sec:csrfInput type="hidden"/>
-                                <input name="type" type="hidden" value="LIKE"/>
-                                <button type="submit">
-                                    ❤️<span th:text="${cmt.likeCount}">0</span>
-                                </button>
-                            </form>
-
-                            <!-- 👎 Dislike -->
-                            <form method="post"
-                                  th:action="@{/blog/posts/{postId}/comments/{commentId}/reactions(postId=${post.id},commentId=${cmt.id})}">
-                                <input sec:csrfInput type="hidden"/>
-                                <input name="type" type="hidden" value="DISLIKE"/>
-                                <button type="submit">
-                                    👎<span th:text="${cmt.dislikeCount}">0</span>
-                                </button>
-                            </form>
-                        </div>
-
-
+                    <!-- Post Content -->
+                    <div class="mb-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4" th:text="${post.title}">Başlık</h3>
+                        <p class="text-gray-700 leading-relaxed" th:text="${post.content}">İçerik</p>
                     </div>
 
-                    <form class="comment-form"
-                          method="post"
-                          th:action="@{/blog/posts/{id}/comments(id=${post.id})}"
-                          th:object="${commentRequest}">
-                        <input sec:csrfInput type="hidden"/>
+                    <!-- Post Actions -->
+                    <div class="flex items-center space-x-4 mb-6" th:if="${isAuthenticated}">
+                        <!-- Like -->
+                        <form method="post" th:action="@{/blog/posts/{id}/reactions(id=${post.id})}" class="flex items-center space-x-2">
+                            <input sec:csrfInput type="hidden"/>
+                            <input name="type" type="hidden" value="LIKE"/>
+                            <button type="submit" class="flex items-center space-x-2 text-gray-600 hover:text-red-500 transition-colors duration-200">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                </svg>
+                                <span th:text="${post.likeCount}">0</span>
+                            </button>
+                        </form>
 
-                        <input placeholder="Yorumunuzu yazın"
-                               required
-                               th:field="*{content}"
-                               type="text"/>
-                        <button type="submit">Gönder</button>
-                    </form>
+                        <!-- Dislike -->
+                        <form method="post" th:action="@{/blog/posts/{id}/reactions(id=${post.id})}" class="flex items-center space-x-2">
+                            <input sec:csrfInput type="hidden"/>
+                            <input name="type" type="hidden" value="DISLIKE"/>
+                            <button type="submit" class="flex items-center space-x-2 text-gray-600 hover:text-blue-500 transition-colors duration-200">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.912c.163 0 .326.02.485.06L17.5 5.5A2 2 0 0119 7.5v4a2 2 0 01-2 2h-1.236l-3.5 7a2 2 0 01-3.578 0L5.236 14H10z"></path>
+                                </svg>
+                                <span th:text="${post.dislikeCount}">0</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Comments -->
+                    <div class="border-t border-gray-200 pt-6">
+                        <h4 class="text-lg font-semibold text-gray-900 mb-4">Yorumlar</h4>
+                        
+                        <!-- Comment List -->
+                        <div class="space-y-4 mb-6">
+                            <div class="bg-gray-50 rounded-lg p-4" th:each="cmt : ${post.comments}">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                                            <span class="text-primary-600 font-semibold text-xs" th:text="${#strings.substring(cmt.authorUsername, 0, 1).toUpperCase()}"></span>
+                                        </div>
+                                        <div>
+                                            <div class="font-medium text-gray-900 text-sm" th:text="${cmt.authorUsername}">Yorumcu</div>
+                                            <div class="text-xs text-gray-500" th:text="${#temporals.format(cmt.createdAt, 'dd MMM yyyy HH:mm')}">Tarih</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Comment Delete Button -->
+                                    <form method="post" th:action="@{/blog/posts/{postId}/comments/{commentId}/delete(postId=${post.id}, commentId=${cmt.id})}" 
+                                          th:if="${currentUsername == post.authorUsername or currentUsername == cmt.authorUsername}">
+                                        <input sec:csrfInput type="hidden"/>
+                                        <button type="submit" class="text-red-600 hover:text-red-700 text-xs transition-colors duration-200">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                            </svg>
+                                        </button>
+                                    </form>
+                                </div>
+
+                                <div class="text-gray-700 text-sm" th:text="${cmt.content}">Yorum içeriği</div>
+
+                                <!-- Comment Reactions -->
+                                <div class="flex items-center space-x-4 mt-3" th:if="${isAuthenticated}">
+                                    <!-- Comment Like -->
+                                    <form method="post" th:action="@{/blog/posts/{postId}/comments/{commentId}/reactions(postId=${post.id},commentId=${cmt.id})}" class="flex items-center space-x-1">
+                                        <input sec:csrfInput type="hidden"/>
+                                        <input name="type" type="hidden" value="LIKE"/>
+                                        <button type="submit" class="flex items-center space-x-1 text-gray-500 hover:text-red-500 transition-colors duration-200">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                            </svg>
+                                            <span class="text-xs" th:text="${cmt.likeCount}">0</span>
+                                        </button>
+                                    </form>
+
+                                    <!-- Comment Dislike -->
+                                    <form method="post" th:action="@{/blog/posts/{postId}/comments/{commentId}/reactions(postId=${post.id},commentId=${cmt.id})}" class="flex items-center space-x-1">
+                                        <input sec:csrfInput type="hidden"/>
+                                        <input name="type" type="hidden" value="DISLIKE"/>
+                                        <button type="submit" class="flex items-center space-x-1 text-gray-500 hover:text-blue-500 transition-colors duration-200">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.912c.163 0 .326.02.485.06L17.5 5.5A2 2 0 0119 7.5v4a2 2 0 01-2 2h-1.236l-3.5 7a2 2 0 01-3.578 0L5.236 14H10z"></path>
+                                            </svg>
+                                            <span class="text-xs" th:text="${cmt.dislikeCount}">0</span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Comment Form -->
+                        <form method="post" th:action="@{/blog/posts/{id}/comments(id=${post.id})}" th:object="${commentRequest}" class="flex space-x-4">
+                            <input sec:csrfInput type="hidden"/>
+                            <div class="flex-1">
+                                <input placeholder="Yorumunuzu yazın..."
+                                       required
+                                       th:field="*{content}"
+                                       type="text"
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all duration-200"/>
+                            </div>
+                            <button type="submit" class="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200">
+                                Gönder
+                            </button>
+                        </form>
+                    </div>
                 </div>
-
             </div>
         </section>
     </div>
 
-    <!-- Sayfalama -->
-    <div class="pagination"
-         th:if="${posts.totalPages > 1}">
-        <a th:href="@{/blog(page=${posts.number-1},size=${posts.size})}"
-           th:if="${posts.hasPrevious()}">
-            « Geri
-        </a>
-        <span th:text="${posts.number + 1} + ' / ' + ${posts.totalPages}"></span>
-        <a th:href="@{/blog(page=${posts.number+1},size=${posts.size})}"
-           th:if="${posts.hasNext()}">
-            İleri »
-        </a>
+    <!-- Pagination -->
+    <div class="flex items-center justify-center mt-12" th:if="${posts.totalPages > 1}">
+        <nav class="flex items-center space-x-2">
+            <a th:href="@{/blog(page=${posts.number-1},size=${posts.size})}"
+               th:if="${posts.hasPrevious()}"
+               class="px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-700 transition-colors duration-200">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+            </a>
+            
+            <span class="px-4 py-2 text-sm font-medium text-gray-700 bg-primary-50 border border-primary-200 rounded-lg">
+                <span th:text="${posts.number + 1}"></span> / <span th:text="${posts.totalPages}"></span>
+            </span>
+            
+            <a th:href="@{/blog(page=${posts.number+1},size=${posts.size})}"
+               th:if="${posts.hasNext()}"
+               class="px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-700 transition-colors duration-200">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </a>
+        </nav>
     </div>
 </div>
 
 <div th:replace="fragments/footer :: footer"></div>
-
-<!--<script th:src="@{/js/app.js}"></script>-->
 
 </body>
 </html>

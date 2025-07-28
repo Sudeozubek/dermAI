@@ -1,108 +1,255 @@
 <!DOCTYPE html>
-<html lang="tr"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>DermAI | Kayıt Ol</title>
-    <link rel="stylesheet" th:href="@{/css/layer.css}">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/layer.css}">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="stylesheet" th:href="@{/css/register.css}">
     
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            900: '#0c4a6e'
+                        },
+                        gray: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a'
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                        'display': ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
     <style>
-.register-title {
-  color: #2563eb !important;
-  font-weight: 700;
-}
-.register-btn, .register-form button[type="submit"] {
-  margin-bottom: 1.2rem;
-  background: linear-gradient(90deg, #2563eb 0%, #38bdf8 100%);
-  color: #fff;
-  font-weight: 700;
-  border: none;
-  border-radius: 20px;
-  box-shadow: 0 4px 24px #2563eb22;
-  padding: 0.9rem 2.2rem;
-  font-size: 1.15rem;
-  cursor: pointer;
-  transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
-  min-width: 120px;
-  min-height: 48px;
-  display: inline-block;
-}
-.register-btn:hover, .register-form button[type="submit"]:hover {
-  background: linear-gradient(90deg, #1e40af 0%, #2563eb 100%);
-  box-shadow: 0 8px 32px #2563eb33;
-  transform: translateY(-2px) scale(1.04);
-}
-.register-links a {
-  color: #2563eb !important;
-  font-weight: 600;
-  text-decoration: underline;
-  transition: color 0.2s;
-}
-.register-links a:hover {
-  color: #1e40af !important;
-}
-</style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            transform: translateY(-1px);
+        }
+        
+        .form-input:focus {
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+        }
+        
+        .alert-success {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+            border: 1px solid #22c55e;
+            color: #166534;
+        }
+        
+        .alert-error {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border: 1px solid #ef4444;
+            color: #dc2626;
+        }
+        
+        .error-message {
+            color: #dc2626;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+    </style>
 </head>
 <body>
 
 <div th:replace="fragments/navbar :: navbar"></div>
 
-<section class="register-section">
-    <div class="register-container">
-        <div class="register-title">Kayıt Ol</div>
-
-        <!-- Flash mesajlar -->
-        <div class="alert error" th:if="${error}">
-            <span th:text="${error}"></span>
-        </div>
-        <div class="alert success" th:if="${success}">
-            <span th:text="${success}"></span>
-        </div>
-
-        <form class="register-form" method="post" th:action="@{/auth/register}" th:object="${registerRequest}">
-            <div>
-                <label for="fullName">Ad Soyad</label>
-                <input id="fullName" maxlength="100" minlength="3" placeholder="En az 3 karakter" required
-                       th:field="*{fullName}"
-                       type="text"/>
-                <div class="error-message" th:errors="*{fullName}" th:if="${#fields.hasErrors('fullName')}"></div>
+<!-- Register Form Section -->
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12">
+    <div class="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-2xl shadow-xl p-8 card-hover">
+            <!-- Logo and Welcome -->
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-primary-100 rounded-full mb-4">
+                    <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">Hesap Oluşturun</h2>
+                <p class="text-gray-600">DermAI'ya katılın ve kişiselleştirilmiş cilt bakım deneyiminizi başlatın</p>
             </div>
 
-            <div>
-                <label for="username">E-posta Adresiniz</label>
-                <input id="username" placeholder="ornek@ornek.com" required th:field="*{username}" type="email"/>
-                <div class="error-message" th:errors="*{username}" th:if="${#fields.hasErrors('username')}"></div>
+            <!-- Alert Messages -->
+            <div class="mb-6 space-y-3">
+                <!-- Error Message -->
+                <div th:if="${error}" class="alert-error rounded-lg p-4 flex items-center space-x-3">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span th:text="${error}"></span>
+                </div>
+
+                <!-- Success Message -->
+                <div th:if="${success}" class="alert-success rounded-lg p-4 flex items-center space-x-3">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span th:text="${success}"></span>
+                </div>
             </div>
 
-            <div>
-                <label for="password">Şifre</label>
-                <input id="password" minlength="6" placeholder="En az 6 karakter" required th:field="*{password}"
-                       type="password"/>
-                <div class="error-message" th:errors="*{password}" th:if="${#fields.hasErrors('password')}"></div>
-            </div>
+            <!-- Register Form -->
+            <form method="post" th:action="@{/auth/register}" th:object="${registerRequest}" class="space-y-6">
+                <!-- Full Name Field -->
+                <div>
+                    <label for="fullName" class="block text-sm font-medium text-gray-700 mb-2">
+                        Ad Soyad
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                        </div>
+                        <input id="fullName" 
+                               maxlength="100" 
+                               minlength="3" 
+                               placeholder="En az 3 karakter" 
+                               required
+                               th:field="*{fullName}"
+                               type="text"
+                               class="form-input block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                        />
+                    </div>
+                    <div class="error-message" th:errors="*{fullName}" th:if="${#fields.hasErrors('fullName')}"></div>
+                </div>
 
-            <div>
-                <label for="confirmPassword">Şifre (Tekrar)</label>
-                <input id="confirmPassword" placeholder="Şifrenizi tekrar girin" required th:field="*{confirmPassword}"
-                       type="password"/>
-                <div class="error-message" th:errors="*{confirmPassword}"
-                     th:if="${#fields.hasErrors('confirmPassword')}"></div>
-            </div>
+                <!-- Email Field -->
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700 mb-2">
+                        E-posta Adresiniz
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"></path>
+                            </svg>
+                        </div>
+                        <input id="username" 
+                               placeholder="ornek@ornek.com" 
+                               required 
+                               th:field="*{username}" 
+                               type="email"
+                               class="form-input block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                        />
+                    </div>
+                    <div class="error-message" th:errors="*{username}" th:if="${#fields.hasErrors('username')}"></div>
+                </div>
 
-            <button class="register-btn" type="submit">Kayıt Ol</button>
-        </form>
-        <div class="register-links">
-            Zaten hesabınız var mı?
-            <a th:href="@{/auth/login}">Giriş Yap</a>
+                <!-- Password Field -->
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
+                        Şifre
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                            </svg>
+                        </div>
+                        <input id="password" 
+                               minlength="6" 
+                               placeholder="En az 6 karakter" 
+                               required 
+                               th:field="*{password}"
+                               type="password"
+                               class="form-input block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                        />
+                    </div>
+                    <div class="error-message" th:errors="*{password}" th:if="${#fields.hasErrors('password')}"></div>
+                </div>
+
+                <!-- Confirm Password Field -->
+                <div>
+                    <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-2">
+                        Şifre (Tekrar)
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                            </svg>
+                        </div>
+                        <input id="confirmPassword" 
+                               placeholder="Şifrenizi tekrar girin" 
+                               required 
+                               th:field="*{confirmPassword}"
+                               type="password"
+                               class="form-input block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                        />
+                    </div>
+                    <div class="error-message" th:errors="*{confirmPassword}" th:if="${#fields.hasErrors('confirmPassword')}"></div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-primary w-full py-3 px-4 rounded-lg text-white font-semibold text-lg transition-all duration-200 transform hover:scale-105">
+                    <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                    </svg>
+                    Kayıt Ol
+                </button>
+            </form>
+
+            <!-- Login Link -->
+            <div class="mt-8 text-center">
+                <p class="text-gray-600">
+                    Zaten hesabınız var mı?
+                    <a th:href="@{/auth/login}" class="text-primary-600 hover:text-primary-700 font-semibold underline transition-colors">
+                        Giriş Yap
+                    </a>
+                </p>
+            </div>
         </div>
     </div>
-</section>
+</div>
 
 <div th:replace="fragments/footer :: footer"></div>
 </body>

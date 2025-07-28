@@ -3,217 +3,76 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>DermAI | Hakkında</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/layer.css}">
-    <link rel="stylesheet" th:href="@{/css/style.css}"> 
-    <link rel="stylesheet" th:href="@{/css/about.css}">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            900: '#0c4a6e'
+                        },
+                        gray: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a'
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                        'display': ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
     <style>
         body {
-          font-family: 'Poppins', Arial, sans-serif;
-          background: #F7F8FA;
-          color: #232946;
+            font-family: 'Inter', sans-serif;
         }
-        .about-section {
-          min-height: 90vh;
-          padding: 2.5rem 0 0 0;
-          background: #F7F8FA;
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
         }
-        .about-title {
-          text-align: center;
-          font-size: 2rem;
-          font-family: 'Poppins', Arial, sans-serif;
-          color: #232946;
-          font-weight: 500;
-          margin-bottom: 0.5rem;
-          letter-spacing: 0.2px;
+        
+        .card-hover {
+            transition: all 0.3s ease;
         }
-        .about-desc {
-          text-align: center;
-          font-size: 1.08rem;
-          color: #2563eb;
-          margin-bottom: 2rem;
-          font-weight: 400;
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
-        .about-cards {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 2.2rem;
-          justify-content: center;
-          margin-bottom: 2.5rem;
-          padding: 0 2vw;
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            transition: all 0.3s ease;
         }
-        .about-card {
-          background: #fff;
-          border-radius: 1.5rem;
-          box-shadow: 0 6px 32px #2563eb33;
-          padding: 2.2rem 1.7rem 1.7rem 1.7rem;
-          min-width: 280px;
-          max-width: 340px;
-          min-height: 240px;
-          flex: 1 1 280px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
-          border-top: 5px solid #A3D8F7;
-          transition: box-shadow 0.18s, transform 0.18s;
-          position: relative;
-        }
-        .about-card:nth-child(1) { border-top-color: #A3F7B5; }
-        .about-card:nth-child(2) { border-top-color: #A3D8F7; }
-        .about-card:nth-child(3) { border-top-color: #E1C6F7; }
-        .about-card:hover {
-          box-shadow: 0 12px 36px #4F8CFF33, 0 2px 12px #2563eb33;
-          transform: translateY(-6px) scale(1.03);
-        }
-        .about-card h3 {
-          font-size: 1.18rem;
-          font-family: 'Poppins', Arial, sans-serif;
-          color: #222B45;
-          font-weight: 500;
-          margin-bottom: 0.8rem;
-          letter-spacing: 0.2px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 0.5em;
-        }
-        .about-card .about-icon {
-          font-size: 1.3em;
-          margin-right: 0.2em;
-        }
-        .about-card ul, .about-card p {
-          color: #444;
-          font-size: 1.05rem;
-          margin: 0;
-          font-weight: 400;
-          text-align: center;
-        }
-        .about-card ul {
-          margin-top: 0.5em;
-          padding-left: 0;
-          list-style: none;
-        }
-        .about-card ul li {
-          margin-bottom: 0.4em;
-          position: relative;
-          padding-left: 1.1em;
-          text-align: left;
-        }
-        .about-card ul li:before {
-          content: '•';
-          color: #4F8CFF;
-          position: absolute;
-          left: 0;
-          font-size: 1em;
-        }
-        .about-team-title {
-          text-align: center;
-          font-size: 1.25rem;
-          font-family: 'Poppins', Arial, sans-serif;
-          color: #232946;
-          font-weight: 500;
-          margin: 2.2rem 0 1.1rem 0;
-          letter-spacing: 0.1px;
-        }
-        .team-grid {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 1.5rem;
-          justify-content: center;
-          margin-bottom: 2.5rem;
-          padding: 0 2vw;
-        }
-        .team-card {
-          background: #fff;
-          border-radius: 1.2rem;
-          box-shadow: 0 2px 12px #2563eb33;
-          padding: 1.5rem 1.2rem 1.2rem 1.2rem;
-          min-width: 180px;
-          max-width: 210px;
-          flex: 1 1 180px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
-          border-top: 5px solid #4F8CFF;
-          transition:
-            transform 0.25s cubic-bezier(.4,2,.6,1),
-            box-shadow 0.25s cubic-bezier(.4,2,.6,1),
-            border-top-color 0.25s;
-          cursor: pointer;
-          position: relative;
-          z-index: 1;
-        }
-        .team-card:hover {
-          transform: scale(1.13) translateY(-10px);
-          box-shadow: 0 8px 32px #4F8CFF44, 0 2px 12px #2563eb33;
-          border-top-color: #34C759;
-          z-index: 2;
-        }
-        .team-card .team-emoji {
-          font-size: 2.2rem;
-          margin-bottom: 0.3em;
-          transition: transform 0.25s;
-        }
-        .team-card:hover .team-emoji {
-          transform: scale(1.25) rotate(-8deg);
-        }
-        .team-card .team-name {
-          font-size: 1.15rem;
-          font-weight: 600;
-          color: #222B45;
-          margin-bottom: 0.1em;
-          letter-spacing: 0.2px;
-        }
-        .team-card .team-role {
-          font-size: 1.05rem;
-          color: #2563eb;
-          font-weight: 500;
-          margin-bottom: 0.2em;
-        }
-        .team-card .team-desc {
-          font-size: 0.98rem;
-          color: #444;
-          font-weight: 400;
-        }
-        .about-footer {
-          background: #232946;
-          color: #fff;
-          text-align: center;
-          padding: 1.5rem 1rem 1rem 1rem;
-          font-size: 0.98rem;
-          margin-top: 2.5rem;
-          border-radius: 0.9rem 0.9rem 0 0;
-        }
-        .about-footer .footer-logo {
-          font-size: 1.1rem;
-          font-weight: 600;
-          letter-spacing: 1px;
-          color: #4F8CFF;
-          margin-bottom: 0.3em;
-          display: inline-block;
-          font-family: 'Montserrat', Arial, sans-serif;
-        }
-        .about-footer .footer-desc {
-          color: #bfc6e0;
-          font-size: 0.93rem;
-          margin-top: 0.5em;
-        }
-        @media (max-width: 1100px) {
-          .about-cards, .team-grid {
-            flex-direction: column;
-            gap: 1.2rem;
-            align-items: center;
-            padding: 0 0.5rem;
-          }
-          .about-card, .team-card {
-            min-width: 180px;
-            max-width: 98vw;
-            padding: 1.2rem 0.7rem;
-          }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            transform: translateY(-1px);
         }
     </style>
 </head>
@@ -221,69 +80,164 @@
 
 <div th:replace="fragments/navbar :: navbar"></div>
 
-<section class="about-section">
-    <div class="about-title">DermAI Hakkında</div>
-    <div class="about-desc">
-        Yapay zeka ve modern teknolojilerle cilt sağlığını herkes için erişilebilir ve güvenilir kılmayı hedefliyoruz.
-    </div>
-    <div class="about-cards">
-        <div class="about-card">
-            <h3><span class="about-icon">🎯</span>Amacımız</h3>
-            <p>
-                DermAI, cilt görsellerini analiz ederek potansiyel cilt hastalıkları hakkında ön bilgilendirme sunar.
-                Erken farkındalık ve doğru yönlendirme ile cilt sağlığını korumayı amaçlar. Kullanıcıya sade, hızlı ve
-                güvenilir bir deneyim sunmak önceliğimizdir.
+<!-- Professional Header -->
+<section class="bg-gradient-to-br from-primary-50 to-primary-100 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                <span class="text-primary-600">DermAI</span> Hakkında
+            </h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Yapay zeka ve modern teknolojilerle cilt sağlığını herkes için erişilebilir ve güvenilir kılmayı hedefliyoruz.
             </p>
-        </div>
-        <div class="about-card">
-            <h3><span class="about-icon">🛠️</span>Kullanılan Teknolojiler</h3>
-            <ul>
-                <li><b>Backend:</b> Java, Spring Boot, MongoDB</li>
-                <li><b>Frontend:</b> HTML, CSS, JavaScript</li>
-                <li><b>AI:</b> Python, ResNet50, Gemini API</li>
-                <li><b>Ödeme:</b> Stripe API (test modu)</li>
-                <li><b>Yönetim:</b> Notion, GitHub, Trello</li>
-                <li><b>Veri:</b> HAM10000, ISIC, SD-198, DermaMNIST</li>
-            </ul>
-        </div>
-        <div class="about-card">
-            <h3><span class="about-icon">👥</span>Akademi & Takım</h3>
-            <p>
-                Proje, Google Yapay Zeka ve Teknoloji Akademisi desteğiyle geliştirilmiştir. Takımımız; yazılım, yapay
-                zeka ve veri bilimi alanlarında uzmanlaşmış üyelerden oluşur. Her birimiz, cilt sağlığında fark yaratmak
-                için çalışıyoruz.
-            </p>
-        </div>
-    </div>
-    <div class="about-team-title">Takımımız</div>
-    <div class="team-grid">
-        <div class="team-card">
-            <div class="team-emoji">🧭</div>
-            <div class="team-name">Furkan Aras</div>
-            <div class="team-role">Scrum Master</div>
-        </div>
-        <div class="team-card">
-            <div class="team-emoji">👤</div>
-            <div class="team-name">Sude Özübek</div>
-            <div class="team-role">Product Owner</div>
-        </div>
-        <div class="team-card">
-            <div class="team-emoji">💻</div>
-            <div class="team-name">Batuhan Umay</div>
-            <div class="team-role">Backend Developer</div>
-        </div>
-        <div class="team-card">
-            <div class="team-emoji">🎨</div>
-            <div class="team-name">Ayşe Verda</div>
-            <div class="team-role">Frontend Developer</div>
-        </div>
-        <div class="team-card">
-            <div class="team-emoji">📊</div>
-            <div class="team-name">Rabia</div>
-            <div class="team-role">Veri Mühendisi</div>
         </div>
     </div>
 </section>
+
+<!-- Main Content -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- About Cards Section -->
+    <section class="mb-16">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Mission Card -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 card-hover border-t-4 border-green-400">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Amacımız</h3>
+                </div>
+                <p class="text-gray-600 leading-relaxed">
+                    DermAI, cilt görsellerini analiz ederek potansiyel cilt hastalıkları hakkında ön bilgilendirme sunar.
+                    Erken farkındalık ve doğru yönlendirme ile cilt sağlığını korumayı amaçlar. Kullanıcıya sade, hızlı ve
+                    güvenilir bir deneyim sunmak önceliğimizdir.
+                </p>
+            </div>
+
+            <!-- Technologies Card -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 card-hover border-t-4 border-blue-400">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Kullanılan Teknolojiler</h3>
+                </div>
+                <ul class="space-y-3 text-gray-600">
+                    <li class="flex items-start">
+                        <span class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                        <span><strong>Backend:</strong> Java, Spring Boot, MongoDB</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                        <span><strong>Frontend:</strong> HTML, CSS, JavaScript</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                        <span><strong>AI:</strong> Python, ResNet50, Gemini API</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                        <span><strong>Ödeme:</strong> Stripe API (test modu)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                        <span><strong>Yönetim:</strong> Notion, GitHub, Trello</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                        <span><strong>Veri:</strong> HAM10000, ISIC, SD-198, DermaMNIST</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Academy & Team Card -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 card-hover border-t-4 border-purple-400">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Akademi & Takım</h3>
+                </div>
+                <p class="text-gray-600 leading-relaxed">
+                    Proje, Google Yapay Zeka ve Teknoloji Akademisi desteğiyle geliştirilmiştir. Takımımız; yazılım, yapay
+                    zeka ve veri bilimi alanlarında uzmanlaşmış üyelerden oluşur. Her birimiz, cilt sağlığında fark yaratmak
+                    için çalışıyoruz.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="mb-16">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Takımımız</h2>
+            <p class="text-lg text-gray-600">Projeyi hayata geçiren ekip üyelerimiz</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+            <!-- Furkan Aras -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 card-hover text-center">
+                <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m-6 3l6-3"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-1">Furkan Aras</h3>
+                <p class="text-primary-600 font-medium">Scrum Master</p>
+            </div>
+
+            <!-- Sude Özübek -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 card-hover text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-1">Sude Özübek</h3>
+                <p class="text-primary-600 font-medium">Product Owner</p>
+            </div>
+
+            <!-- Batuhan Umay -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 card-hover text-center">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-1">Batuhan Umay</h3>
+                <p class="text-primary-600 font-medium">Backend Developer</p>
+            </div>
+
+            <!-- Ayşe Verda -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 card-hover text-center">
+                <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-1">Ayşe Verda</h3>
+                <p class="text-primary-600 font-medium">Frontend Developer</p>
+            </div>
+
+            <!-- Rabia -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 card-hover text-center">
+                <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-1">Rabia Yılmaz</h3>
+                <p class="text-primary-600 font-medium">Veri Mühendisi</p>
+            </div>
+        </div>
+    </section>
+</div>
 
 <div th:replace="fragments/footer :: footer"></div>
 

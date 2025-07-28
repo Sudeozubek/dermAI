@@ -200,28 +200,28 @@ window.addEventListener('DOMContentLoaded', function() {
 
   if (addPhotoBtn) {
     addPhotoBtn.addEventListener('click', function() {
-      photoChoiceModal.style.display = 'flex';
+      photoChoiceModal.classList.remove('hidden');
     });
   }
   if (photoChoiceCancel) photoChoiceCancel.addEventListener('click', function() {
-    photoChoiceModal.style.display = 'none';
+    photoChoiceModal.classList.add('hidden');
   });
   if (choosePhotoBtn) choosePhotoBtn.addEventListener('click', function() {
-    photoChoiceModal.style.display = 'none';
+    photoChoiceModal.classList.add('hidden');
     photoAction = 'choose';
-    photoWarningModal.style.display = 'flex';
+    photoWarningModal.classList.remove('hidden');
   });
   if (takePhotoBtn) takePhotoBtn.addEventListener('click', function() {
-    photoChoiceModal.style.display = 'none';
+    photoChoiceModal.classList.add('hidden');
     photoAction = 'take';
-    photoWarningModal.style.display = 'flex';
+    photoWarningModal.classList.remove('hidden');
   });
   if (photoWarningCancel) photoWarningCancel.addEventListener('click', function() {
-    photoWarningModal.style.display = 'none';
+    photoWarningModal.classList.add('hidden');
     photoAction = null;
   });
   if (photoWarningContinue) photoWarningContinue.addEventListener('click', function() {
-    photoWarningModal.style.display = 'none';
+    photoWarningModal.classList.add('hidden');
     if (photoAction === 'choose') {
       chatImageInput.click();
     } else if (photoAction === 'take') {
@@ -230,7 +230,7 @@ window.addEventListener('DOMContentLoaded', function() {
     photoAction = null;
   });
   function openCameraModal() {
-    photoCameraModal.style.display = 'flex';
+    photoCameraModal.classList.remove('hidden');
     navigator.mediaDevices.getUserMedia({ video: true })
       .then(stream => {
         cameraStream.srcObject = stream;
@@ -242,7 +242,7 @@ window.addEventListener('DOMContentLoaded', function() {
       });
   }
   function closeCameraModal() {
-    photoCameraModal.style.display = 'none';
+    photoCameraModal.classList.add('hidden');
     if (cameraStreamTrack) {
       cameraStreamTrack.getTracks().forEach(track => track.stop());
       cameraStreamTrack = null;
@@ -259,7 +259,7 @@ window.addEventListener('DOMContentLoaded', function() {
     imageDataUrl = dataUrl;
     if (chatImagePreview) {
       chatImagePreview.src = imageDataUrl;
-      chatImagePreview.style.display = 'inline-block';
+      chatImagePreview.classList.remove('hidden');
     }
     closeCameraModal();
   });

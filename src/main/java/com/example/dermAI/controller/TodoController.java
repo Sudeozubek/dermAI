@@ -72,6 +72,10 @@ public class TodoController {
 
                 String routineText = geminiService.askGemini(prompt.toString());
 
+                // Kullanıcının cilt tipini kaydet
+                user.setSkinType(skinType);
+                userRepository.save(user);
+
                 // Yeni rutin kaydet
                 Routine routine = new Routine();
                 routine.setUser(user);

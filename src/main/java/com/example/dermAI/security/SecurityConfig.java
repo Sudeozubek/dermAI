@@ -15,10 +15,11 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/js/**", "/image/**").permitAll()
-                        .requestMatchers("/auth/login", "/auth/register").permitAll()
-                        .requestMatchers("/", "/about", "/blog", "/skintypes").permitAll()
-                        .requestMatchers("/api/gemini/ask").permitAll()
+                                        .requestMatchers("/css/**", "/js/**", "/image/**").permitAll()
+                .requestMatchers("/auth/login", "/auth/register").permitAll()
+                .requestMatchers("/", "/about", "/blog", "/skintypes").permitAll()
+                .requestMatchers("/api/gemini/ask").permitAll()
+                .requestMatchers("/api/sephora/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

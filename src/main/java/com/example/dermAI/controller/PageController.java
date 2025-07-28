@@ -38,7 +38,23 @@ public class PageController {
     }
 
     @GetMapping("/user/profil")
-    public String profil() {
+    public String profil(Model model) {
+        try {
+            // Loginli kullanıcıyı bul
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String username = auth.getName();
+            User user = userRepository.findByUsername(username).orElse(null);
+            
+            if (user != null) {
+                // Kullanıcı bilgilerini ekle
+                model.addAttribute("user", user);
+                model.addAttribute("puan", user.getPuan());
+            }
+            
+        } catch (Exception e) {
+            // Hata durumunda sessizce devam et
+        }
+        
         return "user/profil";
     }
 

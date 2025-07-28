@@ -3,255 +3,76 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>DermAI | Skin Types</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/layer.css}">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>DermAI | Cilt Tipleri</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            900: '#0c4a6e'
+                        },
+                        gray: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a'
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                        'display': ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
     <style>
         body {
-          background: #F5F7FB;
-          font-family: 'Poppins', Arial, sans-serif;
-          margin: 0;
-          padding: 0;
+            font-family: 'Inter', sans-serif;
         }
-        .navbar {
-      width: 100%;
-      background: #fff;
-      box-shadow: 0 2px 12px #2563eb33;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.7rem 2rem;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .nav-logo {
-      font-size: 2rem;
-      font-weight: 700;
-      color: #4F3CC9;
-      font-family: 'Montserrat', Arial, sans-serif;
-      letter-spacing: 2px;
-    }
-    .nav-glow .star-nav {
-      color: #4F8CFF;
-      font-size: 1.5rem;
-      margin: 0 0.1em;
-      font-weight: 900;
-    }
-    .nav-links {
-      list-style: none;
-      display: flex;
-      gap: 1.5rem;
-      margin: 0;
-      padding: 0;
-    }
-    .nav-links li a {
-      text-decoration: none;
-      color: #4F3CC9;
-      font-weight: 500;
-      font-size: 1rem;
-    }
-        .container {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 2.5rem 0.5rem 1.5rem 0.5rem;
-          box-sizing: border-box;
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
         }
-        .page-title, .section-title {
-          text-align: center !important;
-          font-size: 2.1rem !important;
-          font-family: 'Poppins', Arial, sans-serif !important;
-          color: #222B45 !important;
-          margin-bottom: 2.2rem !important;
-          font-weight: 500 !important;
-          letter-spacing: 0.5px !important;
+        
+        .card-hover {
+            transition: all 0.3s ease;
         }
-        .card-grid, .condition-grid {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 2rem;
-          justify-content: center;
-          margin-bottom: 2rem;
-          width: 100%;
-          box-sizing: border-box;
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
-        .skin-card, .condition-card {
-          min-width: 180px;
-          max-width: 220px;
-          flex: 1 1 180px;
-          padding: 2rem 1.2rem;
-          font-size: 1rem;
-          box-sizing: border-box;
-          border-radius: 1.5rem;
-          box-shadow: 0 2px 16px #2563eb33;
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            transition: all 0.3s ease;
         }
-        .skin-card {
-          background: #fff;
-          border-radius: 1.2rem;
-          box-shadow: 0 2px 12px #2563eb33;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
-          border-top: 5px solid transparent;
-          transition: transform 0.15s, box-shadow 0.15s;
-        }
-        .skin-card:hover {
-          transform: translateY(-6px) scale(1.03);
-          box-shadow: 0 6px 24px #4F3CC933;
-        }
-        .skin-card.normal { border-top-color: #A3F7B5; }
-        .skin-card.oily { border-top-color: #A3D8F7; }
-        .skin-card.dry { border-top-color: #FFE0B2; }
-        .skin-card.combination { border-top-color: #E1C6F7; }
-        .skin-card.sensitive { border-top-color: #FFD6D6; }
-        .skin-card .icon {
-          font-size: 2.5rem;
-          margin-bottom: 0.7rem;
-        }
-        .skin-card .title {
-          font-size: 1rem;
-          font-weight: 700;
-          margin-bottom: 0.5rem;
-          color: #222B45;
-          font-family: 'Montserrat', Arial, sans-serif;
-        }
-        .skin-card .desc {
-          font-size: 0.93rem;
-          color: #555;
-          margin-bottom: 0.2rem;
-        }
-        .section-title {
-          text-align: center;
-          font-size: 2rem;
-          font-family: 'Montserrat', Arial, sans-serif;
-          color: #222B45;
-          margin: 2.5rem 0 1.5rem 0;
-          font-weight: 700;
-        }
-        .condition-card {
-          background: #fff;
-          border-radius: 1.2rem;
-          box-shadow: 0 2px 12px #2563eb33;
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          border-left: 6px solid transparent;
-          transition: transform 0.15s, box-shadow 0.15s;
-        }
-        .condition-card.acne { border-left-color: #FFF9C4; }
-        .condition-card.rosacea { border-left-color: #F8BBD0; }
-        .condition-card.eczema { border-left-color: #C5CAE9; }
-        .condition-card.psoriasis { border-left-color: #B2DFDB; }
-        .condition-card.melanoma { border-left-color: #FFCDD2; }
-        .condition-card.ai-specialty.acne-detection { border-left-color: #FFB74D; }
-        .condition-card.ai-specialty.skin-cancer { border-left-color: #F44336; }
-        .condition-card.ai-specialty.eczema-psoriasis { border-left-color: #4CAF50; }
-        .condition-card.ai-specialty.rosacea { border-left-color: #E91E63; }
-        .condition-card.ai-specialty.skin-lesions { border-left-color: #9C27B0; }
-        .condition-card.ai-specialty.skin-infections { border-left-color: #2196F3; }
-        .condition-card.ai-specialty.melanocytic-nevi { 
-          border-left-color: #8BC34A; 
-          background: linear-gradient(135deg, #E8F5E8 0%, #F1F8E9 100%);
-        }
-        .condition-card.ai-specialty.melanoma { 
-          border-left-color: #F44336; 
-          background: linear-gradient(135deg, #FFEBEE 0%, #FFCDD2 100%);
-        }
-        .condition-card.ai-specialty.benign-keratosis { 
-          border-left-color: #FF9800; 
-          background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
-        }
-        .condition-card.ai-specialty.basal-cell { 
-          border-left-color: #E91E63; 
-          background: linear-gradient(135deg, #FCE4EC 0%, #F8BBD0 100%);
-        }
-        .condition-card.ai-specialty.actinic-keratosis { 
-          border-left-color: #9C27B0; 
-          background: linear-gradient(135deg, #F3E5F5 0%, #E1BEE7 100%);
-        }
-        .condition-card.ai-specialty.vascular-lesions { 
-          border-left-color: #2196F3; 
-          background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
-        }
-        .condition-card .title {
-          font-size: 1rem;
-          font-weight: 700;
-          color: #222B45;
-          font-family: 'Montserrat', Arial, sans-serif;
-          margin-bottom: 0.3rem;
-        }
-        .condition-card .badge {
-          display: inline-block;
-          font-size: 0.85rem;
-          font-weight: 600;
-          border-radius: 0.7em;
-          padding: 0.1em 0.7em;
-          margin-left: 0.5em;
-          vertical-align: middle;
-        }
-        .condition-card.acne .badge { background: #FFF59D; color: #888; }
-        .condition-card.rosacea .badge { background: #F06292; color: #fff; }
-        .condition-card.eczema .badge { background: #7986CB; color: #fff; }
-        .condition-card.psoriasis .badge { background: #4DB6AC; color: #fff; }
-        .condition-card.melanoma .badge { background: #E57373; color: #fff; }
-        .condition-card.ai-specialty.acne-detection .badge { background: #FFB74D; color: #fff; }
-        .condition-card.ai-specialty.skin-cancer .badge { background: #F44336; color: #fff; }
-        .condition-card.ai-specialty.eczema-psoriasis .badge { background: #4CAF50; color: #fff; }
-        .condition-card.ai-specialty.rosacea .badge { background: #E91E63; color: #fff; }
-        .condition-card.ai-specialty.skin-lesions .badge { background: #9C27B0; color: #fff; }
-        .condition-card.ai-specialty.skin-infections .badge { background: #2196F3; color: #fff; }
-        .condition-card.ai-specialty.melanocytic-nevi .badge { background: #8BC34A; color: #fff; }
-        .condition-card.ai-specialty.melanoma .badge { background: #F44336; color: #fff; }
-        .condition-card.ai-specialty.benign-keratosis .badge { background: #FF9800; color: #fff; }
-        .condition-card.ai-specialty.basal-cell .badge { background: #E91E63; color: #fff; }
-        .condition-card.ai-specialty.actinic-keratosis .badge { background: #9C27B0; color: #fff; }
-        .condition-card.ai-specialty.vascular-lesions .badge { background: #2196F3; color: #fff; }
-        .condition-card .desc {
-          font-size: 0.93rem;
-          color: #555;
-          margin-top: 0.2rem;
-        }
-        .disclaimer {
-          background: #FFF9E5;
-          color: #B8860B;
-          border-radius: 1.2rem;
-          padding: 1.2rem 1.5rem;
-          margin: 2.5rem auto 1.5rem auto;
-          max-width: 900px;
-          font-size: 1.1rem;
-          text-align: center;
-          border: 1.5px solid #FFE082;
-          box-shadow: 0 2px 8px #FFD70022;
-          font-family: 'Poppins', Arial, sans-serif;
-        }
-        @media (max-width: 900px) {
-          .container {
-            padding: 1.2rem 0.1rem 1rem 0.1rem;
-          }
-          .card-grid, .condition-grid {
-            gap: 1rem;
-          }
-          .skin-card, .condition-card {
-            min-width: 140px;
-            max-width: 170px;
-            padding: 1rem 0.5rem;
-            font-size: 0.95rem;
-          }
-          .skin-card .title, .condition-card .title {
-            font-size: 0.95rem;
-          }
-          .skin-card .desc, .condition-card .desc {
-            font-size: 0.88rem;
-          }
-        }
-        .skin-card .title, .condition-card .title {
-          font-family: 'Poppins', Arial, sans-serif;
-          font-weight: 500;
-          font-size: 1rem;
-          letter-spacing: 0.2px;
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            transform: translateY(-1px);
         }
     </style>
 </head>
@@ -259,89 +80,256 @@
 
 <div th:replace="fragments/navbar :: navbar"></div>
 
-<div class="container">
-    <div class="page-title">Cilt Tipleri</div>
-    <div class="card-grid">
-        <div class="skin-card normal">
-            <div class="icon">💚</div>
-            <div class="title">Normal Cilt</div>
-            <div class="desc">Dengeli, ne çok yağlı ne çok kuru, minimum kusurlu</div>
-        </div>
-        <div class="skin-card oily">
-            <div class="icon">💧</div>
-            <div class="title">Yağlı Cilt</div>
-            <div class="desc">Aşırı sebum üretimi, geniş gözenekler, parlak görünüm</div>
-        </div>
-        <div class="skin-card dry">
-            <div class="icon">🌞</div>
-            <div class="title">Kuru Cilt</div>
-            <div class="desc">Nem eksikliği, gerginlik, pürüzlü veya pullu his</div>
-        </div>
-        <div class="skin-card combination">
-            <div class="icon">🛡️</div>
-            <div class="title">Karma Cilt</div>
-            <div class="desc">Yağlı T bölgesi ve kuru yanaklar, dengeli bakım gerektirir</div>
-        </div>
-        <div class="skin-card sensitive">
-            <div class="icon">⚠️</div>
-            <div class="title">Hassas Cilt</div>
-            <div class="desc">Kolayca tahriş olan, ürünlere hassas, kızarıklığa yatkın</div>
+<!-- Professional Header -->
+<section class="bg-gradient-to-br from-primary-50 to-primary-100 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                <span class="text-primary-600">Cilt</span> Tipleri
+            </h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Cilt tipinizi öğrenin ve size özel bakım önerileri alın
+            </p>
         </div>
     </div>
-    <div class="section-title">Yaygın Cilt Sorunları</div>
-    <div class="condition-grid">
-        <div class="condition-card acne">
-            <div class="title">Akne <span class="badge">Yaygın</span></div>
-            <div class="desc">Sivilce, siyah nokta ve beyaz noktalara yol açan tıkanmış gözenekler</div>
+</section>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        
+
+        <!-- Skin Types Section -->
+        <section class="mb-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Cilt Tipleri</h2>
+                <p class="text-lg text-gray-600">Her cilt tipinin kendine özgü özellikleri ve bakım ihtiyaçları vardır</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+                <!-- Normal Skin -->
+                <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border-t-4 border-green-400">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Normal Cilt</h3>
+                        <p class="text-gray-600 text-sm">Dengeli, ne çok yağlı ne çok kuru, minimum kusurlu</p>
+                    </div>
+                </div>
+
+                <!-- Oily Skin -->
+                <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border-t-4 border-blue-400">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Yağlı Cilt</h3>
+                        <p class="text-gray-600 text-sm">Aşırı sebum üretimi, geniş gözenekler, parlak görünüm</p>
+                    </div>
+                </div>
+
+                <!-- Dry Skin -->
+                <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border-t-4 border-yellow-400">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Kuru Cilt</h3>
+                        <p class="text-gray-600 text-sm">Nem eksikliği, gerginlik, pürüzlü veya pullu his</p>
+                    </div>
+                </div>
+
+                <!-- Combination Skin -->
+                <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border-t-4 border-purple-400">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Karma Cilt</h3>
+                        <p class="text-gray-600 text-sm">Yağlı T bölgesi ve kuru yanaklar, dengeli bakım gerektirir</p>
+                    </div>
+                </div>
+
+                <!-- Sensitive Skin -->
+                <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border-t-4 border-red-400">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Hassas Cilt</h3>
+                        <p class="text-gray-600 text-sm">Kolayca tahriş olan, ürünlere hassas, kızarıklığa yatkın</p>
+                    </div>
+                </div>
+
+                <!-- Acne-Prone Skin -->
+                <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border-t-4 border-orange-400">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Akneye Yatkın Cilt</h3>
+                        <p class="text-gray-600 text-sm">Sivilce oluşumuna eğilimli, tıkanmış gözenekler, inflamasyon</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    <!-- Common Skin Conditions Section -->
+    <section class="mb-16">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Yaygın Cilt Sorunları</h2>
+            <p class="text-lg text-gray-600">Bilinen cilt sorunları ve belirtileri hakkında bilgi edinin</p>
         </div>
-        <div class="condition-card rosacea">
-            <div class="title">Rozasea <span class="badge">Orta</span></div>
-            <div class="desc">Kronik yüz kızarıklığı, belirgin damarlar, kabarcıklar</div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+            <!-- Acne -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border-l-4 border-yellow-400">
+                <div class="flex items-start justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Akne</h3>
+                    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Yaygın</span>
+                </div>
+                <p class="text-gray-600 text-sm">Sivilce, siyah nokta ve beyaz noktalara yol açan tıkanmış gözenekler</p>
+            </div>
+
+            <!-- Rosacea -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border-l-4 border-pink-400">
+                <div class="flex items-start justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Rozasea</h3>
+                    <span class="bg-pink-100 text-pink-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Orta</span>
+                </div>
+                <p class="text-gray-600 text-sm">Kronik yüz kızarıklığı, belirgin damarlar, kabarcıklar</p>
+            </div>
+
+            <!-- Eczema -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border-l-4 border-blue-400">
+                <div class="flex items-start justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Egzama</h3>
+                    <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Orta</span>
+                </div>
+                <p class="text-gray-600 text-sm">Kuru, kaşıntılı, iltihaplı ve çatlayabilen cilt bölgeleri</p>
+            </div>
+
+            <!-- Psoriasis -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border-l-4 border-teal-400">
+                <div class="flex items-start justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Sedef Hastalığı</h3>
+                    <span class="bg-teal-100 text-teal-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Orta</span>
+                </div>
+                <p class="text-gray-600 text-sm">Kalın, gümüş renkli pullu plaklar, genellikle cilt yüzeyinde</p>
+            </div>
+
+            <!-- Melanoma -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border-l-4 border-red-400">
+                <div class="flex items-start justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Melanom</h3>
+                    <span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Kritik</span>
+                </div>
+                <p class="text-gray-600 text-sm">Acil müdahale gerektiren ciddi bir cilt kanseri türü</p>
+            </div>
+
+            <!-- Hyperpigmentation -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border-l-4 border-gray-400">
+                <div class="flex items-start justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Hiperpigmentasyon</h3>
+                    <span class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Yaygın</span>
+                </div>
+                <p class="text-gray-600 text-sm">Ciltte koyu lekeler, melazma, güneş lekeleri</p>
+            </div>
         </div>
-        <div class="condition-card eczema">
-            <div class="title">Egzama <span class="badge">Orta</span></div>
-            <div class="desc">Kuru, kaşıntılı, iltihaplı ve çatlayabilen cilt bölgeleri</div>
+    </section>
+    <!-- AI Specialties Section -->
+    <section class="mb-16">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">DermAI'ın Uzmanlaştığı Alanlar</h2>
+            <p class="text-lg text-gray-600">Yapay zeka teknolojimiz ile yüksek doğruluk oranlarıyla teşhis edebildiğimiz cilt sorunları</p>
         </div>
-        <div class="condition-card psoriasis">
-            <div class="title">Sedef Hastalığı <span class="badge">Orta</span></div>
-            <div class="desc">Kalın, gümüş renkli pullu plaklar, genellikle cilt yüzeyinde</div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Melanocytic Nevi -->
+            <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl shadow-lg p-6 card-hover border-l-4 border-green-500">
+                <div class="flex items-start justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Melanocytic Nevi</h3>
+                    <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full"></span>
+                </div>
+                <p class="text-gray-600 text-sm">Melanositik nevüs - Yaygın ben türü, genellikle iyi huyludur</p>
+            </div>
+
+            <!-- Melanoma -->
+            <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-2xl shadow-lg p-6 card-hover border-l-4 border-red-500">
+                <div class="flex items-start justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Melanoma</h3>
+                    <span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full"></span>
+                </div>
+                <p class="text-gray-600 text-sm">Cilt kanseri türü; erken teşhis hayati önemdedir</p>
+            </div>
+
+            <!-- Benign Keratosis -->
+            <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl shadow-lg p-6 card-hover border-l-4 border-orange-500">
+                <div class="flex items-start justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Benign Keratosis</h3>
+                    <span class="bg-orange-100 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full"></span>
+                </div>
+                <p class="text-gray-600 text-sm">İyi huylu keratozlar: solar lentigo, seborrheik keratoz vb.</p>
+            </div>
+
+            <!-- Basal Cell Carcinoma -->
+            <div class="bg-gradient-to-br from-pink-50 to-pink-100 rounded-2xl shadow-lg p-6 card-hover border-l-4 border-pink-500">
+                <div class="flex items-start justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Basal Cell Carcinoma</h3>
+                    <span class="bg-pink-100 text-pink-800 text-xs font-medium px-2.5 py-0.5 rounded-full"></span>
+                </div>
+                <p class="text-gray-600 text-sm">Bazal hücreli cilt kanseri, yavaş ilerler</p>
+            </div>
+
+            <!-- Actinic Keratoses -->
+            <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl shadow-lg p-6 card-hover border-l-4 border-purple-500">
+                <div class="flex items-start justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Actinic Keratoses</h3>
+                    <span class="bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded-full"></span>
+                </div>
+                <p class="text-gray-600 text-sm">Güneşe maruz kalan bölgelerde oluşan, kanser öncülü lezyonlardır</p>
+            </div>
+
+            <!-- Vascular Lesions -->
+            <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl shadow-lg p-6 card-hover border-l-4 border-blue-500">
+                <div class="flex items-start justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Vascular Lesions</h3>
+                    <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full"></span>
+                </div>
+                <p class="text-gray-600 text-sm">Damar yapılı lezyonlar: angioma, hemangioma, dermatofibroma</p>
+            </div>
         </div>
-        <div class="condition-card melanoma">
-            <div class="title">Melanom <span class="badge">Kritik</span></div>
-            <div class="desc">Acil müdahale gerektiren ciddi bir cilt kanseri türü</div>
+    </section>
+    <!-- Medical Disclaimer -->
+    <section class="mb-16">
+        <div class="bg-yellow-50 border border-yellow-200 rounded-2xl p-8 max-w-4xl mx-auto">
+            <div class="flex items-start space-x-4">
+                <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-yellow-800 mb-2">Medikal Uyarı</h3>
+                    <p class="text-yellow-700">
+                        Bu bilgiler yalnızca eğitim amaçlıdır. Doğru tanı ve tedavi için mutlaka bir sağlık profesyoneline danışınız. 
+                        DermAI'ın sağladığı analizler profesyonel tıbbi tavsiye yerine geçmez.
+                    </p>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="section-title">DermAI'ın Uzmanlaştığı Alanlar</div>
-    <div class="condition-grid">
-        <div class="condition-card ai-specialty melanocytic-nevi">
-            <div class="title">Melanocytic Nevi <span class="badge">%94 Doğruluk</span></div>
-            <div class="desc">Melanositik nevüs - Yaygın ben türü, genellikle iyi huyludur</div>
-        </div>
-        <div class="condition-card ai-specialty melanoma">
-            <div class="title">Melanoma <span class="badge">%96 Doğruluk</span></div>
-            <div class="desc">Cilt kanseri türü; erken teşhis hayati önemdedir</div>
-        </div>
-        <div class="condition-card ai-specialty benign-keratosis">
-            <div class="title">Benign Keratosis <span class="badge">%91 Doğruluk</span></div>
-            <div class="desc">İyi huylu keratozlar: solar lentigo, seborrheik keratoz vb.</div>
-        </div>
-        <div class="condition-card ai-specialty basal-cell">
-            <div class="title">Basal Cell Carcinoma <span class="badge">%93 Doğruluk</span></div>
-            <div class="desc">Bazal hücreli cilt kanseri, yavaş ilerler</div>
-        </div>
-        <div class="condition-card ai-specialty actinic-keratosis">
-            <div class="title">Actinic Keratoses <span class="badge">%89 Doğruluk</span></div>
-            <div class="desc">Güneşe maruz kalan bölgelerde oluşan, kanser öncülü lezyonlardır</div>
-        </div>
-        <div class="condition-card ai-specialty vascular-lesions">
-            <div class="title">Vascular Lesions <span class="badge">%92 Doğruluk</span></div>
-            <div class="desc">Damar yapılı lezyonlar: angioma, hemangioma, dermatofibroma</div>
-        </div>
-    </div>
-    <div class="disclaimer">
-        <strong>Medikal Uyarı</strong><br>
-        Bu bilgiler yalnızca eğitim amaçlıdır. Doğru tanı ve tedavi için mutlaka bir sağlık profesyoneline danışınız.
-    </div>
+    </section>
 </div>
 
 <div th:replace="fragments/footer :: footer"></div>

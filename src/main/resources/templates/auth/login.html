@@ -3,102 +3,209 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>DermAI | Giriş Yap</title>
-    <link rel="stylesheet" th:href="@{/css/layer.css}">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" th:href="@{/css/layer.css}">
-  <link rel="stylesheet" th:href="@{/css/style.css}">
-  <link rel="stylesheet" th:href="@{/css/login.css}">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            900: '#0c4a6e'
+                        },
+                        gray: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a'
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                        'display': ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
     <style>
-.login-title {
-  color: #2563eb !important;
-  font-weight: 700;
-}
-.login-btn {
-  background: linear-gradient(90deg, #2563eb 0%, #38bdf8 100%);
-  color: #fff;
-  font-weight: 700;
-  border: none;
-  border-radius: 20px;
-  box-shadow: 0 4px 24px #2563eb22;
-  padding: 0.9rem 2.2rem;
-  font-size: 1.15rem;
-  cursor: pointer;
-  transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
-  min-width: 120px;
-  min-height: 48px;
-  display: inline-block;
-  margin-bottom: 1.2rem;
-}
-.login-btn:hover {
-  background: linear-gradient(90deg, #1e40af 0%, #2563eb 100%);
-  box-shadow: 0 8px 32px #2563eb33;
-  transform: translateY(-2px) scale(1.04);
-}
-.login-links a {
-  color: #2563eb !important;
-  font-weight: 600;
-  text-decoration: underline;
-  transition: color 0.2s;
-}
-.login-links a:hover {
-  color: #1e40af !important;
-}
-</style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            transform: translateY(-1px);
+        }
+        
+        .form-input:focus {
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+        }
+        
+        .alert-success {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+            border: 1px solid #22c55e;
+            color: #166534;
+        }
+        
+        .alert-error {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border: 1px solid #ef4444;
+            color: #dc2626;
+        }
+    </style>
 </head>
 <body>
 
 <div th:replace="fragments/navbar :: navbar"></div>
 
-<section class="login-section">
-    <div class="login-container">
-        <div class="login-title">Giriş Yap</div>
 
-        <!-- Flash mesajlar -->
-        <div class="alert success" th:if="${success}">
-            <span th:text="${success}"></span>
-        </div>
 
-        <!-- Başarılı çıkış mesajı -->
-        <div class="alert success" th:if="${param.logout}">
-            Başarıyla çıkış yapıldı.
-        </div>
-        <!-- Hatalı giriş mesajı -->
-        <div class="alert error" th:if="${param.error}">
-            Geçersiz kullanıcı adı veya şifre!
-        </div>
-
-        <form class="login-form" method="post" th:action="@{/auth/login}">
-            <div>
-                <label for="username">E-posta Adresiniz</label>
-                <input id="username"
-                       name="username"
-                       placeholder="ornek@ornek.com"
-                       required
-                       type="email"/>
+<!-- Login Form Section -->
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12">
+    <div class="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-2xl shadow-xl p-8 card-hover">
+            <!-- Logo and Welcome -->
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-primary-100 rounded-full mb-4">
+                    <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">Hoş Geldiniz</h2>
+                <p class="text-gray-600">Hesabınıza giriş yapın</p>
             </div>
 
-            <div>
-                <label for="password">Şifre</label>
-                <input id="password"
-                       name="password"
-                       placeholder="Şifreniz"
-                       required
-                       type="password"/>
+            <!-- Alert Messages -->
+            <div class="mb-6 space-y-3">
+                <!-- Success Message -->
+                <div th:if="${success}" class="alert-success rounded-lg p-4 flex items-center space-x-3">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span th:text="${success}"></span>
+                </div>
+
+                <!-- Logout Success Message -->
+                <div th:if="${param.logout}" class="alert-success rounded-lg p-4 flex items-center space-x-3">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span>Başarıyla çıkış yapıldı.</span>
+                </div>
+
+                <!-- Error Message -->
+                <div th:if="${param.error}" class="alert-error rounded-lg p-4 flex items-center space-x-3">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span>Geçersiz kullanıcı adı veya şifre!</span>
+                </div>
             </div>
 
-            <button class="login-btn" type="submit">Giriş Yap</button>
-        </form>
+            <!-- Login Form -->
+            <form method="post" th:action="@{/auth/login}" class="space-y-6">
+                <!-- Email Field -->
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700 mb-2">
+                        E-posta Adresiniz
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"></path>
+                            </svg>
+                        </div>
+                        <input id="username"
+                               name="username"
+                               type="email"
+                               placeholder="ornek@ornek.com"
+                               required
+                               class="form-input block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                        />
+                    </div>
+                </div>
 
-        <div class="login-links">
-            Hesabınız yok mu?
-            <a th:href="@{/auth/register}">Kayıt Ol</a>
-            <br>
+                <!-- Password Field -->
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
+                        Şifre
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                            </svg>
+                        </div>
+                        <input id="password"
+                               name="password"
+                               type="password"
+                               placeholder="Şifreniz"
+                               required
+                               class="form-input block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                        />
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-primary w-full py-3 px-4 rounded-lg text-white font-semibold text-lg transition-all duration-200 transform hover:scale-105">
+                    <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+                    </svg>
+                    Giriş Yap
+                </button>
+            </form>
+
+            <!-- Register Link -->
+            <div class="mt-8 text-center">
+                <p class="text-gray-600">
+                    Hesabınız yok mu?
+                    <a th:href="@{/auth/register}" class="text-primary-600 hover:text-primary-700 font-semibold underline transition-colors">
+                        Kayıt Ol
+                    </a>
+                </p>
+            </div>
         </div>
     </div>
-</section>
+</div>
 
 <div th:replace="fragments/footer :: footer"></div>
 
