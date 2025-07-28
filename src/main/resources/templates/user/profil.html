@@ -31,6 +31,21 @@
 .my-posts-section .comment-date, .my-posts-section .post-date {
   color: #38bdf8 !important;
 }
+.my-posts-section .comment-form button:hover {
+  background: #1e40af;
+  transform: translateY(-1px);
+}
+
+.routine-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(37,99,235,0.3);
+  background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+}
+
+.routine-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 15px rgba(37,99,235,0.2);
+}
 </style>
 </head>
 <body>
@@ -43,7 +58,8 @@
             <div class="profile-pic-wrapper" id="profilePicWrapper" style="position:relative;">
                 <img alt="Profil" class="profile-pic" id="profilePic" onclick="toggleIconOptions()"
                      th:src="@{/image/icon1.png}">
-                <span class="profile-badge" id="profileBadge">85</span>
+                <span class="profile-badge" id="profileBadge">0</span>
+                <span id="profileStars" style="font-size:1.3em;vertical-align:middle;margin-left:6px;"></span>
                 <div class="icon-options-popup" id="iconOptionsPopup" style="display:none;">
                     <img class="icon-option" onclick="selectProfileIcon('/image/icon1.png')"
                          th:src="@{/image/icon1.png}">
@@ -65,7 +81,8 @@
                 </div>
             </div>
         </div>
-        <button class="logout-btn" onclick="logoutUser()">Çıkış Yap</button>
+        <button class="logout-btn" onclick="logoutUser()" style="width:100%;margin-bottom:10px;">Çıkış Yap</button>
+        <a href="/todo" class="routine-btn" style="display:block;margin-top:0;text-align:center;background:linear-gradient(135deg, #2563eb 0%, #1e40af 100%);color:#fff;padding:12px 0;border-radius:12px;text-decoration:none;font-weight:600;font-family:'Poppins',Arial,sans-serif;font-size:1rem;transition:all 0.3s;box-shadow:0 4px 15px rgba(37,99,235,0.2);border:5px solid transparent;width:100%;">Rutinim</a>
     </div>
     <!-- Kendi Paylaşımlarım Bölümü -->
     <div class="my-posts-section">
@@ -134,12 +151,29 @@
         // Backend logout endpoint'ini kullan
         document.getElementById('logoutForm').submit();
     }
-    // Sayfa yüklendiğinde bilgileri doldur
+    // Sayfa yüklendiğinde backend'den puanı çek ve profile-badge'a yaz
     window.onload = function() {
         document.getElementById('profileUsername').textContent = localStorage.getItem('username') || 'Kullanıcı';
         document.getElementById('skinType').textContent = localStorage.getItem('skinType') || '-';
-        document.getElementById('profileBadge').textContent = localStorage.getItem('puan') || '0';
         document.getElementById('profilePic').src = localStorage.getItem('profileIcon') || 'icon1.png';
+
+        // Puanı backend'den çek
+        fetch('/api/puan/mevcut')
+            .then(res => res.json())
+            .then(puan => {
+                document.getElementById('profileBadge').textContent = puan;
+                // Yıldız hesapla
+                const starCount = Math.floor(puan / 30);
+                let stars = '';
+                for (let i = 0; i < starCount; i++) {
+                    stars += '⭐';
+                }
+                document.getElementById('profileStars').textContent = stars;
+            })
+            .catch(() => {
+                document.getElementById('profileBadge').textContent = '0';
+                document.getElementById('profileStars').textContent = '';
+            });
     }
     function selectProfileIcon(icon) {
         localStorage.setItem('profileIcon', icon);

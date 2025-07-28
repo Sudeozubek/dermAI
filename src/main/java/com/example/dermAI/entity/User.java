@@ -21,6 +21,8 @@ public class User {
 
     private String role;
 
+    private int puan = 0;
+
     public UUID getId() {
         return id;
     }
@@ -59,5 +61,13 @@ public class User {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public int getPuan() {
+        return puan;
+    }
+
+    public void setPuan(int puan) {
+        this.puan = puan;
     }
 }

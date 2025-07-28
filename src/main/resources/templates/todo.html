@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Haftalık Cilt Bakım Rutini - DermAI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/layer.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background: linear-gradient(135deg, #e3f0ff 0%, #f0f6ff 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        .todo-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .todo-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .todo-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2563eb;
+            margin-bottom: 8px;
+            font-family: 'Montserrat', Arial, sans-serif;
+        }
+        
+        .todo-subtitle {
+            font-size: 1.1rem;
+            color: #1e40af;
+            font-weight: 500;
+        }
+        
+        .todo-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(37, 99, 235, 0.1);
+            padding: 30px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(37, 99, 235, 0.05);
+        }
+        
+        .puan-gosterge {
+            background: linear-gradient(135deg, #e3f0ff 0%, #f0f6ff 100%);
+            border: 2px solid #2563eb;
+            border-radius: 15px;
+            padding: 15px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+            color: #2563eb;
+            font-size: 1.1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #1e40af;
+            font-size: 1rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #e3f0ff;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Poppins', Arial, sans-serif;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background: #fff;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', Arial, sans-serif;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            color: #fff;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: #fff;
+        }
+        
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(220, 38, 38, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #e3f0ff 0%, #f0f6ff 100%);
+            color: #2563eb;
+            border: 2px solid #2563eb;
+        }
+        
+        .btn-secondary:hover {
+            background: #2563eb;
+            color: #fff;
+        }
+        
+        .urun-listesi {
+            margin: 15px 0;
+        }
+        
+        .urun-item {
+            background: linear-gradient(135deg, #f0f6ff 0%, #e3f0ff 100%);
+            padding: 10px 14px;
+            border-radius: 10px;
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(37, 99, 235, 0.1);
+        }
+        
+        .urun-item button {
+            background: none;
+            border: none;
+            color: #dc2626;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: background 0.3s;
+        }
+        
+        .urun-item button:hover {
+            background: rgba(220, 38, 38, 0.1);
+        }
+        
+        .routine-card {
+            background: linear-gradient(135deg, #f8faff 0%, #f0f6ff 100%);
+            border: 2px solid #e3f0ff;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.08);
+        }
+        
+        .routine-card h4 {
+            color: #2563eb;
+            font-weight: 700;
+            margin-bottom: 16px;
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-size: 1.3rem;
+        }
+        
+        .routine-section {
+            margin-bottom: 16px;
+        }
+        
+        .routine-section-title {
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+        
+        .routine-item {
+            margin-bottom: 8px;
+        }
+        
+        .routine-item label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+        
+        .routine-item label:hover {
+            background: rgba(37, 99, 235, 0.05);
+        }
+        
+        .todo-checkbox {
+            width: 18px;
+            height: 18px;
+            accent-color: #2563eb;
+        }
+        
+        .todo-label {
+            font-weight: 500;
+            color: #1e40af;
+        }
+        
+        .routine-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .routine-title {
+            color: #2563eb;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin: 0;
+            font-family: 'Montserrat', Arial, sans-serif;
+        }
+        
+        .profile-card {
+            background: linear-gradient(135deg, #e3f0ff 0%, #f0f6ff 100%);
+            border: 2px solid #2563eb;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(37, 99, 235, 0.1);
+        }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .profile-avatar {
+            position: relative;
+        }
+
+        .avatar-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid #2563eb;
+            object-fit: cover;
+        }
+
+        .puan-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            color: white;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            border: 2px solid white;
+        }
+
+        .profile-details {
+            flex: 1;
+        }
+
+        .user-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2563eb;
+            margin: 0 0 4px 0;
+            font-family: 'Montserrat', Arial, sans-serif;
+        }
+
+        .user-username {
+            color: #1e40af;
+            font-weight: 500;
+            margin: 0 0 12px 0;
+            font-size: 0.95rem;
+        }
+
+        .user-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 8px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(37, 99, 235, 0.1);
+        }
+
+        .stat-icon {
+            font-size: 1.1rem;
+        }
+
+        .stat-value {
+            font-weight: 700;
+            color: #2563eb;
+            font-size: 1.1rem;
+        }
+
+        .stat-label {
+            color: #1e40af;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-content {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .todo-container {
+                padding: 0 15px;
+                margin: 20px auto;
+            }
+            
+            .todo-card {
+                padding: 25px;
+            }
+            
+            .todo-title {
+                font-size: 2rem;
+            }
+            .profile-info {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .user-stats {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="main-content show">
+    <div class="todo-container">
+        <div class="todo-header">
+            <h1 class="todo-title">Haftalık Cilt Bakım Rutini</h1>
+            <p class="todo-subtitle">Kişisel bakım rutininizi oluşturun ve takip edin</p>
+        </div>
+        
+        <div class="profile-card" th:if="${user}">
+            <div class="profile-info">
+                <div class="profile-avatar">
+                    <img th:src="@{/image/icon1.png}" alt="Profil" class="avatar-img">
+                    <div class="puan-badge">
+                        <span th:text="${puan}">0</span>
+                    </div>
+                </div>
+                <div class="profile-details">
+                    <h3 class="user-name" th:text="${user.fullName}">Kullanıcı</h3>
+                    <p class="user-username" th:text="${user.username}">@kullanici</p>
+                    <div class="user-stats">
+                        <span class="stat-item">
+                            <i class="stat-icon">⭐</i>
+                            <span class="stat-value" th:text="${puan}">0</span>
+                            <span class="stat-label">Puan</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="todo-card">
+            
+            <form id="todo-form" method="post" action="/todo">
+                <div class="form-group">
+                    <label for="skin-type">Cilt Tipiniz:</label>
+                    <select id="skin-type" name="skin_type" class="form-control" required>
+                        <option value="">Seçiniz</option>
+                        <option value="Kuru">Kuru</option>
+                        <option value="Yağlı">Yağlı</option>
+                        <option value="Karma">Karma</option>
+                        <option value="Normal">Normal</option>
+                        <option value="Hassas">Hassas</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="urun">Cilt Bakım Ürünü Ekle:</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="urun" class="form-control" placeholder="Ürün adı girin" style="flex: 1;">
+                        <button type="button" onclick="urunEkle()" class="btn btn-secondary">Ekle</button>
+                    </div>
+                </div>
+                
+                <div class="urun-listesi" id="urun-listesi"></div>
+                <input type="hidden" name="urunler" id="urunler-hidden">
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Rutin Oluştur</button>
+            </form>
+        </div>
+        
+        <div id="routine-result" style="margin-top: 30px;">
+            <th:block th:if="${routine}">
+                <div class="todo-card">
+                    <div class="routine-header">
+                        <h3 class="routine-title">Haftalık Rutin Önerisi</h3>
+                        <button type="button" onclick="deleteRoutine(event)" class="btn btn-danger">Rutini Sil</button>
+                    </div>
+                    <textarea id="routine-raw" style="display: none;" th:text="${routine}"></textarea>
+                    <div id="routine-cards"></div>
+                </div>
+            </th:block>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+<!-- Loading Modal -->
+<div id="loadingModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;">
+    <div class="loading-content" style="background:#fff;border-radius:20px;padding:40px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,0.2);max-width:400px;width:90%;">
+        <div class="loading-spinner" style="width:60px;height:60px;border:4px solid #e3f0ff;border-top:4px solid #2563eb;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 20px;"></div>
+        <h3 style="color:#2563eb;font-weight:700;margin-bottom:10px;font-family:'Montserrat',Arial,sans-serif;">Rutin Oluşturuluyor</h3>
+        <p style="color:#1e40af;font-weight:500;margin:0;">Size özel haftalık rutin hazırlanıyor...</p>
+    </div>
+</div>
+
+<script>
+    let urunler = [];
+    
+    function urunEkle() {
+        const urunInput = document.getElementById('urun');
+        const urun = urunInput.value.trim();
+        if (urun) {
+            urunler.push(urun);
+            urunInput.value = '';
+            urunleriGoster();
+        }
+    }
+    
+    function urunSil(index) {
+        urunler.splice(index, 1);
+        urunleriGoster();
+    }
+    
+    function urunleriGoster() {
+        const liste = document.getElementById('urun-listesi');
+        liste.innerHTML = '';
+        urunler.forEach((urun, i) => {
+            const div = document.createElement('div');
+            div.className = 'urun-item';
+            div.innerHTML = urun + ' <button type="button" onclick="urunSil(' + i + ')">×</button>';
+            liste.appendChild(div);
+        });
+        document.getElementById('urunler-hidden').value = JSON.stringify(urunler);
+    }
+    
+    // Form submit edildiğinde loading göster
+    document.getElementById('todo-form').addEventListener('submit', function(e) {
+        e.preventDefault(); // Form submit'i engelle
+        
+        document.getElementById('urunler-hidden').value = JSON.stringify(urunler);
+        
+        // Loading modal'ı göster
+        const loadingModal = document.getElementById('loadingModal');
+        loadingModal.style.display = 'flex';
+        
+        // Form verilerini AJAX ile gönder
+        const formData = new FormData(this);
+        
+        fetch('/todo', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                // Başarılı response geldiğinde sayfayı yenile
+                window.location.reload();
+            } else {
+                // Hata durumunda loading'i gizle
+                loadingModal.style.display = 'none';
+                alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+            }
+        })
+        .catch(error => {
+            console.error('Hata:', error);
+            loadingModal.style.display = 'none';
+            alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+        });
+    });
+
+    // Sayfa yüklendiğinde loading'i gizle (eğer varsa)
+    window.addEventListener('load', function() {
+        const loadingModal = document.getElementById('loadingModal');
+        if (loadingModal) {
+            loadingModal.style.display = 'none';
+        }
+    });
+
+    // Haftalık rutin kartlarını oluştur
+    window.addEventListener('DOMContentLoaded', function() {
+        const raw = document.getElementById('routine-raw');
+        if (!raw) return;
+        const text = raw.value || raw.innerText || '';
+        if (!text.trim()) return;
+
+        // Rutin varsa form kısmını gizle
+        const form = document.getElementById('todo-form');
+        if (form) {
+            form.style.display = 'none';
+        }
+
+        // Rutin varsa form alanlarını devre dışı bırak
+        const skinTypeSelect = document.getElementById('skin-type');
+        const urunInput = document.getElementById('urun');
+        const addButton = document.querySelector('button[onclick="urunEkle()"]');
+        const submitButton = document.querySelector('button[type="submit"]');
+        
+        if (skinTypeSelect) skinTypeSelect.disabled = true;
+        if (urunInput) urunInput.disabled = true;
+        if (addButton) addButton.disabled = true;
+        if (submitButton) submitButton.disabled = true;
+        
+        // Form alanlarına görsel stil ekle
+        const formElements = [skinTypeSelect, urunInput, addButton, submitButton];
+        formElements.forEach(element => {
+            if (element) {
+                element.style.opacity = '0.5';
+                element.style.cursor = 'not-allowed';
+            }
+        });
+
+        const lines = text.split(/\r?\n/);
+        const days = [];
+        let currentDay = null;
+        let currentSection = null;
+
+        lines.forEach(line => {
+            const dayMatch = line.match(/^(PAZARTESİ|SALI|ÇARŞAMBA|PERŞEMBE|CUMA|CUMARTESİ|PAZAR)$/i);
+            const sectionMatch = line.match(/^(SABAH|AKŞAM):$/i);
+            if (dayMatch) {
+                currentDay = { name: dayMatch[1], sabah: [], aksam: [] };
+                days.push(currentDay);
+                currentSection = null;
+            } else if (sectionMatch && currentDay) {
+                currentSection = sectionMatch[1].toLowerCase();
+            } else if (line.trim().startsWith('-') && currentDay && currentSection) {
+                const urun = line.replace(/^-\s*/, '');
+                if (currentSection === 'sabah') currentDay.sabah.push(urun);
+                if (currentSection === 'akşam') currentDay.aksam.push(urun);
+            }
+        });
+
+        const cardsDiv = document.getElementById('routine-cards');
+        cardsDiv.innerHTML = '';
+        days.forEach(day => {
+            const card = document.createElement('div');
+            card.className = 'routine-card';
+            card.innerHTML = `<h4>${day.name}</h4>`;
+            ['sabah','aksam'].forEach(section => {
+                if (day[section].length > 0) {
+                    card.innerHTML += `<div class="routine-section"><div class="routine-section-title">${section.toUpperCase()}</div>`;
+                    card.innerHTML += '<ul style="list-style:none;padding-left:0;">' +
+                        day[section].map((urun, idx) =>
+                            `<li class="routine-item"><label><input type="checkbox" class="todo-checkbox"><span class="todo-label">${urun}</span></label></li>`
+                        ).join('') + '</ul></div>';
+                }
+            });
+            cardsDiv.appendChild(card);
+        });
+
+        // Checkbox tiklenince üstü çiz ve puan artır
+        cardsDiv.addEventListener('change', function(e) {
+            if (e.target.classList.contains('todo-checkbox')) {
+                const label = e.target.closest('label').querySelector('.todo-label');
+                const checkbox = e.target;
+                
+                if (checkbox.checked) {
+                    label.style.textDecoration = 'line-through';
+                    label.style.color = '#888';
+                    // Puan artır
+                    fetch('/api/puan/artir', { method: 'POST' })
+                        .then(res => res.json())
+                        .then(newPuan => {
+                            // Tüm puan göstergelerini güncelle
+                            updateAllPuanDisplays(newPuan);
+                        });
+                } else {
+                    label.style.textDecoration = '';
+                    label.style.color = '';
+                    // Puan azalt
+                    fetch('/api/puan/azalt', { method: 'POST' })
+                        .then(res => res.json())
+                        .then(newPuan => {
+                            // Tüm puan göstergelerini güncelle
+                            updateAllPuanDisplays(newPuan);
+                        });
+                }
+                
+                // İşaretli durumu localStorage'a kaydet
+                saveCheckedState();
+            }
+        });
+
+        // İşaretli durumları localStorage'a kaydet
+        function saveCheckedState() {
+            const checkboxes = document.querySelectorAll('.todo-checkbox');
+            const checkedItems = [];
+            checkboxes.forEach((checkbox, index) => {
+                if (checkbox.checked) {
+                    checkedItems.push(index);
+                }
+            });
+            localStorage.setItem('todoCheckedItems', JSON.stringify(checkedItems));
+        }
+
+        // Sayfa yüklendiğinde işaretli durumları geri yükle
+        function loadCheckedState() {
+            const checkedItems = JSON.parse(localStorage.getItem('todoCheckedItems') || '[]');
+            const checkboxes = document.querySelectorAll('.todo-checkbox');
+            checkedItems.forEach(index => {
+                if (checkboxes[index]) {
+                    checkboxes[index].checked = true;
+                    const label = checkboxes[index].closest('label').querySelector('.todo-label');
+                    label.style.textDecoration = 'line-through';
+                    label.style.color = '#888';
+                }
+            });
+        }
+
+        // Rutin kartları oluşturulduktan sonra işaretli durumları yükle
+        setTimeout(loadCheckedState, 100);
+    });
+
+    function deleteRoutine(event) {
+        // Event'i durdur
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        
+        if (confirm('Rutini silmek istediğinizden emin misiniz?')) {
+            fetch('/todo/delete', { method: 'POST' })
+                .then(res => res.text())
+                .then(result => {
+                    if (result === 'Rutin silindi') {
+                        // localStorage'daki işaretli maddeleri temizle
+                        localStorage.removeItem('todoCheckedItems');
+                        
+                        // Rutin kısmını gizle
+                        const routineResult = document.getElementById('routine-result');
+                        if (routineResult) {
+                            routineResult.style.display = 'none';
+                        }
+                        
+                        // Formu tekrar göster ve aktif hale getir
+                        const form = document.getElementById('todo-form');
+                        if (form) {
+                            form.style.display = 'block';
+                        }
+                        
+                        // Form alanlarını aktif hale getir
+                        const skinTypeSelect = document.getElementById('skin-type');
+                        const urunInput = document.getElementById('urun');
+                        const addButton = document.querySelector('button[onclick="urunEkle()"]');
+                        const submitButton = document.querySelector('button[type="submit"]');
+                        
+                        if (skinTypeSelect) {
+                            skinTypeSelect.disabled = false;
+                            skinTypeSelect.style.opacity = '1';
+                            skinTypeSelect.style.cursor = 'pointer';
+                        }
+                        if (urunInput) {
+                            urunInput.disabled = false;
+                            urunInput.style.opacity = '1';
+                            urunInput.style.cursor = 'text';
+                        }
+                        if (addButton) {
+                            addButton.disabled = false;
+                            addButton.style.opacity = '1';
+                            addButton.style.cursor = 'pointer';
+                        }
+                        if (submitButton) {
+                            submitButton.disabled = false;
+                            submitButton.style.opacity = '1';
+                            submitButton.style.cursor = 'pointer';
+                        }
+                        
+                        // Ürün listesini temizle
+                        const urunListesi = document.getElementById('urun-listesi');
+                        if (urunListesi) {
+                            urunListesi.innerHTML = '';
+                        }
+                        
+                        // Cilt tipini sıfırla
+                        if (skinTypeSelect) {
+                            skinTypeSelect.value = '';
+                        }
+                        
+                        // Ürün input'unu temizle
+                        if (urunInput) {
+                            urunInput.value = '';
+                        }
+                        
+                    } else {
+                        alert('Rutin silinirken hata oluştu');
+                    }
+                })
+                .catch(() => {
+                    alert('Rutin silinirken hata oluştu');
+                });
+        }
+    }
+
+    // Tüm puan göstergelerini güncelle
+    function updateAllPuanDisplays(newPuan) {
+        // Profil kartındaki puan badge'ini güncelle
+        const puanBadge = document.querySelector('.puan-badge span');
+        if (puanBadge) {
+            // Animasyonlu güncelleme
+            animateNumberChange(puanBadge, parseInt(puanBadge.textContent), newPuan);
+        }
+        
+        // Profil kartındaki stat değerini güncelle
+        const statValue = document.querySelector('.stat-value');
+        if (statValue) {
+            animateNumberChange(statValue, parseInt(statValue.textContent), newPuan);
+        }
+    }
+
+    // Sayı değişimini animasyonlu göster
+    function animateNumberChange(element, startValue, endValue) {
+        const duration = 500; // 500ms
+        const startTime = performance.now();
+        
+        function updateNumber(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            const currentValue = Math.floor(startValue + (endValue - startValue) * progress);
+            element.textContent = currentValue;
+            
+            if (progress < 1) {
+                requestAnimationFrame(updateNumber);
+            }
+        }
+        
+        requestAnimationFrame(updateNumber);
+    }
+</script>
+
+</body>
+</html> 
