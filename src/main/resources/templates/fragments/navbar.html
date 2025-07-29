@@ -47,7 +47,7 @@
                         </div>
 
                         <!-- Authenticated users -->
-                        <div sec:authorize="isAuthenticated()" class="flex items-center space-x-4">
+                        <div sec:authorize="isAuthenticated()" class="flex items-center space-x-4" data-auth="authenticated">
                             <a th:href="@{/user/profil}" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
                                 Profil
                             </a>
@@ -96,7 +96,7 @@
                     </a>
                 </div>
                 
-                <div sec:authorize="isAuthenticated()" class="pt-4 border-t border-gray-200">
+                <div sec:authorize="isAuthenticated()" class="pt-4 border-t border-gray-200" data-auth="authenticated">
                     <a th:href="@{/user/profil}" class="text-gray-700 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200">
                         Profil
                     </a>
