@@ -1,17 +1,14 @@
 <div th:fragment="navbar" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
      xmlns:th="http://www.thymeleaf.org">
-    <nav class="nav-blur fixed top-0 left-0 right-0 z-50 border-b border-gray-200/50">
+    <nav class="fixed top-0 left-0 right-0 z-50 border-b border-gray-200/50 bg-white/90 backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
                 <div class="flex-shrink-0">
-                    <a th:href="@{/}" class="flex items-center space-x-2">
-                        <div class="w-8 h-8 bg-gradient-to-r from-primary-500 to-primary-600 rounded-lg flex items-center justify-center">
-                            <span class="text-white font-bold text-sm">D</span>
+                    <a th:href="@{/}" class="flex items-center">
+                        <div class="w-32 h-10 flex items-center justify-center overflow-hidden">
+                            <img src="/image/Dermai.jpg" alt="DermAI Logo" class="w-32 h-32 object-cover object-center" style="margin-top: -11px; margin-bottom: -11px;">
                         </div>
-                        <span class="text-xl font-bold text-gray-900">
-                            <span class="text-primary-600">Derm</span><span class="text-gray-900">AI</span>
-                        </span>
                     </a>
                 </div>
 

@@ -46,6 +46,12 @@ bfg.jar
 *.model
 *.weights
 *.bin
+skin_type_model.h5
+_pywrap_tensorflow_internal.pyd
+libclang.dll
+libscipy_openblas64_*.dll
+_pywrap_profiler_plugin.pyd
+stablehlo_extension.pyd
 
 # Python cache
 __pycache__/
