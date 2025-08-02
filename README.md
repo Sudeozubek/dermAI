@@ -3,7 +3,11 @@
 **Rapid Devs**
 
 ---
+## **Takım Logosu**
 
+<img src="images/logo3.png" alt="Logo" width="250"/>
+
+---
 
 ## **Takım Elemanları**
 
@@ -149,3 +153,52 @@ Sprint 3’te ekip, genel sistem kararlılığını artırmaya, çıktıları ü
 
 
 ---
+
+# **Sprint 3**
+
+- **Sprint Notları**: User Story’ler Trello kartlarında detaylı biçimde yazılmıştır. Kartlara tıklandığında görev kapsamları görülebilir. Yeterince açıklayıcı görev adı olan kartlarda görev kapsamları eklenmemiştir.
+
+- **Sprint içinde tamamlanması tahmin edilen puan**: 100 Puan
+
+- **Puan tamamlama mantığı**: Toplam 300 puanlık backlog’un son 100 puanlık kısmı Sprint 3’e ayrılmıştır. Sprint 3 sonunda sistemin MVP (Minimum Viable Product) versiyonu tamamlanmıştır.
+
+- **Backlog düzeni ve Story seçimleri**: Sprint 3’te proje ürünleştirmeye odaklanmış, kullanıcı deneyimi ve yazılım kararlılığı önceliklendirilmiştir. Veri bilimi tarafında model çıktılarının analizi ve Confusion Matrix oluşturulmuştur. Ayrıca model çıktısı projeye entegre edilmiştir.
+
+- **Daily Scrum**: Meet üzerinden haftada 2 gün toplantı yapılarak yürütülmüştür. Ekran görüntüleri:  
+- [Sprint 3 - Daily Scrum Chats]([https://imgur.com/a/qBWnqv6](https://imgur.com/a/zMh2x8N))
+  
+- **Sprint Board Güncellemesi**: Tüm tamamlanan görevler Done sütununa taşınmış, yapılmayan işler product backlog’a alınmıştır.  
+  Güncel sprint board durumu aşağıdadır:
+
+![Sprint Board](images/sprint3.png)
+
+---
+
+<details> <summary><h3>Ürün Durumu: Ekran Görüntüleri</h3></summary>
+  
+  ![Ürün Görseli](images/l1.jpg)  
+  ![Ürün Görseli](images/l2.jpg)  
+  ![Ürün Görseli](images/l3.jpg)
+  ![Ürün Görseli](images/l4.jpg)  
+  ![Ürün Görseli](images/l5.jpg)
+  
+</details>
+
+---
+
+## **Sprint Review**
+
+Sprint 3 kapsamında proje tamamlanma aşamasına getirilmiştir.  
+Backend tarafında kullanıcı yetkilendirme, log yönetimi ve Gemini API ile chatbot sistemi başarıyla çalıştırılmıştır.  
+Frontend tarafında responsive tasarım son hâline getirilmiştir. Veri bilimi tarafında daha önce eğitilen DenseNet121 modelinin çıktıları incelenmiş; Confusion Matrix ve Classification Report gibi temel değerlendirme araçlarıyla modelin performansı gözlemlenmiştir. Model çıktısı arayüze bağlanarak proje bütünlüğü sağlanmıştır.  
+
+Sprint sonunda MVP başarıyla oluşturulmuş, premium modüller ise zaman yetersizliği nedeniyle backlog’ta bırakılmıştır. Bu özellikler potansiyel olarak ileri faz projelerde ele alınacaktır.
+
+**Sprint Review katılımcıları:** Sude Özübek, Furkan Aras, Batuhan Umay, Ayşe Verda Gülcemal, Rabia Yılmaz
+
+---
+
+## **Sprint Retrospective**
+
+Ekip Sprint 3 sonunda genel bir değerlendirme yaparak proje sürecini tamamladı.  
+Scrum yapısının düzenli kullanılması, takım içi iletişimin güçlü kalmasını sağlamıştır. MVP seviyesinde çalışan bir ürün ortaya çıkarılmış, kod kalitesi ve sistem kararlılığı önemli ölçüde artırılmıştır. 
