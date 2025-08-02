@@ -178,6 +178,8 @@ Sprint 3’te ekip, genel sistem kararlılığını artırmaya, çıktıları ü
   
   ![Ürün Görseli](images/l1.jpg)  
   ![Ürün Görseli](images/l2.jpg)  
+  ![Ürün Görseli](images/l6.jpg)
+  ![Ürün Görseli](images/l7.jpg)  
   ![Ürün Görseli](images/l3.jpg)
   ![Ürün Görseli](images/l4.jpg)  
   ![Ürün Görseli](images/l5.jpg)
